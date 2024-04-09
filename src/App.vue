@@ -1,7 +1,8 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <font-awesome-icon :icon="['fas', 'user-secret']" />
+
   </nav>
   <router-view/>
 </template>
