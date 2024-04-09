@@ -1,10 +1,16 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <font-awesome-icon :icon="['fas', 'user-secret']" />
+  <div>
+    <nav>
+      <router-link to="/">Kodu</router-link>
+      |
+      <router-link to="/">Registreeru</router-link>
+      |
+      <router-link to="/">Logi sisse</router-link>
+      |
+    </nav>
+    <router-view/>
+    </div>
 
-  </nav>
-  <router-view/>
 </template>
 
 <style>
@@ -16,16 +22,22 @@
   color: #2c3e50;
 }
 
+
 nav {
   padding: 30px;
+  justify-content: center;
+
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: maroon;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: maroon;
 }
+
 </style>
+<script setup>
+</script>
