@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
+  <Modal ref="modalRef">
     <template #title>
       Registreeru kasutajaks
     </template>

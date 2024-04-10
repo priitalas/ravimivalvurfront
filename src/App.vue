@@ -1,14 +1,14 @@
 <template>
-  <RegistrationModal ref="registrationModalRef"/>
   <nav>
     <router-link to="/">Kodu</router-link>
     |
     <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
     |
-    <router-link to="/">Logi sisse</router-link>
+    <a href="#" @click="openLoginModal">Logi sisse</a>
     |
   </nav>
-  <router-view/>
+  <router-view @event-update-nav-menu="updateNavMenu"/>
+  <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
 </template>
 
 <script>
@@ -27,18 +27,11 @@ export default {
 
   methods: {
     updateNavMenu() {
-      this.updateIsRegisteredValue()
-      this.isLoggedInValue()
-      this.updateIsAdminValue()
+      this.isRegistered = true
     },
 
     openRegistrationModal() {
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
-    },
-
-    updateIsRegisteredValue() {
-      let userId = sessionStorage.getItem('userId')
-      this.isRegistered = userId !== null
+     this.$refs.registrationModalRef.$refs.modalRef.openModal()
     },
 
   }
