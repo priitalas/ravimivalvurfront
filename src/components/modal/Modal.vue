@@ -1,16 +1,15 @@
 <template>
   <!-- Modal -->
-  <div v-if="isOpen" class="modal fade show d-block;"/>
-<!--  <FocusTrap v-if="isOpen" class="modal fade show" tabindex="-1" style="display: block;">-->
+  <div v-if="isOpen" class="modal fade show d-block" tabindex="-1" style="display: block;">
     <div class="modal-dialog" ref="Modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title fs-5">
+          <h1 class="modal-title fs-5">
             <slot name="title">
               <!-- Title-->
             </slot>
-          </h2>
-          <button type="button" class="btn-close" aria-label="Close"></button>
+          </h1>
+          <button type="button" class="btn-close" @click="closeModal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <slot name="body">
@@ -18,24 +17,23 @@
           </slot>
         </div>
         <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-dark">Sulge</button>
+          <button type="button" class="btn btn-dark" @click="closeModal">Sulge</button>
           <slot name="buttons">
             <!-- button -->
           </slot>
         </div>
       </div>
     </div>
-<!--  </FocusTrap>-->
+  </div>
 </template>
 
 
 <script>
-// import {FocusTrap} from "focus-trap-vue";
+
 
 export default {
   name: 'Modal',
-  // components: {FocusTrap},
-  data() {
+  data(){
     return {
       isOpen: false
     }
@@ -49,6 +47,8 @@ export default {
       this.$emit('event-close-modal')
       this.isOpen = false
     }
+
   }
 }
 </script>
+

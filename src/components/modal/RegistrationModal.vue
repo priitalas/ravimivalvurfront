@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Modal from "@/components/Modal.vue";
+import Modal from "@/components/modal/Modal.vue";
 
 export default {
   name: 'RegistrationModal',

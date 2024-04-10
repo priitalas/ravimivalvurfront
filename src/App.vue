@@ -1,18 +1,23 @@
 <template>
-  <nav>
-    <router-link to="/">Kodu</router-link>
-    |
-    <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-    |
-    <a href="#" @click="openLoginModal">Logi sisse</a>
-    |
-  </nav>
-  <router-view @event-update-nav-menu="updateNavMenu"/>
-  <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
+  <div>
+    <RegistrationModal ref="registrationModalRef"/>
+    <nav>
+      <router-link to="/">Kodu</router-link>
+      |
+      <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
+      |
+      <router-link to="/login">Logi sisse</router-link>
+      |
+    </nav>
+    <router-view @event-update-nav-menu="updateNavMenu"/>
+  </div>
 </template>
 
 <script>
-import RegistrationModal from "@/components/RegistrationModal.vue";
+
+
+
+import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 
 export default {
   name: 'App',
@@ -21,7 +26,8 @@ export default {
     return {
       isRegistered: false,
       isLogIn: false,
-      isAdmin: false
+      isAdmin: false,
+      // isRegistrationModalOpen: false
     }
   },
 
@@ -31,7 +37,8 @@ export default {
     },
 
     openRegistrationModal() {
-     this.$refs.registrationModalRef.$refs.modalRef.openModal()
+      // this.isRegistrationModalOpen = true
+      this.$refs.registrationModalRef.$refs.modalRef.openModal()
     },
 
   }
@@ -61,7 +68,7 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #415E57;
+  color: blue;
 }
 
 </style>

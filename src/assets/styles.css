@@ -15,7 +15,7 @@ h5 {
     border-color: #7dc4fc;
 }
 
-/* Kui modaal on nähtav, rakenda järgmised stiilid */
+/* modal */
 .modal.fade.show.d-block {
     background-color: rgba(0, 0, 0, 0.8); /* Tausta värv koos läbipaistvusega */
     position: fixed; /* Positsiooni tüüp on fikseeritud */
@@ -27,7 +27,7 @@ h5 {
     overflow: hidden; /* Peidab ülejäänud sisu, mis ei mahu alale */
 }
 
-/* Rakenda järgmised stiilid modaalakna sisule */
+/*  modalakna sisu */
 .modal-dialog {
     position: fixed; /* Positsiooni tüüp on fikseeritud */
     top: 10%; /* Ülemine paigutus on 10% */
