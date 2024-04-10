@@ -1,20 +1,14 @@
 <template>
-  <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
-  <LogInModal ref="logInModalRef" @event-update-nav-menu="updateNavMenu"/>
-  <div>
-    <nav>
-      <router-link to="/">Kodu</router-link>
-          |
-      <router-link to="/">Registreeru</router-link>
-          |
-      <template>
-        <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-      </template>
-          |
-    </nav>
-    <router-view/>
-    </div>
-
+  <RegistrationModal ref="registrationModalRef"/>
+  <nav>
+    <router-link to="/">Kodu</router-link>
+    |
+    <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
+    |
+    <router-link to="/">Logi sisse</router-link>
+    |
+  </nav>
+  <router-view/>
 </template>
 
 <script>
@@ -22,17 +16,29 @@ import RegistrationModal from "@/components/RegistrationModal.vue";
 
 export default {
   name: 'App',
-  components: {RegistrationModal, LogInModal, LogOutModal},
+  components: {RegistrationModal},
   data() {
     return {
-      isLoggedIn: false,
+      isRegistered: false,
+      isLogIn: false,
       isAdmin: false
     }
   },
 
   methods: {
+    updateNavMenu() {
+      this.updateIsRegisteredValue()
+      this.isLoggedInValue()
+      this.updateIsAdminValue()
+    },
+
     openRegistrationModal() {
       this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    },
+
+    updateIsRegisteredValue() {
+      let userId = sessionStorage.getItem('userId')
+      this.isRegistered = userId !== null
     },
 
   }
@@ -41,7 +47,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

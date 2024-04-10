@@ -17,18 +17,18 @@
               <input v-model="contact" type="text" class="form-control" id="contact">
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Parool</label>
+              <label for="password" class="form-label">Salasõna</label>
               <input v-model="password" type="password" class="form-control" id="password">
             </div>
             <div class="mb-3">
-              <div v-model="roleName" type="roleName" class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <div type="roleName" class="form-check">
+                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                 <label class="form-check-label" for="flexRadioDefault1">
                   Patsient
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
                 <label class="form-check-label" for="flexRadioDefault2">
                   Hooldaja / Arst
                 </label>
@@ -40,15 +40,17 @@
     </template>
 
     <template #buttons>
-      <button @click="executeRegistration" type="submit" class="btn btn-primary text-center text-nowrap">Registreeru</button>
+      <button type="submit" class="btn btn-primary text-center text-nowrap">Registreeru</button>
     </template>
-  </Modal>
 
+  </Modal>
 </template>
 
 <script>
+import Modal from "@/components/Modal.vue";
+
 export default {
-  name: "RegistrationModal",
+  name: 'RegistrationModal',
   components: {Modal},
 
   data() {
