@@ -1,17 +1,43 @@
 <template>
+  <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
+  <LogInModal ref="logInModalRef" @event-update-nav-menu="updateNavMenu"/>
   <div>
     <nav>
       <router-link to="/">Kodu</router-link>
           |
       <router-link to="/">Registreeru</router-link>
           |
-      <router-link to="/">Logi sisse</router-link>
+      <template>
+        <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
+      </template>
           |
     </nav>
     <router-view/>
     </div>
 
 </template>
+
+<script>
+import RegistrationModal from "@/components/RegistrationModal.vue";
+
+export default {
+  name: 'App',
+  components: {RegistrationModal, LogInModal, LogOutModal},
+  data() {
+    return {
+      isLoggedIn: false,
+      isAdmin: false
+    }
+  },
+
+  methods: {
+    openRegistrationModal() {
+      this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    },
+
+  }
+}
+</script>
 
 <style>
 #app {
@@ -40,5 +66,3 @@ nav a.router-link-exact-active {
 }
 
 </style>
-<script setup>
-</script>
