@@ -2,11 +2,11 @@
   <div>
     <nav>
       <router-link to="/">Kodu</router-link>
-      |
+          |
       <router-link to="/">Registreeru</router-link>
-      |
+          |
       <router-link to="/">Logi sisse</router-link>
-      |
+          |
     </nav>
     <router-view/>
     </div>
@@ -31,11 +31,12 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: maroon;
+  color: #415E57;
+
 }
 
 nav a.router-link-exact-active {
-  color: maroon;
+  color: #415E57;
 }
 
 </style>

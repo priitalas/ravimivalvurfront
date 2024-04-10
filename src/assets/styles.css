@@ -1,16 +1,16 @@
 h1 {
     font-weight: lighter;
-    font-size: 70px;
-    color: maroon;
+    color: #415E57;
+    font-size: 4em;
 }
 
 h5 {
     font-weight: bold;
-    color: maroon;
+    color: #415E57;
     padding: 20px;
 }
 
 .rounded-image {
     border-radius: 10px;
-    border-color: #e3f2fd;
+    border-color: #7dc4fc;
 }
