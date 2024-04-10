@@ -1,10 +1,11 @@
 <template>
+  <div id="app">
   <RegistrationModal ref="registrationModalRef"/>
+  </div>
   <nav>
     <router-link to="/">Kodu</router-link>
-    |
-    <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-    |
+        <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
+
     <router-link to="/">Logi sisse</router-link>
     |
   </nav>

@@ -1,5 +1,6 @@
 <template>
   <!-- Modal -->
+  
   <div v-if="isOpen" class="modal fade show d-block;"/>
 <!--  <FocusTrap v-if="isOpen" class="modal fade show" tabindex="-1" style="display: block;">-->
     <div class="modal-dialog" ref="Modal">
