@@ -1,11 +1,18 @@
 <template>
   <div>
-    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"/>
+    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
+                @event-update-nav-menu="updateNavMenu"/>
     <RegistrationModal ref="registrationModalRef"/>
+    <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
-      <a href="#" @click="openLoginModal">Logi sisse</a>
+      <template v-if="isLoggedIn">
+        <a href="#" @click="openLogOutModal">Logi välja</a>
+      </template>
+      <template v-else>
+        <a href="#" @click="openLoginModal">Logi sisse</a>
+      </template>
     </nav>
     <router-view @event-update-nav-menu="updateNavMenu"/>
   </div>
@@ -15,20 +22,25 @@
 
 import LoginModal from "@/components/modal/LoginModal.vue";
 import RegistrationModal from "@/components/modal/RegistrationModal.vue";
+import LogOutModal from "@/components/modal/LogOutModal.vue";
 
 export default {
   name: 'App',
-  components: {RegistrationModal, LoginModal},
+  components: {LogOutModal, RegistrationModal, LoginModal},
   data() {
     return {
       isLoggedIn: false,
-      isAdmin: false,
     }
   },
 
   methods: {
     updateNavMenu() {
-      this.isLoggedIn = true
+      let userId = sessionStorage.getItem('userId')
+      this.isLoggedIn = userId !== null
+    },
+
+    openRegistrationModal() {
+      this.$refs.registrationModalRef.$refs.modalRef.openModal()
     },
 
     openLoginModal() {
@@ -36,9 +48,11 @@ export default {
       this.$refs.loginModalRef.$refs.modalRef.openModal()
     },
 
-    openRegistrationModal() {
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    openLogOutModal() {
+      this.isLoggedIn = false
+      this.$refs.logOutModalRef.$refs.modalRef.openModal()
     },
+
 
   }
 }

@@ -1,30 +1,33 @@
 <template>
   <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
-      <template #title>
-        Logi sisse
-      </template>
+    <template #title>
+      Logi sisse
+    </template>
 
-      <template #body>
-        <div class="container text-start">
-          <div class="row justify-content-center">
-            <div class="col">
-              <div class="mb-3">
-                <label for="username" class="form-label">Ees- ja perekonnanimi</label>
-                <input v-model="username" type="text" class="form-control" id="username">
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Salasõna</label>
-                <input v-model="password" type="password" class="form-control" id="password">
-              </div>
+    <template #body>
+      <div class="container text-start">
+        <div class="row justify-content-center">
+          <div class="col">
+            <AlertDanger :message="message"/>
+            <div class="mb-3">
+              <label for="username" class="form-label">Ees- ja perekonnanimi</label>
+              <input v-model="username" type="text" class="form-control" id="username">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Salasõna</label>
+              <input v-model="password" type="password" class="form-control" id="password">
             </div>
           </div>
         </div>
-      </template>
+      </div>
+    </template>
 
-      <template #buttons>
-        <button @click="executeLogin" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
-        <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus kasutaja</button>
-      </template>
+    <template #buttons>
+      <button @click="executeLogin" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+      <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus
+        kasutaja
+      </button>
+    </template>
 
   </Modal>
 </template>
@@ -33,10 +36,11 @@
 import Modal from "@/components/modal/Modal.vue";
 import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 import router from "@/router";
+import AlertDanger from "@/components/Alert/AlertDanger.vue";
 
 export default {
   name: "LoginModal",
-  components: {RegistrationModal, Modal},
+  components: {RegistrationModal, Modal, AlertDanger},
 
   data() {
     return {
@@ -76,11 +80,11 @@ export default {
 
     sendLoginRequest() {
       this.$http.get('/login', {
-        params: {
-          username: this.username,
-          password: this.password
-        }
-      }
+            params: {
+              username: this.username,
+              password: this.password
+            }
+          }
       ).then(response => {
         this.loginResponse = response.data
         sessionStorage.setItem('userId', this.loginResponse.userId)
@@ -89,7 +93,13 @@ export default {
         this.$emit('event-update-nav-menu')
         this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
-        router.push({name: 'doctorRoute'})
+
+        if (this.loginResponse.roleName = 'patient') {
+          router.push({name: 'patientRoute'})
+        } else {
+          router.push({name: 'doctorRoute'});
+        }
+
 
       }).catch(error => {
         this.errorResponse = error.response.data
@@ -104,6 +114,11 @@ export default {
       } else {
         router.push({name: 'errorRoute'})
       }
+    },
+
+    displayAllFieldsRequiredAlert() {
+      this.message = 'Täida kõik väljad!'
+      setTimeout(this.resetMessage, 4000)
     },
 
     resetAllInputFields() {
