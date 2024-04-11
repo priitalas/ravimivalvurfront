@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal ref="modalRef" class="align-items-center">
+    <Modal ref="modalRef" @event-close-modal="resetAllInputFields" >
       <template #title>
         Logi sisse
       </template>
@@ -26,7 +26,7 @@
         <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus
           kasutaja
         </button>
-        <button type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+        <button @click="executeLogIn" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
       </template>
 
     </Modal>
@@ -39,6 +39,7 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import RegistrationModal from "@/components/modal/RegistrationModal.vue";
+import router from "@/router";
 
 export default {
   name: "LoginModal",
@@ -70,9 +71,53 @@ export default {
       this.$refs.registrationModalRef.openModal();
 
     },
+    executeLogIn() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendLoginRequest()
+      } else {
+        this.displayAllFieldsRequiredAlert();
+      }
+    },
+    allFieldsWithCorrectInput() {
+      return this.username.length > 0 && this.password.length > 0;
+    },
+    displayAllFieldsRequiredAlert() {
+      this.message = "Täida kõik väljad!";
+      setTimeout(this.resetMessage, 4000);
+    },
+    sendLoginRequest() {
+      this.$http.get('/login', {
+            params: {
+              username: this.username,
+              password: this.password
+            }
+          }
+      ).then(response => {
+        this.loginResponse = response.data
+        sessionStorage.setItem('userId', this.loginResponse.userId)
+        sessionStorage.setItem('roleName', this.loginResponse.roleName)
+        sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
+        this.$emit('event-update-nav-menu')
+        this.resetAllInputFields()
+        this.$refs.modalRef.closeModal()
+      })
+          .catch(error => {
+            this.errorResponse = error.response.data
+            this.handleError(error.response.status)
+          })
+    },
+    resetAllInputFields() {
+      this.username = ''
+      this.password = ''
+    },
 
-  },
-
+    handleError(statusCode) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 111) {
+        this.message = this.errorResponse.message;
+        setTimeout(this.resetMessage, 4000);
+      } else router.push({name: 'errorRoute'})
+    },
+  }
 };
 </script>
 
