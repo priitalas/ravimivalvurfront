@@ -1,6 +1,7 @@
 <template>
   <div>
-    <LoginModal ref="loginModalRef"/>
+    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"/>
+    <RegistrationModal ref="registrationModalRef"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
@@ -13,10 +14,11 @@
 <script>
 
 import LoginModal from "@/components/modal/LoginModal.vue";
+import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 
 export default {
   name: 'App',
-  components: {LoginModal},
+  components: {RegistrationModal, LoginModal},
   data() {
     return {
       isLoggedIn: false,
@@ -32,6 +34,10 @@ export default {
     openLoginModal() {
       this.isLoggedIn = true
       this.$refs.loginModalRef.$refs.modalRef.openModal()
+    },
+
+    openRegistrationModal() {
+      this.$refs.registrationModalRef.$refs.modalRef.openModal()
     },
 
   }

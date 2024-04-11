@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Modal ref="modalRef" @event-close-modal="resetAllInputFields" >
+  <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
       <template #title>
         Logi sisse
       </template>
@@ -23,17 +22,11 @@
       </template>
 
       <template #buttons>
-        <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus
-          kasutaja
-        </button>
-        <button @click="executeLogIn" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+        <button @click="executeLogin" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+        <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus kasutaja</button>
       </template>
 
-    </Modal>
-    <Modal ref="registrationModalRef">
-    </Modal>
-
-  </div>
+  </Modal>
 </template>
 
 <script>
@@ -61,37 +54,33 @@ export default {
         errorCode: ''
       }
     }
-
-
   },
+
   methods: {
     openRegistrationModal() {
-      //this.isRegistered = true;
+      this.$emit('event-open-registration-modal')
       this.$refs.modalRef.closeModal();
-      this.$refs.registrationModalRef.openModal();
-
     },
-    executeLogIn() {
+
+    allFieldsWithCorrectInput() {
+      return this.username.length > 0 && this.password.length > 0;
+    },
+
+    executeLogin() {
       if (this.allFieldsWithCorrectInput()) {
-        this.sendLoginRequest()
+        this.sendLoginRequest();
       } else {
         this.displayAllFieldsRequiredAlert();
       }
     },
-    allFieldsWithCorrectInput() {
-      return this.username.length > 0 && this.password.length > 0;
-    },
-    displayAllFieldsRequiredAlert() {
-      this.message = "Täida kõik väljad!";
-      setTimeout(this.resetMessage, 4000);
-    },
+
     sendLoginRequest() {
       this.$http.get('/login', {
-            params: {
-              username: this.username,
-              password: this.password
-            }
-          }
+        params: {
+          username: this.username,
+          password: this.password
+        }
+      }
       ).then(response => {
         this.loginResponse = response.data
         sessionStorage.setItem('userId', this.loginResponse.userId)
@@ -100,25 +89,33 @@ export default {
         this.$emit('event-update-nav-menu')
         this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
+        router.push({name: 'doctorRoute'})
+
+      }).catch(error => {
+        this.errorResponse = error.response.data
+        this.handleError(error.response.status)
       })
-          .catch(error => {
-            this.errorResponse = error.response.data
-            this.handleError(error.response.status)
-          })
-    },
-    resetAllInputFields() {
-      this.username = ''
-      this.password = ''
     },
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 111) {
         this.message = this.errorResponse.message;
         setTimeout(this.resetMessage, 4000);
-      } else router.push({name: 'errorRoute'})
+      } else {
+        router.push({name: 'errorRoute'})
+      }
+    },
+
+    resetAllInputFields() {
+      this.username = ''
+      this.password = ''
+    },
+
+    resetMessage() {
+      this.message = ''
     },
   }
-};
+}
 </script>
 
 
