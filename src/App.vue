@@ -1,13 +1,10 @@
 <template>
   <div>
-    <RegistrationModal ref="registrationModalRef"/>
+    <LoginModal ref="loginModalRef"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
-      <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-      |
-      <router-link to="/login">Logi sisse</router-link>
-      |
+      <a href="#" @click="openLoginModal">Logi sisse</a>
     </nav>
     <router-view @event-update-nav-menu="updateNavMenu"/>
   </div>
@@ -15,30 +12,26 @@
 
 <script>
 
-
-
-import RegistrationModal from "@/components/modal/RegistrationModal.vue";
+import LoginModal from "@/components/modal/LoginModal.vue";
 
 export default {
   name: 'App',
-  components: {RegistrationModal},
+  components: {LoginModal},
   data() {
     return {
-      isRegistered: false,
-      isLogIn: false,
+      isLoggedIn: false,
       isAdmin: false,
-      // isRegistrationModalOpen: false
     }
   },
 
   methods: {
     updateNavMenu() {
-      this.isRegistered = true
+      this.isLoggedIn = true
     },
 
-    openRegistrationModal() {
-      // this.isRegistrationModalOpen = true
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    openLoginModal() {
+      this.isLoggedIn = true
+      this.$refs.loginModalRef.$refs.modalRef.openModal()
     },
 
   }
