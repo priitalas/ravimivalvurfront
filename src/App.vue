@@ -1,6 +1,7 @@
 <template>
   <div>
-    <LoginModal ref="loginModalRef"/>
+    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"/>
+    <RegistrationModal ref="registrationModal"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
@@ -41,7 +42,7 @@ export default {
 
 
     openRegistrationModal() {
-      this.isRegistrationModalOpen = true
+      this.$refs.registrationModal.$refs.modalRef.openModal()
 
     },
 

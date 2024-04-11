@@ -23,7 +23,7 @@
       </template>
 
       <template #buttons>
-        <button type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+        <button @clickt="executeLogIn" type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
         <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus
           kasutaja
         </button>
@@ -62,13 +62,64 @@ export default {
   methods: {
 
     openRegistrationModal() {
+      this.$emit('event-open-registration-modal')
       this.$refs.modalRef.closeModal();
-      this.$refs.registrationModalRef.openModal();
     },
 
-  },
+    allFieldsWithCorrectInput() {
+      return this.username.length > 0 && this.password.length > 0;
+    },
+
+    executeLogIn() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendLoginRequest()
+      } else {
+        this.displayAllFieldsRequiredAlert();
+      }
+    },
+
+    sendLoginRequest() {
+      this.$http.get('/login', {
+            params: {
+              username: this.username,
+              password: this.password
+            }
+          }
+      ).then(response => {
+        this.loginResponse = response.data
+        sessionStorage.setItem('userId', this.loginResponse.userId)
+        sessionStorage.setItem('roleName', this.loginResponse.roleName);
+        sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
+        this.$emit('event-update-nav-menu')
+        this.username = '';
+        this.password = '';
+        this.$refs.modalRef.closeModal()
+      }).catch(error => {
+        this.errorResponse = error.response.data;
+        this.handleError(error.response.status);
+      })
+    },
 
 
+    handleError(statusCode) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 111) {
+        this.message = this.errorResponse.message;
+        setTimeout(this.resetMessage, 4000);
+      }
+
+
+    },
+    displayAllFieldsRequiredAlert() {
+      this.message = "Täida kõik väljad";
+      setTimeout(this.resetMessage, 4000);
+    },
+
+    resetMessage() {
+      this.message = ''
+    },
+
+
+  }
 }
 
 </script>
