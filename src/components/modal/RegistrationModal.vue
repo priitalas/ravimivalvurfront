@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
+  <Modal ref="modalRef">
     <template #title>
       Registreeru kasutajaks
     </template>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Modal from "@/components/Modal.vue";
+import Modal from "@/components/modal/Modal.vue";
 
 export default {
   name: 'RegistrationModal',

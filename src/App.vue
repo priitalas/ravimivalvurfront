@@ -1,19 +1,23 @@
 <template>
-  <div id="app">
-  <RegistrationModal ref="registrationModalRef"/>
+  <div>
+    <RegistrationModal ref="registrationModalRef"/>
+    <nav>
+      <router-link to="/">Kodu</router-link>
+      |
+      <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
+      |
+      <router-link to="/login">Logi sisse</router-link>
+      |
+    </nav>
+    <router-view @event-update-nav-menu="updateNavMenu"/>
   </div>
-  <nav>
-    <router-link to="/">Kodu</router-link>
-        <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-
-    <router-link to="/">Logi sisse</router-link>
-    |
-  </nav>
-  <router-view/>
 </template>
 
 <script>
-import RegistrationModal from "@/components/RegistrationModal.vue";
+
+
+
+import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 
 export default {
   name: 'App',
@@ -22,24 +26,19 @@ export default {
     return {
       isRegistered: false,
       isLogIn: false,
-      isAdmin: false
+      isAdmin: false,
+      // isRegistrationModalOpen: false
     }
   },
 
   methods: {
     updateNavMenu() {
-      this.updateIsRegisteredValue()
-      this.isLoggedInValue()
-      this.updateIsAdminValue()
+      this.isRegistered = true
     },
 
     openRegistrationModal() {
+      // this.isRegistrationModalOpen = true
       this.$refs.registrationModalRef.$refs.modalRef.openModal()
-    },
-
-    updateIsRegisteredValue() {
-      let userId = sessionStorage.getItem('userId')
-      this.isRegistered = userId !== null
     },
 
   }
@@ -69,7 +68,7 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #415E57;
+  color: blue;
 }
 
 </style>
