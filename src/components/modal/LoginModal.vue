@@ -1,45 +1,55 @@
 <template>
-  <Modal ref="modalRef">
-    <template #title>
-      Logi sisse
-    </template>
+  <div>
+    <Modal ref="modalRef" class="align-items-center">
+      <template #title>
+        Logi sisse
+      </template>
 
-    <template #body>
-      <div class="container text-start">
-        <div class="row justify-content-center">
-          <div class="col">
-            <div class="mb-3">
-              <label for="username" class="form-label">Ees- ja perekonnanimi</label>
-              <input v-model="username" type="text" class="form-control" id="username">
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Salasõna</label>
-              <input v-model="password" type="password" class="form-control" id="password">
+      <template #body>
+        <div class="container text-start">
+          <div class="row justify-content-center">
+            <div class="col">
+              <div class="mb-3">
+                <label for="username" class="form-label">Ees- ja perekonnanimi</label>
+                <input v-model="username" type="text" class="form-control" id="username">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Salasõna</label>
+                <input v-model="password" type="password" class="form-control" id="password">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </template>
+      </template>
 
-    <template #buttons>
-      <button type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
-    </template>
+      <template #buttons>
+        <button @click="openRegistrationModal" type="submit" class="btn btn-warning text-center text-nowrap">Loo uus
+          kasutaja
+        </button>
+        <button type="submit" class="btn btn-primary text-center text-nowrap">Logi sisse</button>
+      </template>
 
-  </Modal>
+    </Modal>
+    <Modal ref="registrationModalRef">
+    </Modal>
+
+  </div>
 </template>
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
+import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 
 export default {
   name: "LoginModal",
-  components: {Modal},
+  components: {RegistrationModal, Modal},
 
   data() {
     return {
       username: '',
       password: '',
       message: '',
+      isRegistered: false,
       loginResponse: {
         userId: 0,
         roleName: '',
@@ -53,6 +63,16 @@ export default {
 
 
   },
+  methods: {
+    openRegistrationModal() {
+      //this.isRegistered = true;
+      this.$refs.modalRef.closeModal();
+      this.$refs.registrationModalRef.openModal();
+
+    },
+
+  },
+
 };
 </script>
 
