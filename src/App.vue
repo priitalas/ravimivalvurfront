@@ -4,10 +4,7 @@
     <nav>
       <router-link to="/">Kodu</router-link>
       |
-      <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-      |
-      <router-link to="/login">Logi sisse</router-link>
-      |
+      <a href="#" @click="openLoginModal" class="nav a.router-link-exact-active">Logi sisse</a>
     </nav>
     <router-view @event-update-nav-menu="updateNavMenu"/>
   </div>
