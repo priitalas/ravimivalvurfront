@@ -65,6 +65,7 @@ export default {
       this.$refs.modalRef.closeModal();
       this.$refs.registrationModalRef.openModal();
     },
+
   },
 
 
