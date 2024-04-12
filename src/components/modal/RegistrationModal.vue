@@ -8,6 +8,7 @@
       <div class="container text-start">
         <div class="row justify-content-center">
           <div class="col">
+            <AlertDanger :message="message"/>
             <div class="mb-3">
               <label for="username" class="form-label">Eesnimi</label>
               <input v-model="username" type="text" class="form-control" id="firstname">
@@ -48,7 +49,7 @@
     </template>
 
     <template #buttons>
-      <button type="submit" class="btn btn-primary text-center text-nowrap">Registreeru</button>
+      <button @click="executeRegistration" type="submit" class="btn btn-primary text-center text-nowrap">Registreeru</button>
     </template>
 
   </Modal>
@@ -56,10 +57,11 @@
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
+import AlertDanger from "@/components/Alert/AlertDanger.vue";
 
 export default {
   name: 'RegistrationModal',
-  components: {Modal},
+  components: {AlertDanger, Modal},
 
   data() {
     return {
@@ -73,9 +75,30 @@ export default {
   },
 
   methods: {
+
     allRequiredFieldsWithCorrectInput() {
-      return this.firstName.length > 0 && this.lastName.length > 0 && this.username.length > 0 && this.password.length > 0 && roleName !== null
+      return this.firstName.length > 0 &&
+          this.lastName.length > 0 &&
+          this.username.length > 0 &&
+          this.password.length > 0 &&
+          roleName !== null
     },
+
+    executeRegistration() {
+      if (this.allRequiredFieldsWithCorrectInput()) {
+        this.sendRegistrationRequest();
+      } else {
+        this.displayAllFieldsRequiredAlert()
+      }
+    },
+
+    displayAllFieldsRequiredAlert() {
+      this.message = 'Täida kõik väljad!'
+      setTimeout(this.resetMessage, 4000)
+    },
+
+
+
   }
 }
 </script>
