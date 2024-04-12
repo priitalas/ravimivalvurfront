@@ -17,12 +17,12 @@
               <input v-model="username" type="text" class="form-control" id="lastname">
             </div>
             <div class="mb-3">
-              <label for="username" class="form-label">Kasutajanimi</label>
-              <input v-model="username" type="text" class="form-control" id="username">
-            </div>
-            <div class="mb-3">
               <label for="contact" class="form-label">e-mail</label>
               <input v-model="contact" type="text" class="form-control" id="contact">
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Kasutajanimi</label>
+              <input v-model="username" type="text" class="form-control" id="username">
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Salasõna</label>
@@ -63,13 +63,19 @@ export default {
 
   data() {
     return {
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       username: '',
-      contact: '',
+      email: '',
       password: '',
       roleName: ''
     }
+  },
+
+  methods: {
+    allRequiredFieldsWithCorrectInput() {
+      return this.firstName.length > 0 && this.lastName.length > 0 && this.username.length > 0 && this.password.length > 0 && roleName !== null
+    },
   }
 }
 </script>
