@@ -8,7 +8,8 @@
       <div class="container text-start">
         <div class="row justify-content-center">
           <div class="col">
-            <AlertDanger :message="message"/>
+            <AlertDanger :message="errorMessage"/>
+            <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
               <label for="firstname" class="form-label">Eesnimi</label>
               <input v-model="registrationRequest.firstName" type="text" class="form-control" id="firstname">
@@ -31,25 +32,28 @@
             </div>
             <div class="mb-3">
               <div type="roleId" class="form-check">
-                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="2" id="patient">
+                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="2"
+                       id="patient">
                 <label class="form-check-label" for="flexRadioDefault1">
                   Patsient
                 </label>
               </div>
               <div class="form-check">
-                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="3" id="doctor">
+                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="3"
+                       id="doctor">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Hooldaja / Arst
                 </label>
               </div>
             </div>
           </div>
-          </div>
+        </div>
       </div>
     </template>
 
     <template #buttons>
-      <button @click="executeRegistration" type="submit" class="btn btn-primary text-center text-nowrap">Registreeru</button>
+      <button @click="executeRegistration" type="submit" class="btn btn-primary text-center text-nowrap">Registreeru
+      </button>
     </template>
 
   </Modal>
@@ -58,14 +62,16 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
+import router from "@/router";
 
 export default {
   name: 'RegistrationModal',
-  components: {AlertDanger, Modal},
+  components: {AlertDanger, AlertSuccess, Modal},
 
   data() {
     return {
-      registrationRequest:{
+      registrationRequest: {
         firstName: '',
         lastName: '',
         username: '',
@@ -73,22 +79,30 @@ export default {
         password: '',
         roleId: 0
       },
-      message: ''
+      errorMessage: '',
+      successMessage: '',
+      isLoggedIn: false,
+
+      errorResponse: {
+        message: '',
+        errorCode: ''
+      }
     }
   },
 
   methods: {
 
     allRequiredFieldsWithCorrectInput() {
-      return this.firstName.length > 0 &&
-          this.lastName.length > 0 &&
-          this.username.length > 0 &&
-          this.password.length > 0 &&
-          roleName !== null
+      return this.registrationRequest.firstName !== '' &&
+          this.registrationRequest.lastName !== '' &&
+          this.registrationRequest.username !== '' &&
+          this.registrationRequest.password !== '' &&
+          this.registrationRequest.roleId !== ''
     },
 
     executeRegistration() {
       if (this.allRequiredFieldsWithCorrectInput()) {
+        this.registrationRequest.roleId = Number(this.registrationRequest.roleId)
         this.sendRegistrationRequest();
       } else {
         this.displayAllFieldsRequiredAlert()
@@ -96,23 +110,41 @@ export default {
     },
 
     sendRegistrationRequest() {
-      this.$http.post('/registration', {
-        params: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          username: this.username,
-          password: this.password,
-          email: this.email,
-          roleId: this.roleId
-        }
+      this.$http.post('/registration', this.registrationRequest
+      ).then(response => {
+        this.successMessage = "Kasutaja " + this.registrationRequest.firstName + " " + this.registrationRequest.lastName + " lisatud"
+        this.isLoggedIn = true
+        this.$emit('event-update-nav-menu')
+        this.resetAllInputFields()
+        this.$refs.modalRef.closeModal()
 
-          }
-      );
+      }).catch(error => {
+        this.errorResponse = error.response.data
+        this.handleError(error.response.status)
+      })
+    },
+
+    handleError(statusCode) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 333) {
+        this.errorMessage = this.errorResponse.message;
+        setTimeout(this.resetMessage, 4000);
+      } else {
+        router.push({name: 'errorRoute'})
+      }
     },
 
     displayAllFieldsRequiredAlert() {
-      this.message = 'Täida kõik nõutud väljad!'
+      this.errorMessage = 'Täida kõik nõutud väljad!'
       setTimeout(this.resetMessage, 4000)
+    },
+
+    resetAllInputFields() {
+      this.registrationRequest.firstName = ''
+      this.registrationRequest.lastNameName = ''
+      this.registrationRequest.username = ''
+      this.registrationRequest.password = ''
+      this.registrationRequest.email = ''
+      this.registrationRequest.roleId = ''
     },
 
   }

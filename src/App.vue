@@ -2,7 +2,7 @@
   <div>
     <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"/>
-    <RegistrationModal ref="registrationModalRef"/>
+    <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>

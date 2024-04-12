@@ -30,7 +30,7 @@ h5 {
 /*  modalakna sisu */
 .modal-dialog {
     position: fixed; /* Positsiooni tüüp on fikseeritud */
-    top: 10%; /* Ülemine paigutus on 10% */
+    top: 0%; /* Ülemine paigutus on 10% */
     left: 40%; /* Vasak paigutus on 40% */
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
 }
