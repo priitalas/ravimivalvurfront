@@ -1,5 +1,5 @@
 <template>
-  <h2>Siia tuleb arsti vaade</h2>
+  <h2>Siia tuleb patsiendi vaade</h2>
 
 </template>
 <script>
