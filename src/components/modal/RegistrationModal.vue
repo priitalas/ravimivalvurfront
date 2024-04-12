@@ -9,11 +9,19 @@
         <div class="row justify-content-center">
           <div class="col">
             <div class="mb-3">
-              <label for="username" class="form-label">Ees- ja perekonnanimi</label>
+              <label for="username" class="form-label">Eesnimi</label>
+              <input v-model="username" type="text" class="form-control" id="firstname">
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Perekonnanimi</label>
+              <input v-model="username" type="text" class="form-control" id="lastname">
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Kasutajanimi</label>
               <input v-model="username" type="text" class="form-control" id="username">
             </div>
             <div class="mb-3">
-              <label for="contact" class="form-label">Kontakt</label>
+              <label for="contact" class="form-label">e-mail</label>
               <input v-model="contact" type="text" class="form-control" id="contact">
             </div>
             <div class="mb-3">
@@ -28,7 +36,7 @@
                 </label>
               </div>
               <div class="form-check">
-                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Hooldaja / Arst
                 </label>
@@ -55,6 +63,8 @@ export default {
 
   data() {
     return {
+      firstname: '',
+      lastname: '',
       username: '',
       contact: '',
       password: '',
