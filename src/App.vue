@@ -44,12 +44,10 @@ export default {
     },
 
     openLoginModal() {
-      this.isLoggedIn = true
       this.$refs.loginModalRef.$refs.modalRef.openModal()
     },
 
     openLogOutModal() {
-      this.isLoggedIn = false
       this.$refs.logOutModalRef.$refs.modalRef.openModal()
     },
 
