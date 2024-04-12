@@ -10,34 +10,34 @@
           <div class="col">
             <AlertDanger :message="message"/>
             <div class="mb-3">
-              <label for="username" class="form-label">Eesnimi</label>
-              <input v-model="username" type="text" class="form-control" id="firstname">
+              <label for="firstname" class="form-label">Eesnimi</label>
+              <input v-model="registrationRequest.firstName" type="text" class="form-control" id="firstname">
             </div>
             <div class="mb-3">
-              <label for="username" class="form-label">Perekonnanimi</label>
-              <input v-model="username" type="text" class="form-control" id="lastname">
+              <label for="lastname" class="form-label">Perekonnanimi</label>
+              <input v-model="registrationRequest.lastName" type="text" class="form-control" id="lastname">
             </div>
             <div class="mb-3">
               <label for="contact" class="form-label">e-mail</label>
-              <input v-model="contact" type="text" class="form-control" id="contact">
+              <input v-model="registrationRequest.email" type="text" class="form-control" id="contact">
             </div>
             <div class="mb-3">
               <label for="username" class="form-label">Kasutajanimi</label>
-              <input v-model="username" type="text" class="form-control" id="username">
+              <input v-model="registrationRequest.username" type="text" class="form-control" id="username">
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Salasõna</label>
-              <input v-model="password" type="password" class="form-control" id="password">
+              <input v-model="registrationRequest.password" type="password" class="form-control" id="password">
             </div>
             <div class="mb-3">
-              <div type="roleName" class="form-check">
-                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <div type="roleId" class="form-check">
+                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="2" id="patient">
                 <label class="form-check-label" for="flexRadioDefault1">
                   Patsient
                 </label>
               </div>
               <div class="form-check">
-                <input v-model="roleName" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="3" id="doctor">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Hooldaja / Arst
                 </label>
@@ -65,12 +65,15 @@ export default {
 
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      password: '',
-      roleName: ''
+      registrationRequest:{
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        roleId: 0
+      },
+      message: ''
     }
   },
 
@@ -92,12 +95,25 @@ export default {
       }
     },
 
-    displayAllFieldsRequiredAlert() {
-      this.message = 'Täida kõik väljad!'
-      setTimeout(this.resetMessage, 4000)
+    sendRegistrationRequest() {
+      this.$http.post('/registration', {
+        params: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          username: this.username,
+          password: this.password,
+          email: this.email,
+          roleId: this.roleId
+        }
+
+          }
+      );
     },
 
-
+    displayAllFieldsRequiredAlert() {
+      this.message = 'Täida kõik nõutud väljad!'
+      setTimeout(this.resetMessage, 4000)
+    },
 
   }
 }
