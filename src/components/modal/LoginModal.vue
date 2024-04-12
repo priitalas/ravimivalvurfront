@@ -10,7 +10,7 @@
           <div class="col">
             <AlertDanger :message="message"/>
             <div class="mb-3">
-              <label for="username" class="form-label"Kasutajanimi</label>
+              <label for="username" class="form-label">Kasutajanimi</label>
               <input v-model="username" type="text" class="form-control" id="username">
             </div>
             <div class="mb-3">
