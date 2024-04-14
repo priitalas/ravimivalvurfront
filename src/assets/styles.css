@@ -30,9 +30,12 @@ h5 {
 /*  modalakna sisu */
 .modal-dialog {
     position: fixed; /* Positsiooni tüüp on fikseeritud */
-    top: 0%; /* Ülemine paigutus on 10% */
+    --bs-modal-bg: #f2f9ff; /* Modaaliakna taustavärv */
+    top: 5%; /* Ülemine paigutus on 5% */
     left: 40%; /* Vasak paigutus on 40% */
+    width: 300px;
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
+
 }
 
 .cursor-pointer {

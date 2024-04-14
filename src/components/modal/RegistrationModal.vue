@@ -19,7 +19,7 @@
               <input v-model="registrationRequest.lastName" type="text" class="form-control" id="lastname">
             </div>
             <div class="mb-3">
-              <label for="contact" class="form-label">e-mail</label>
+              <label for="contact" class="form-label">e-mail (valikuline)</label>
               <input v-model="registrationRequest.email" type="text" class="form-control" id="contact">
             </div>
             <div class="mb-3">
@@ -31,14 +31,14 @@
               <input v-model="registrationRequest.password" type="password" class="form-control" id="password">
             </div>
             <div class="mb-3">
-              <div type="roleId" class="form-check">
+              <div type="roleId" class="form-check form-check-inline">
                 <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="2"
                        id="patient">
                 <label class="form-check-label" for="flexRadioDefault1">
                   Patsient
                 </label>
               </div>
-              <div class="form-check">
+              <div class="form-check form-check-inline">
                 <input v-model="registrationRequest.roleId" class="form-check-input" type="radio" name="role" value="3"
                        id="doctor">
                 <label class="form-check-label" for="flexRadioDefault2">
@@ -67,7 +67,7 @@ import router from "@/router";
 
 export default {
   name: 'RegistrationModal',
-  components: {AlertDanger, AlertSuccess, Modal},
+  components: {AlertDanger, Modal, AlertSuccess},
 
   data() {
     return {
@@ -112,11 +112,12 @@ export default {
     sendRegistrationRequest() {
       this.$http.post('/registration', this.registrationRequest
       ).then(response => {
-        this.successMessage = "Kasutaja " + this.registrationRequest.firstName + " " + this.registrationRequest.lastName + " lisatud"
-        this.isLoggedIn = true
-        this.$emit('event-update-nav-menu')
+        this.$emit('event-successful-registration')
         this.resetAllInputFields()
+        this.successMessage = 'Kasutaja "' + sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName') + '" on lisatud'
+        setTimeout(this.resetMessages, 4000)
         this.$refs.modalRef.closeModal()
+        this.resetMessages()
 
       }).catch(error => {
         this.errorResponse = error.response.data
@@ -127,24 +128,29 @@ export default {
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 333) {
         this.errorMessage = this.errorResponse.message;
-        setTimeout(this.resetMessage, 4000);
+        setTimeout(this.resetMessages, 4000);
       } else {
         router.push({name: 'errorRoute'})
       }
     },
 
     displayAllFieldsRequiredAlert() {
-      this.errorMessage = 'Täida kõik nõutud väljad!'
+      this.errorMessage = 'Täida kõik väljad!'
       setTimeout(this.resetMessage, 4000)
     },
 
     resetAllInputFields() {
       this.registrationRequest.firstName = ''
-      this.registrationRequest.lastNameName = ''
+      this.registrationRequest.lastName = ''
       this.registrationRequest.username = ''
       this.registrationRequest.password = ''
       this.registrationRequest.email = ''
       this.registrationRequest.roleId = ''
+    },
+
+    resetMessages() {
+      this.successMessage = ''
+      this.errorMessage = ''
     },
 
   }

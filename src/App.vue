@@ -2,7 +2,8 @@
   <div>
     <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"/>
-    <RegistrationModal ref="registrationModalRef" @event-update-nav-menu="updateNavMenu"/>
+    <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalForNewUser"/>
+    <AlertSuccess :message="successMessage"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
@@ -30,6 +31,7 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      isRegistered: false
     }
   },
 
@@ -37,6 +39,11 @@ export default {
     updateNavMenu() {
       let userId = sessionStorage.getItem('userId')
       this.isLoggedIn = userId !== null
+    },
+
+    openLoginModalForNewUser() {
+      this.isRegistered = true
+      this.$refs.loginModalRef.$refs.modalRef.openModal()
     },
 
     openRegistrationModal() {
