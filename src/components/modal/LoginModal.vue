@@ -94,7 +94,6 @@ export default {
         sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
         this.$emit('event-update-nav-menu')
         this.resetAllInputFields()
-        this.resetMessage()
         this.$refs.modalRef.closeModal()
 
         if (sessionStorage.getItem('roleName') === 'patient') {
@@ -127,12 +126,10 @@ export default {
     resetAllInputFields() {
       this.username = ''
       this.password = ''
-    },
-
-    resetMessage() {
       this.errorMessage = ''
       this.successMessage = ''
     },
+
   }
 }
 </script>
