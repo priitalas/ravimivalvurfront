@@ -2,7 +2,7 @@
   <div>
     <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"/>
-    <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModal"/>
+    <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalWithAlert"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
@@ -42,10 +42,16 @@ export default {
 
     openRegistrationModal() {
       this.$refs.registrationModalRef.$refs.modalRef.openModal()
+
     },
 
     openLoginModal() {
       this.$refs.loginModalRef.$refs.modalRef.openModal()
+    },
+
+    openLoginModalWithAlert(message) {
+      this.$refs.loginModalRef.$refs.modalRef.openModal()
+      this.$refs.loginModalRef.successMessage = message
     },
 
     openLogOutModal() {

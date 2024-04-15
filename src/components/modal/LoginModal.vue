@@ -8,7 +8,8 @@
       <div class="container text-start">
         <div class="row justify-content-center">
           <div class="col">
-            <AlertDanger :message="message"/>
+            <AlertDanger :message="errorMessage"/>
+            <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
               <label for="username" class="form-label">Kasutajanimi</label>
               <input v-model="username" type="text" class="form-control" id="username">
@@ -37,16 +38,18 @@ import Modal from "@/components/modal/Modal.vue";
 import RegistrationModal from "@/components/modal/RegistrationModal.vue";
 import router from "@/router";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 
 export default {
   name: "LoginModal",
-  components: {RegistrationModal, Modal, AlertDanger},
+  components: {AlertSuccess, RegistrationModal, Modal, AlertDanger},
 
   data() {
     return {
       username: '',
       password: '',
-      message: '',
+      successMessage: '',
+      errorMessage: '',
       loginResponse: {
         userId: 0,
         roleName: '',
@@ -91,9 +94,10 @@ export default {
         sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
         this.$emit('event-update-nav-menu')
         this.resetAllInputFields()
+        this.resetMessage()
         this.$refs.modalRef.closeModal()
 
-        if (sessionStorage.getItem('roleName') == 'patient') {
+        if (sessionStorage.getItem('roleName') === 'patient') {
           router.push({name: 'patientRoute'})
         } else {
           router.push({name: 'doctorRoute'});
@@ -108,7 +112,7 @@ export default {
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 111) {
-        this.message = this.errorResponse.message;
+        this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessage, 4000);
       } else {
         router.push({name: 'errorRoute'})
@@ -116,7 +120,7 @@ export default {
     },
 
     displayAllFieldsRequiredAlert() {
-      this.message = 'Täida kõik väljad!'
+      this.errorMessage = 'Täida kõik väljad!'
       setTimeout(this.resetMessage, 4000)
     },
 
@@ -126,7 +130,8 @@ export default {
     },
 
     resetMessage() {
-      this.message = ''
+      this.errorMessage = ''
+      this.successMessage = ''
     },
   }
 }
