@@ -2,7 +2,7 @@
   <div>
     <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"/>
-    <RegistrationModal ref="registrationModalRef"/>
+    <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModal"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
@@ -38,6 +38,7 @@ export default {
       let userId = sessionStorage.getItem('userId')
       this.isLoggedIn = userId !== null
     },
+
 
     openRegistrationModal() {
       this.$refs.registrationModalRef.$refs.modalRef.openModal()

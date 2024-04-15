@@ -47,7 +47,6 @@ export default {
       username: '',
       password: '',
       message: '',
-      isRegistered: false,
       loginResponse: {
         userId: 0,
         roleName: '',
@@ -82,7 +81,7 @@ export default {
       this.$http.get('/login', {
             params: {
               username: this.username,
-              password: this.password
+              password: this.password,
             }
           }
       ).then(response => {
@@ -94,7 +93,7 @@ export default {
         this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
 
-        if (this.loginResponse.roleName = 'patient') {
+        if (sessionStorage.getItem('roleName') == 'patient') {
           router.push({name: 'patientRoute'})
         } else {
           router.push({name: 'doctorRoute'});
