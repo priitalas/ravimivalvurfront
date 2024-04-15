@@ -79,9 +79,9 @@ export default {
         password: '',
         roleId: 0
       },
+
       errorMessage: '',
       successMessage: '',
-      isLoggedIn: false,
 
       errorResponse: {
         message: '',
@@ -114,10 +114,9 @@ export default {
       ).then(response => {
         this.$emit('event-successful-registration')
         this.resetAllInputFields()
-        this.successMessage = 'Kasutaja "' + sessionStorage.getItem('firstName') + " " + sessionStorage.getItem('lastName') + '" on lisatud'
+        this.successMessage = "Kasutaja on lisatud, logige sisse."
         setTimeout(this.resetMessages, 4000)
         this.$refs.modalRef.closeModal()
-        this.resetMessages()
 
       }).catch(error => {
         this.errorResponse = error.response.data
