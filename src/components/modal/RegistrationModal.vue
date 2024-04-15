@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modalRef">
+  <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
     <template #title>
       Registreeru kasutajaks
     </template>
@@ -9,7 +9,6 @@
         <div class="row justify-content-center">
           <div class="col">
             <AlertDanger :message="errorMessage"/>
-            <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
               <label for="firstname" class="form-label">Eesnimi</label>
               <input v-model="registrationRequest.firstName" type="text" class="form-control" id="firstname">
@@ -62,12 +61,11 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
-import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import router from "@/router";
 
 export default {
   name: 'RegistrationModal',
-  components: {AlertDanger, Modal, AlertSuccess},
+  components: {AlertDanger, Modal},
 
   data() {
     return {
@@ -112,10 +110,8 @@ export default {
     sendRegistrationRequest() {
       this.$http.post('/registration', this.registrationRequest
       ).then(response => {
-        this.$emit('event-successful-registration')
         this.resetAllInputFields()
-        this.successMessage = "Kasutaja on lisatud, logige sisse."
-        setTimeout(this.resetMessages, 4000)
+        this.$emit('event-successful-registration', 'Kasutaja on lisatud, logige sisse.')
         this.$refs.modalRef.closeModal()
 
       }).catch(error => {
