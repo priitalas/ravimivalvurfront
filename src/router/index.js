@@ -27,6 +27,7 @@ const routes = [
     name: 'patientRoute',
     component: PatientView
   },
+
   {
     path: '/add-medication',
     name: 'addMedicationRoute',
