@@ -36,6 +36,7 @@
           <div class="col col-6 text-nowrap">
             <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3 ">Loobu</button>
             <button @click="getAndSetMedicationInfo" type="button" class="btn btn-primary me-3">Salvesta</button>
+            <button @click="navigateToDoctorView" type="button" class="btn btn-warning me-3">Tagasi töölauale</button>
           </div>
         </div>
       </div>
@@ -101,10 +102,9 @@ export default {
     sendMedicationInfo() {
       this.$http.post('/medication', this.medicationInfo
       ).then(response => {
-        this.resetAllInputFields()
         this.successMessage = "Ravim lisatud"
-        setTimeout(this.resetMessage, 4000)
-        this.navigateToDoctorView()
+        setTimeout(this.resetMessages, 4000)
+        this.resetAllInputFields()
       }).catch(error => {
         this.errorResponse = error.response.data
         this.handleError(error.response.status)
@@ -148,7 +148,7 @@ export default {
       }
     },
 
-    resetMessage(){
+    resetMessages(){
       this.errorMessage = ''
       this.successMessage = ''
     }

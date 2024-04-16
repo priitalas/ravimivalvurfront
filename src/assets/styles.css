@@ -4,11 +4,27 @@ h1 {
     font-size: 4em;
 }
 
+h2{
+    margin-bottom: 30px;
+}
+
+h4 {
+    font-weight: normal;
+    color: #415E57;
+    background-color: lightblue;
+    padding: 5px;
+}
+
 h5 {
     font-weight: bold;
     color: #415E57;
     padding: 20px;
 }
+
+.input-group-text {
+    background-color: lightblue
+}
+
 
 .rounded-image {
     border-radius: 10px;
@@ -39,7 +55,7 @@ h5 {
 }
 
 .img-fluid {
-    height: 50%;
+    height: 60%;
 
 }
 

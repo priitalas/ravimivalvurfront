@@ -62,13 +62,6 @@ export default {
         this.isPatient = roleName === 'patient'
         this.isAdmin = roleName === 'admin'
 
-       // if (roleName === 'doctor') {
-       //   this.isDoctor = true
-       // } else if (roleName === 'patient') {
-       //   this.isPatient = true
-       // } else {
-       //   this.isAdmin = true
-       // }
       }
     },
 
@@ -89,6 +82,10 @@ export default {
     this.$refs.logOutModalRef.$refs.modalRef.openModal()
   }
 
+},
+
+mounted() {
+    this.updateNavMenu()
 }
 
 }
@@ -96,7 +93,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, sans-serif;
+  font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -117,6 +114,10 @@ nav a {
 }
 
 nav a.router-link-exact-active {
+  color: blue;
+}
+
+nav a:active {
   color: blue;
 }
 
