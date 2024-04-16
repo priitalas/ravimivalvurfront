@@ -21,19 +21,20 @@
           <span class="input-group-text">Lisainfo</span>
           <input v-model="medicationInfo.note" type="text" class="form-control">
         </div>
-        <div class="col col-5 justify-content-start">
-          <select v-model="medicationInfo.unitId" class="form-select">
+        <div class="row justify-content-center mt-lg-5">
+        <div class="col col-6 justify-content-evenly">
+          <select v-model="medicationInfo.selectedUnitId" class="form-select">
             <option selected value="0">Vali ühik</option>
             <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
           </select>
         </div>
-        <div class="col col-7 justify-content-start">
+        <div class="col col-6 justify-content-evenly">
           <label for="imageData" class="form-label" accept="image/x-png,image/jpeg,image/gif">Vali pilt</label>
           <input class="form-control" type="file" id="imageData">
         </div>
       </div>
     </div>
-
+    </div>
   </div>
 </template>
 
@@ -52,7 +53,7 @@ export default {
         medicationName: '',
         description: '',
         note: '',
-        unitId: 0,
+        selectedUnitId: 0,
         imageData: ''
       },
       errorMessage: '',
