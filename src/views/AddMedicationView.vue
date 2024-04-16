@@ -33,14 +33,14 @@
           </div>
         </div>
         <div class="row justify-content-start mt-lg-5">
-          <div class="col col-6">
-            <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3">Loobu</button>
+          <div class="col col-6 text-nowrap">
+            <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3 ">Loobu</button>
             <button @click="getAndSetMedicationInfo" type="button" class="btn btn-primary me-3">Salvesta</button>
           </div>
         </div>
       </div>
       <div class="col col-4">
-        <MedicationImage :image-data="medicationInfo.imageData"/>
+        <MedicationImage :image-data="medicationInfo.medicationImage"/>
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
         description: '',
         note: '',
         selectedUnitId: 0,
-        imageData: ''
+        medicationImage: ''
       },
       errorMessage: '',
       successMessage: '',
@@ -104,6 +104,8 @@ export default {
       ).then(response => {
         this.resetAllInputFields()
         this.successMessage = "Ravim lisatud"
+        setTimeout(this.resetMessage, 4000)
+        this.navigateToDoctorView()
       }).catch(error => {
         this.errorResponse = error.response.data
         this.handleError(error.response.status)
@@ -118,7 +120,7 @@ export default {
       return this.medicationInfo.medicationName !== '' &&
           this.medicationInfo.description !== '' &&
           this.medicationInfo.selectedUnitId !== 0 &&
-          this.medicationInfo.imageData !== ''
+          this.medicationInfo.medicationImage !== ''
     },
 
     displayAllFieldsRequiredAlert() {
@@ -127,7 +129,7 @@ export default {
     },
 
     setImageData(imageData) {
-      this.medicationInfo.imageData = imageData
+      this.medicationInfo.medicationImage = imageData
     },
 
     resetAllInputFields() {
@@ -135,7 +137,7 @@ export default {
           this.medicationInfo.description = '',
           this.medicationInfo.note = '',
           this.medicationInfo.selectedUnitId = 0,
-          this.medicationInfo.imageData = '';
+          this.medicationInfo.medicationImage = '';
     },
 
     handleError(statusCode) {
@@ -143,7 +145,7 @@ export default {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
-        router.push({name: 'errorRoute'})
+        // router.push({name: 'errorRoute'})
       }
     },
 

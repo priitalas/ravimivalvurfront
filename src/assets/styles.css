@@ -38,8 +38,9 @@ h5 {
 
 }
 
-.img-thumbnail {
-    height: 300px;
+.img-fluid {
+    height: 50%;
+
 }
 
 .custom-file-button input[type=file] {
