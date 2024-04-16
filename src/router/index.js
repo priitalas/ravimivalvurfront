@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ErrorView from "@/views/ErrorView.vue";
 import DoctorView from "@/views/DoctorView.vue";
 import PatientView from "@/views/PatientView.vue";
+import AddMedicationView from "@/views/AddMedicationView.vue";
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
     path: '/patient',
     name: 'patientRoute',
     component: PatientView
+  },
+
+  {
+    path: '/add-medication',
+    name: 'addMedicationRoute',
+    component: AddMedicationView
   }
 
 ]

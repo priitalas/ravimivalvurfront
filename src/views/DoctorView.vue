@@ -1,5 +1,5 @@
 <template>
-  <h2>Siia tuleb arsti vaade</h2>
+  <h2>Arsti / hooldaja töölaud</h2>
 
 </template>
 <script>
