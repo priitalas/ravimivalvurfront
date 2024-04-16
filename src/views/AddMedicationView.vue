@@ -21,19 +21,29 @@
           <span class="input-group-text">Lisainfo</span>
           <input v-model="medicationInfo.note" type="text" class="form-control">
         </div>
-        <div class="col col-5 justify-content-start">
-          <select v-model="medicationInfo.unitId" class="form-select">
-            <option selected value="0">Vali ühik</option>
-            <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
-          </select>
+        <div class="row align-items-end mt-lg-3">
+          <div class="col col-4 justify-content-evenly align-bottom">
+            <select v-model="medicationInfo.selectedUnitId" class="form-select">
+              <option selected value="0">Vali ühik</option>
+              <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
+            </select>
+          </div>
+          <div class="col col-8 justify-content-evenly align-bottom">
+            <label for="imageData" class="form-label" accept="image/x-png,image/jpeg,image/gif">Vali pilt</label>
+            <ImageInput @event-new-image-file-selected="setImageData"/>
+          </div>
         </div>
-        <div class="col col-7 justify-content-start">
-          <label for="imageData" class="form-label" accept="image/x-png,image/jpeg,image/gif">Vali pilt</label>
-          <input class="form-control" type="file" id="imageData">
+      </div>
+      <div class="col col-5">
+        <MedicationImage :image-data="medicationInfo.imageData"/>
+      </div>
+      <div class="row justify-content-center mt-lg-5">
+        <div class="col col-6">
+          <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3">Loobu</button>
+          <button @click="getAndSetMedicationInfo" type="button" class="btn btn-primary me-3">Salvesta</button>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -41,10 +51,12 @@
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import router from "@/router";
+import ImageInput from "@/components/ImageInput.vue";
+import MedicationImage from "@/components/MedicationImage.vue";
 
 export default {
   name: "AddMedicationView",
-  components: {AlertSuccess, AlertDanger},
+  components: {MedicationImage, ImageInput, AlertSuccess, AlertDanger},
 
   data() {
     return {
@@ -52,7 +64,7 @@ export default {
         medicationName: '',
         description: '',
         note: '',
-        unitId: 0,
+        selectedUnitId: 0,
         imageData: ''
       },
       errorMessage: '',
@@ -78,7 +90,32 @@ export default {
           .catch(() => {
             router.push({name: 'errorRoute'})
           })
-    }
+    },
+
+    getAndSetMedicationInfo() {
+
+    },
+
+    navigateToDoctorView() {
+      router.push({name: "doctorRoute"})
+    },
+
+    allRequiredFieldsWithCorrectInput() {
+      return this.medicationInfo.medicationName !== '' &&
+          this.medicationInfo.description !== '' &&
+          this.medicationInfo.selectedUnitId !== 0 &&
+          this.medicationInfo.imageData !== ''
+    },
+
+    displayAllFieldsRequiredAlert() {
+      this.errorMessage = 'Täida kõik väljad!'
+      setTimeout(this.resetMessage, 4000)
+    },
+
+    setImageData(imageData) {
+      this.medicationInfo.imageData = imageData
+    },
+
   },
   beforeMount() {
     this.sendUnitsRequest()
