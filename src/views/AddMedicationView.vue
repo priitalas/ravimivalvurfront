@@ -18,12 +18,12 @@
           <textarea v-model="medicationInfo.description" type="text" class="form-control"></textarea>
         </div>
         <div class="input-group mb-3">
-          <span class="input-group-text">Lisainfo</span>
+          <span class="input-group-text">Lisainfo (vajadusel)</span>
           <input v-model="medicationInfo.note" type="text" class="form-control">
         </div>
         <div class="row align-bottom mt-lg-3">
           <div class="col col-4 justify-content-evenly align-bottom">
-            <select v-model="medicationInfo.selectedUnitId" class="form-select">
+            <select v-model="medicationInfo.unitId" class="form-select">
               <option selected value="0">Vali ühik</option>
               <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
             </select>
@@ -63,13 +63,12 @@ export default {
         medicationName: '',
         description: '',
         note: '',
-        selectedUnitId: 0,
+        unitId: 0,
         medicationImage: ''
       },
       errorMessage: '',
       successMessage: '',
 
-      selectedUnitId: '',
       units: [
         {
           unitId: 0,
@@ -100,7 +99,7 @@ export default {
     },
 
     sendMedicationInfo() {
-      this.$http.post('/add-medication', this.medicationInfo
+      this.$http.post('/medication', this.medicationInfo
       ).then(response => {
         this.resetAllInputFields()
         this.successMessage = "Ravim lisatud"
@@ -119,12 +118,12 @@ export default {
     allRequiredFieldsWithCorrectInput() {
       return this.medicationInfo.medicationName !== '' &&
           this.medicationInfo.description !== '' &&
-          this.medicationInfo.selectedUnitId !== 0 &&
+          this.medicationInfo.unitId !== 0 &&
           this.medicationInfo.medicationImage !== ''
     },
 
     displayAllFieldsRequiredAlert() {
-      this.errorMessage = 'Täida kõik väljad!'
+      this.errorMessage = 'Täida kõik nõutud väljad!'
       setTimeout(this.resetMessage, 4000)
     },
 
@@ -136,7 +135,7 @@ export default {
       this.medicationInfo.medicationName = '',
           this.medicationInfo.description = '',
           this.medicationInfo.note = '',
-          this.medicationInfo.selectedUnitId = 0,
+          this.medicationInfo.unitId = 0,
           this.medicationInfo.medicationImage = '';
     },
 
@@ -145,9 +144,14 @@ export default {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
-        // router.push({name: 'errorRoute'})
+        router.push({name: 'errorRoute'})
       }
     },
+
+    resetMessage(){
+      this.errorMessage = ''
+      this.successMessage = ''
+    }
 
   },
   beforeMount() {

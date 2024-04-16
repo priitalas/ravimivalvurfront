@@ -8,6 +8,14 @@
       <router-link to="/">Kodu</router-link>
       |
       <template v-if="isLoggedIn">
+        <template v-if="isDoctor || isAdmin">
+        <router-link to="/doctor">Arsti töölaud</router-link>
+          |
+        </template>
+        <template v-if="isPatient">
+          <router-link to="/patient">Minu ravimid</router-link>
+          |
+        </template>
         <a href="#" @click="openLogOutModal">Logi välja</a>
       </template>
       <template v-else>
@@ -30,36 +38,59 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      isDoctor: false,
+      isPatient: false,
+      isAdmin: false
     }
   },
 
   methods: {
     updateNavMenu() {
+      this.updateIsLoggedInValue()
+      this.updateRoleValue()
+    },
+
+    updateIsLoggedInValue() {
       let userId = sessionStorage.getItem('userId')
       this.isLoggedIn = userId !== null
     },
 
+    updateRoleValue() {
+      if (this.isLoggedIn) {
+        let roleName = sessionStorage.getItem('roleName')
+        this.isDoctor = roleName === 'doctor'
+        this.isPatient = roleName === 'patient'
+        this.isAdmin = roleName === 'admin'
 
-    openRegistrationModal() {
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
-
+       // if (roleName === 'doctor') {
+       //   this.isDoctor = true
+       // } else if (roleName === 'patient') {
+       //   this.isPatient = true
+       // } else {
+       //   this.isAdmin = true
+       // }
+      }
     },
 
-    openLoginModal() {
-      this.$refs.loginModalRef.$refs.modalRef.openModal()
-    },
+  openRegistrationModal() {
+    this.$refs.registrationModalRef.$refs.modalRef.openModal()
+  },
 
-    openLoginModalWithAlert(message) {
-      this.$refs.loginModalRef.$refs.modalRef.openModal()
-      this.$refs.loginModalRef.successMessage = message
-    },
+  openLoginModal() {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+  },
 
-    openLogOutModal() {
-      this.$refs.logOutModalRef.$refs.modalRef.openModal()
-    },
+  openLoginModalWithAlert(message) {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+    this.$refs.loginModalRef.successMessage = message
+  },
 
-
+  openLogOutModal() {
+    this.$refs.logOutModalRef.$refs.modalRef.openModal()
   }
+
+}
+
 }
 </script>
 
