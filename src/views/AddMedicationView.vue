@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center">
-    <AddUnitModal @event-new-unit-added="handleNewUnitAdded"/>
+    <AddUnitModal ref="addUnitModalRef" @event-new-unit-added="handleNewUnitAdded"/>
     <div class="row justify-content-lg-center">
       <div class="col col-4">
         <AlertDanger :message="errorMessage"/>
@@ -89,9 +89,9 @@ export default {
       this.medicationInfo.unitId = 0
     },
 
-    handleUnitChange(){
-      if(this.medicationInfo.unitId < 0){
-
+    handleUnitChange() {
+      if (this.medicationInfo.unitId < 0) {
+        this.$refs.addUnitModalRef.$refs.modalRef.openModal()
       }
     },
 
@@ -163,7 +163,7 @@ export default {
       }
     },
 
-    resetMessages(){
+    resetMessages() {
       this.errorMessage = ''
       this.successMessage = ''
     }

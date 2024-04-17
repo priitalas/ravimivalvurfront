@@ -20,7 +20,8 @@
     </template>
 
     <template #buttons>
-      <button @click="sendPostUnitRequest" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta</button>
+      <button @click="executeAddNewUnit" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta
+      </button>
     </template>
 
   </Modal>
@@ -51,11 +52,7 @@ export default {
 
   methods: {
     sendPostUnitRequest() {
-      this.$http.post('/unit', {
-            params: {
-              unitName: this.unitName
-            }
-          }
+      this.$http.post('/unit', this.unitName
       ).then(response => {
         this.unitResponse = response.data
         this.$emit('event-new-unit-added')
@@ -77,8 +74,18 @@ export default {
       }
     },
 
+    allFieldsWithCorrectInput() {
+      return this.unitName !==''
+    },
+    executeAddNewUnit() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendPostUnitRequest();
+      }else {
+        this.displayAllFieldsRequiredAlert();
+      }
+    },
     displayAllFieldsRequiredAlert() {
-      this.errorMessage = 'Täida kõik väljad!'
+      this.errorMessage = 'Täida väli!'
       setTimeout(this.resetMessage, 4000)
     },
 
@@ -86,9 +93,8 @@ export default {
       this.unitName = ''
     },
 
-    resetMessages(){
-      this.errorMessage = ''
-      this.successMessage = ''
+    resetMessages() {
+      this.unitName = ''
     }
 
   }
