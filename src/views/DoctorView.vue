@@ -4,13 +4,13 @@
   <div>
     <div class="container text-start">
       <div class="row">
-        <div class="col col-lg-5">
+        <div class="col col-lg-3">
           <h4> PATSIENDID </h4>
         </div>
         <div class="col col-lg-2">
           <button type="button" class="btn btn-primary">Lisa uus patsient</button>
         </div>
-        <div class="col col-lg-3">
+        <div class="col col-lg-5">
           <h4> RAVIMID</h4>
          </div>
         <div class="col col-lg-2">

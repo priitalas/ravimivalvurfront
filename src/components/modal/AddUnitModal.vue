@@ -42,7 +42,7 @@ export default {
       unitName: '',
       successMessage: '',
       errorMessage: '',
-      unitResponse: '',
+      addedUnitId: 0,
       errorResponse: {
         message: '',
         errorCode: ''
@@ -51,11 +51,17 @@ export default {
   },
 
   methods: {
+
+
     sendPostUnitRequest() {
-      this.$http.post('/unit', this.unitName
+      this.$http.post('/unit', null, {
+            params: {
+              unitName: this.unitName
+            }
+          }
       ).then(response => {
-        this.unitResponse = response.data
-        this.$emit('event-new-unit-added')
+        this.addedUnitId = response.data
+        this.$emit('event-new-unit-added', this.addedUnitId)
         this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
 
@@ -75,12 +81,12 @@ export default {
     },
 
     allFieldsWithCorrectInput() {
-      return this.unitName !==''
+      return this.unitName !== ''
     },
     executeAddNewUnit() {
       if (this.allFieldsWithCorrectInput()) {
         this.sendPostUnitRequest();
-      }else {
+      } else {
         this.displayAllFieldsRequiredAlert();
       }
     },
