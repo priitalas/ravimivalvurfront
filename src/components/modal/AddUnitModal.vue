@@ -11,8 +11,8 @@
             <AlertDanger :message="errorMessage"/>
             <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
-              <label for="unitName" class="form-label">Ühik</label>
-              <input v-model="unitName" type="text" class="form-control" id="userName">
+              <label for="unitName" class="form-label"></label>
+              <input v-model="unitName" type="text" class="form-control" id="unitName">
             </div>
           </div>
         </div>
@@ -20,7 +20,8 @@
     </template>
 
     <template #buttons>
-      <button @click="sendPostUnitRequest" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta</button>
+      <button @click="executeAddNewUnit" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta
+      </button>
     </template>
 
   </Modal>
@@ -28,7 +29,6 @@
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
-import router from "@/router";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 
@@ -50,12 +50,20 @@ export default {
   },
 
   methods: {
+    allFieldsWithCorrectInput() {
+      return this.unitName !== ''
+    },
+
+    executeAddNewUnit() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendPostUnitRequest();
+      } else {
+        this.displayAllFieldsRequiredAlert();
+      }
+    },
+
     sendPostUnitRequest() {
-      this.$http.post('/unit', {
-            params: {
-              unitName: this.unitName
-            }
-          }
+      this.$http.post('/unit', this.unitName
       ).then(response => {
         this.unitResponse = response.data
         this.$emit('event-new-unit-added')
@@ -79,14 +87,14 @@ export default {
 
     displayAllFieldsRequiredAlert() {
       this.errorMessage = 'Täida kõik väljad!'
-      setTimeout(this.resetMessage, 4000)
+      setTimeout(this.resetMessages, 4000)
     },
 
     resetAllInputFields() {
       this.unitName = ''
     },
 
-    resetMessages(){
+    resetMessages() {
       this.errorMessage = ''
       this.successMessage = ''
     }

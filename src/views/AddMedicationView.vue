@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center">
-    <AddUnitModal @event-new-unit-added="handleNewUnitAdded"/>
+    <AddUnitModal ref="addUnitModalRef" @event-new-unit-added="handleNewUnitAdded"/>
     <div class="row justify-content-lg-center">
       <div class="col col-4">
         <AlertDanger :message="errorMessage"/>
@@ -84,17 +84,15 @@ export default {
   methods: {
 
     handleNewUnitAdded() {
-      // todo too ära dropdowni andmed ja muuda ära selected unit Id
       this.sendGetUnitsRequest()
       this.medicationInfo.unitId = 0
     },
 
     handleUnitChange(){
       if(this.medicationInfo.unitId < 0){
-
+        this.$refs.addUnitModalRef.$refs.modalRef.openModal()
       }
     },
-
 
     sendGetUnitsRequest() {
       this.$http.get('/units')
