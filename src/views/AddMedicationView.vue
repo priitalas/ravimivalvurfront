@@ -1,5 +1,6 @@
 <template>
   <div class="container text-center">
+    <AddUnitModal @event-new-unit-added="handleNewUnitAdded"/>
     <div class="row justify-content-lg-center">
       <div class="col col-4">
         <AlertDanger :message="errorMessage"/>
@@ -23,9 +24,10 @@
         </div>
         <div class="row align-bottom mt-lg-3">
           <div class="col col-4 justify-content-evenly align-bottom">
-            <select v-model="medicationInfo.unitId" class="form-select">
-              <option selected value="0">Vali ühik</option>
+            <select v-model="medicationInfo.unitId" @change="handleUnitChange" class="form-select">
+              <option selected :value="0">Vali ühik</option>
               <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
+              <option selected :value="-1">-Lisa ühik-</option>
             </select>
           </div>
           <div class="col col-8 justify-content-evenly">
@@ -34,9 +36,8 @@
         </div>
         <div class="row justify-content-start mt-lg-5">
           <div class="col col-6 text-nowrap">
-            <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3 ">Loobu</button>
+            <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3 ">Tagasi</button>
             <button @click="getAndSetMedicationInfo" type="button" class="btn btn-primary me-3">Salvesta</button>
-            <button @click="navigateToDoctorView" type="button" class="btn btn-warning me-3">Tagasi töölauale</button>
           </div>
         </div>
       </div>
@@ -53,10 +54,11 @@ import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import router from "@/router";
 import ImageInput from "@/components/ImageInput.vue";
 import MedicationImage from "@/components/MedicationImage.vue";
+import AddUnitModal from "@/components/modal/AddUnitModal.vue";
 
 export default {
   name: "AddMedicationView",
-  components: {MedicationImage, ImageInput, AlertSuccess, AlertDanger},
+  components: {AddUnitModal, MedicationImage, ImageInput, AlertSuccess, AlertDanger},
 
   data() {
     return {
@@ -81,7 +83,20 @@ export default {
 
   methods: {
 
-    sendUnitsRequest() {
+    handleNewUnitAdded() {
+      // todo too ära dropdowni andmed ja muuda ära selected unit Id
+      this.sendGetUnitsRequest()
+      this.medicationInfo.unitId = 0
+    },
+
+    handleUnitChange(){
+      if(this.medicationInfo.unitId < 0){
+
+      }
+    },
+
+
+    sendGetUnitsRequest() {
       this.$http.get('/units')
           .then(response => {
             this.units = response.data
@@ -155,7 +170,7 @@ export default {
 
   },
   beforeMount() {
-    this.sendUnitsRequest()
+    this.sendGetUnitsRequest()
   }
 }
 </script>
