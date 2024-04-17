@@ -11,7 +11,7 @@
             <AlertDanger :message="errorMessage"/>
             <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
-              <label for="unitName" class="form-label">Ühik</label>
+              <label for="unitName" class="form-label"></label>
               <input v-model="unitName" type="text" class="form-control" id="userName">
             </div>
           </div>
