@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: 'AlertDanger',
+  name: "AlertDanger",
   props: {
-    message: String
+    message: String,
   }
 }
 </script>

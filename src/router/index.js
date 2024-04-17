@@ -29,7 +29,7 @@ const routes = [
   },
 
   {
-    path: '/add-medication',
+    path: '/medication',
     name: 'addMedicationRoute',
     component: AddMedicationView
   }

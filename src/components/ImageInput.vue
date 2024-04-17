@@ -1,5 +1,6 @@
 <template>
-  <div class="mb-3">
+  <div class="input-group custom-file-button">
+    <label class="input-group-text custom-file-button">Vali pilt</label>
     <input ref="fileInputRef" type="file" class="form-control" @change="handleImage" accept="image/x-png,image/jpeg,image/gif">
   </div>
 </template>

@@ -8,6 +8,14 @@
       <router-link to="/">Kodu</router-link>
       |
       <template v-if="isLoggedIn">
+        <template v-if="isDoctor || isAdmin">
+        <router-link to="/doctor">Arsti töölaud</router-link>
+          |
+        </template>
+        <template v-if="isPatient">
+          <router-link to="/patient">Minu ravimid</router-link>
+          |
+        </template>
         <a href="#" @click="openLogOutModal">Logi välja</a>
       </template>
       <template v-else>
@@ -30,42 +38,62 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      isDoctor: false,
+      isPatient: false,
+      isAdmin: false
     }
   },
 
   methods: {
     updateNavMenu() {
+      this.updateIsLoggedInValue()
+      this.updateRoleValue()
+    },
+
+    updateIsLoggedInValue() {
       let userId = sessionStorage.getItem('userId')
       this.isLoggedIn = userId !== null
     },
 
+    updateRoleValue() {
+      if (this.isLoggedIn) {
+        let roleName = sessionStorage.getItem('roleName')
+        this.isDoctor = roleName === 'doctor'
+        this.isPatient = roleName === 'patient'
+        this.isAdmin = roleName === 'admin'
 
-    openRegistrationModal() {
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
-
+      }
     },
 
-    openLoginModal() {
-      this.$refs.loginModalRef.$refs.modalRef.openModal()
-    },
+  openRegistrationModal() {
+    this.$refs.registrationModalRef.$refs.modalRef.openModal()
+  },
 
-    openLoginModalWithAlert(message) {
-      this.$refs.loginModalRef.$refs.modalRef.openModal()
-      this.$refs.loginModalRef.successMessage = message
-    },
+  openLoginModal() {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+  },
 
-    openLogOutModal() {
-      this.$refs.logOutModalRef.$refs.modalRef.openModal()
-    },
+  openLoginModalWithAlert(message) {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+    this.$refs.loginModalRef.successMessage = message
+  },
 
-
+  openLogOutModal() {
+    this.$refs.logOutModalRef.$refs.modalRef.openModal()
   }
+
+},
+
+mounted() {
+    this.updateNavMenu()
+}
+
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, sans-serif;
+  font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -86,6 +114,10 @@ nav a {
 }
 
 nav a.router-link-exact-active {
+  color: blue;
+}
+
+nav a:active {
   color: blue;
 }
 
