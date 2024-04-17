@@ -84,15 +84,17 @@ export default {
   methods: {
 
     handleNewUnitAdded() {
+      // todo too ära dropdowni andmed ja muuda ära selected unit Id
       this.sendGetUnitsRequest()
       this.medicationInfo.unitId = 0
     },
 
-    handleUnitChange(){
-      if(this.medicationInfo.unitId < 0){
+    handleUnitChange() {
+      if (this.medicationInfo.unitId < 0) {
         this.$refs.addUnitModalRef.$refs.modalRef.openModal()
       }
     },
+
 
     sendGetUnitsRequest() {
       this.$http.get('/units')
@@ -161,7 +163,7 @@ export default {
       }
     },
 
-    resetMessages(){
+    resetMessages() {
       this.errorMessage = ''
       this.successMessage = ''
     }

@@ -11,8 +11,8 @@
             <AlertDanger :message="errorMessage"/>
             <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
-              <label for="unitName" class="form-label"></label>
-              <input v-model="unitName" type="text" class="form-control" id="unitName">
+              <label for="unitName" class="form-label">Ühik</label>
+              <input v-model="unitName" type="text" class="form-control" id="userName">
             </div>
           </div>
         </div>
@@ -29,6 +29,7 @@
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
+import router from "@/router";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 
@@ -50,18 +51,6 @@ export default {
   },
 
   methods: {
-    allFieldsWithCorrectInput() {
-      return this.unitName !== ''
-    },
-
-    executeAddNewUnit() {
-      if (this.allFieldsWithCorrectInput()) {
-        this.sendPostUnitRequest();
-      } else {
-        this.displayAllFieldsRequiredAlert();
-      }
-    },
-
     sendPostUnitRequest() {
       this.$http.post('/unit', this.unitName
       ).then(response => {
@@ -85,9 +74,19 @@ export default {
       }
     },
 
+    allFieldsWithCorrectInput() {
+      return this.unitName !==''
+    },
+    executeAddNewUnit() {
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendPostUnitRequest();
+      }else {
+        this.displayAllFieldsRequiredAlert();
+      }
+    },
     displayAllFieldsRequiredAlert() {
-      this.errorMessage = 'Täida kõik väljad!'
-      setTimeout(this.resetMessages, 4000)
+      this.errorMessage = 'Täida väli!'
+      setTimeout(this.resetMessage, 4000)
     },
 
     resetAllInputFields() {
@@ -95,8 +94,7 @@ export default {
     },
 
     resetMessages() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.unitName = ''
     }
 
   }

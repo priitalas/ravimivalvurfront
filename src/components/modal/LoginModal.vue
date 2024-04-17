@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
+  <Modal ref="modalRef" @event-close-modal="resetAllInputFields" >
     <template #title>
       Logi sisse
     </template>
@@ -133,5 +133,3 @@ export default {
   }
 }
 </script>
-
-
