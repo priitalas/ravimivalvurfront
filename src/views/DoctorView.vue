@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="row text-start">
-        <div class="col col-5 justify-content-start">
+        <div class="col col-5 justify-content-evenly">
           <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
                  class="light me-lg-1" name="q"/>
           <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
@@ -23,8 +23,9 @@
           <button type="button" class="btn btn-primary m-lg-2 ">Lisa uus patsient</button>
         </div>
         <div class="col col-7 justify-content-start">
-          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2 me-4">Lisa uus raviplaan</button>
-          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2">Lisa uus ravim</button>
+          <button @click="goToAddMedicationPlan" type="button" class="btn btn-primary mt-2 me-4">Lisa uus raviplaan</button>
+          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2 me-4">Lisa uus ravim</button>
+          <button @click="seePatientMedicationLog" type="button" class="btn btn-warning mt-2">Vaata ravimilogi</button>
         </div>
       </div>
       <div class="row">
