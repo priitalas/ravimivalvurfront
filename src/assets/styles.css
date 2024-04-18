@@ -29,7 +29,7 @@ h5 {
 
 input[type="search"].light {
     background: #fff;
-    width: 280px;
+    width: 290px;
     color: #415E57;
     border: none;
     padding: 6px;
@@ -42,6 +42,10 @@ input[type="search"].light {
 .rounded-image {
     border-radius: 10px;
     border-color: #7dc4fc;
+}
+
+.link-custom {
+    color: #415E57;
 }
 
 /* modal */
@@ -69,7 +73,6 @@ input[type="search"].light {
 
 .img-fluid {
     height: 60%;
-
 }
 
 .custom-file-button input[type=file] {

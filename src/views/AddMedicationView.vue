@@ -127,6 +127,7 @@ export default {
     },
 
     navigateToDoctorView() {
+      this.$emit('event-new-medication-added')
       router.push({name: "doctorRoute"})
     },
 

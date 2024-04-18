@@ -3,26 +3,28 @@
   <p></p>
   <p></p>
   <div>
-    <div class="container justify-content-start">
+    <div class="container">
       <div class="row mb-2">
         <div class="col col-lg-5">
           <h4> Patsiendid </h4>
-          <div>
-            <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
-                   class="light me-lg-1" name="q"/>
-            <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
-              <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
-            </button>
-            <button type="button" class="btn btn-primary m-lg-2">Lisa uus patsient</button>
-          </div>
           <AlertDanger :message="errorMessage"/>
         </div>
         <div class="col col-7">
           <h4>Raviplaanid</h4>
-          <div class="justify-content-start">
-            <button @click="goToAddMedication" type="button" class="btn btn-primary m-lg-2">Lisa uus raviplaan</button>
-            <button @click="goToAddMedication" type="button" class="btn btn-primary m-lg-2">Lisa uus ravim</button>
-          </div>
+        </div>
+      </div>
+      <div class="row text-start">
+        <div class="col col-5 justify-content-start">
+          <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
+                 class="light me-lg-1" name="q"/>
+          <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
+            <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
+          </button>
+          <button type="button" class="btn btn-primary m-lg-2 ">Lisa uus patsient</button>
+        </div>
+        <div class="col col-7 justify-content-start">
+          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2 me-4">Lisa uus raviplaan</button>
+          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2">Lisa uus ravim</button>
         </div>
       </div>
       <div class="row">
@@ -32,8 +34,7 @@
             <tr>
               <th scope="col">Eesnimi</th>
               <th scope="col">Perekonnanimi</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
+              <th scope="col" style="width:15%"></th>
             </tr>
             </thead>
             <tbody>
@@ -41,11 +42,10 @@
               <td>{{ patient.firstName }}</td>
               <td>{{ patient.lastName }}</td>
               <td>
-                <font-awesome-icon @click="showPatientMedicationPlan(patient_Id)" class="link-primary cursor-pointer"
+                <font-awesome-icon @click="showPatientMedicationPlan(patient_Id)"
+                                   class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
-              </td>
-              <td>
-                <font-awesome-icon @click="deactivatePatient(patient_Id)" class="link-primary cursor-pointer"
+                <font-awesome-icon @click="deactivatePatient(patient_Id)" class="link-custom cursor-pointer"
                                    :icon="['fas', 'trash']"/>
               </td>
             </tr>
@@ -76,9 +76,10 @@ export default {
       searchValue: '',
       found: false,
       showMedicationPlan: false,
-      errorResponse:'',
-      errorMessage:'',
+      errorResponse: '',
+      errorMessage: '',
       doctorId: sessionStorage.getItem('userId'),
+      selectedPatientId: 0,
       patients: [
         {
           patientId: 0,
@@ -109,6 +110,7 @@ export default {
     },
 
     showPatientMedicationPlan() {
+      this.selectedPatientId = this.patients.patientId
       this.showMedicationPlan = true
     },
 
@@ -124,6 +126,9 @@ export default {
 
   beforeMount() {
     this.sendGetDoctorActivePatientsRequest();
+    if (this.selectedPatientId !== 0) {
+      this.showPatientMedicationPlan(this.selectedPatientId)
+    }
   }
 }
 
