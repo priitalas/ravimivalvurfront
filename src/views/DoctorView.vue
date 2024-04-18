@@ -10,22 +10,24 @@
           <div>
             <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
                    class="light me-lg-1" name="q"/>
-            <button @click="findPatientFromSearch" type="button" class="btn btn-primary me-4">
+            <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
             </button>
             <button type="button" class="btn btn-primary m-lg-2">Lisa uus patsient</button>
           </div>
+          <AlertDanger :message="errorMessage"/>
         </div>
-        <div class="col col-lg-5">
-          <h4> Ravimiplaanid</h4>
-        </div>
-        <div class="col col-lg-2">
-          <button @click="goToAddMedication" type="button" class="btn btn-primary">Lisa uus ravim</button>
+        <div class="col col-7">
+          <h4>Raviplaanid</h4>
+          <div class="justify-content-start">
+            <button @click="goToAddMedication" type="button" class="btn btn-primary m-lg-2">Lisa uus raviplaan</button>
+            <button @click="goToAddMedication" type="button" class="btn btn-primary m-lg-2">Lisa uus ravim</button>
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col col-lg-5 justify-content-start">
-          <table class="table table-hover mt-2 text-start" id="patientTable">
+        <div class="col col-lg-5">
+          <table v-if="patients.length>0" class="table table-hover mt-2 text-start" id="patientTable">
             <thead>
             <tr>
               <th scope="col">Eesnimi</th>
@@ -35,9 +37,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Siia tuleb eesnimi</td>
-              <td>Siia tuleb perekonnanimi</td>
+            <tr v-for="patient in patients" :key="patient.patientId">
+              <td>{{ patient.firstName }}</td>
+              <td>{{ patient.lastName }}</td>
               <td>
                 <font-awesome-icon @click="showPatientMedicationPlan(patient_Id)" class="link-primary cursor-pointer"
                                    :icon="['fas', 'eye']"/>
@@ -50,6 +52,9 @@
             </tbody>
           </table>
         </div>
+        <div v-if="showMedicationPlan" class="col col-lg-7 justify-content-start mt-2">
+          <PatientMedicationPlan ref="patientMedicationPlanRef"/>
+        </div>
       </div>
     </div>
   </div>
@@ -59,15 +64,28 @@
 <script>
 import router from "@/router";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
+import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
+import AlertDanger from "@/components/Alert/AlertDanger.vue";
 
 export default {
   name: "DoctorView",
-  components: {AlertSuccess},
+  components: {AlertDanger, PatientMedicationPlan, AlertSuccess},
 
   data() {
     return {
       searchValue: '',
-      found: false
+      found: false,
+      showMedicationPlan: false,
+      errorResponse:'',
+      errorMessage:'',
+      doctorId: sessionStorage.getItem('userId'),
+      patients: [
+        {
+          patientId: 0,
+          firstName: '',
+          lastName: ''
+        }
+      ]
     };
   },
 
@@ -76,31 +94,37 @@ export default {
       router.push({name: 'addMedicationRoute'})
     },
 
-    findPatientFromSearch() {
-      let searchValue = this.searchValue.trim().toLowerCase();
-      let rows = document.getElementById("patientTable").getElementsByTagName("tr");
-      let found = false
-
-      for (let i = 0; i < rows.length; i++) {
-        let firstName = rows[i].getElementsByTagName("td")[0];
-        let lastName = rows[i].getElementsByTagName("td")[1];
-
-        if (firstName && lastName) {
-          let firstNameText = firstName.textContent.trim().toLowerCase();
-          let lastNameText = lastName.textContent.trim().toLowerCase();
-
-          if (firstNameText.includes(searchValue) || lastNameText.includes(searchValue)) {
-            rows[i].classList.add("active");
-            rows[i].scrollIntoView({block: 'center'});
-            found = true;
-          } else {
-            rows[i].classList.remove("active");
+    sendGetDoctorActivePatientsRequest() {
+      this.$http.get("/patients", {
+            params: {
+              doctorId: this.doctorId
+            }
           }
-        }
+      ).then(response => {
+        this.patients = response.data
+      }).catch(error => {
+        this.errorResponse = error.response.data
+        this.handleError(error.response.status)
+      })
+    },
+
+    showPatientMedicationPlan() {
+      this.showMedicationPlan = true
+    },
+
+    handleError(statusCode) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 666) {
+        this.errorMessage = this.errorResponse.message;
+        setTimeout(this.resetMessages, 4000);
+      } else {
+        router.push({name: 'errorRoute'})
       }
     }
   },
 
+  beforeMount() {
+    this.sendGetDoctorActivePatientsRequest();
+  }
 }
 
 </script>
