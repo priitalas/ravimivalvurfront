@@ -95,7 +95,6 @@ export default {
       }
     },
 
-
     sendGetUnitsRequest() {
       this.$http.get('/units')
           .then(response => {
@@ -169,6 +168,7 @@ export default {
     }
 
   },
+
   beforeMount() {
     this.sendGetUnitsRequest()
   }
