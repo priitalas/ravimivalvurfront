@@ -14,6 +14,7 @@ h4 {
     color: #415E57;
     background-color: lightblue;
     padding: 8px;
+    margin-bottom: 12px;
 }
 
 h5 {
@@ -28,10 +29,14 @@ h5 {
 
 input[type="search"].light {
     background: #fff;
-    width: 285px;
+    width: 280px;
     color: #415E57;
     border: none;
     padding: 6px;
+}
+
+.active {
+    background-color: #415E57;
 }
 
 .rounded-image {
