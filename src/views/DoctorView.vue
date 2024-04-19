@@ -48,8 +48,45 @@
             </tbody>
           </table>
         </div>
-        <div v-if="showMedicationPlan" class="col col-lg-7 justify-content-start mt-2">
-          <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor"/>
+        <div class="col col-lg-7 justify-content-start mt-2">
+          <div class="accordion" id="#accordionExample">
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Patsiendi raviplaan
+                </button>
+              </div>
+              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor" :selectedPatientId="this.selectedPatientId"/>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Lisa raviplaan
+                </button>
+              </div>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Siia tuleb eraldi komponent raviplaani lisamiseks, kus on ka ravimite tabel ja ravimi lisamise nupp
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Ravimite võtmise logi
+                </button>
+              </div>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Siia tulevad andmed patsiendi raviplaani Id järgi logbook tabelist
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -123,9 +160,6 @@ export default {
 
   beforeMount() {
     this.sendGetDoctorActivePatientsRequest();
-    if (this.selectedPatientId !== 0) {
-      this.showPatientMedicationPlan(this.selectedPatientId)
-    }
   }
 }
 
