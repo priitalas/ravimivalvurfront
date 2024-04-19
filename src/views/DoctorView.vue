@@ -38,7 +38,7 @@
               <td>{{ patient.firstName }}</td>
               <td>{{ patient.lastName }}</td>
               <td>
-                <font-awesome-icon @click="showPatientMedicationPlan = true, this.selectedPatientId=this.patient.patientId"
+                <font-awesome-icon @click="showPatientMedicationPlan = true, selectedPatientId=patient.patientId"
                                    class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
                 <font-awesome-icon @click="deactivatePatient(patient.patientId)" class="link-custom cursor-pointer"
@@ -59,7 +59,7 @@
               </div>
               <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div v-if="showMedicationPlan" class="accordion-body">
-                  <PatientMedicationPlan :isDoctor="isDoctor" :patientId="this.selectedPatientId"/>
+                  <PatientMedicationPlan :isDoctor="isDoctor" :patientId="selectedPatientId"/>
                 </div>
               </div>
             </div>
