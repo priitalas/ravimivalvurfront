@@ -7,7 +7,6 @@
       <div class="row mb-2">
         <div class="col col-lg-5">
           <h4> Patsiendid </h4>
-          <AlertDanger :message="errorMessage"/>
         </div>
         <div class="col col-7">
           <h4>Raviplaanid</h4>
@@ -20,17 +19,13 @@
           <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
             <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
           </button>
-          <button type="button" class="btn btn-primary m-lg-2 ">Lisa uus patsient</button>
-        </div>
-        <div class="col col-7 justify-content-start">
-          <button @click="goToAddMedicationPlan" type="button" class="btn btn-primary mt-2 me-4">Lisa uus raviplaan</button>
-          <button @click="goToAddMedication" type="button" class="btn btn-primary mt-2 me-4">Lisa uus ravim</button>
-          <button @click="seePatientMedicationLog" type="button" class="btn btn-warning mt-2">Vaata ravimilogi</button>
+          <button type="button" class="btn btn-primary m-lg-2 mt-2">Lisa uus patsient</button>
         </div>
       </div>
       <div class="row">
         <div class="col col-lg-5">
-          <table v-if="patients.length>0" class="table table-hover mt-2 text-start" id="patientTable">
+          <AlertDanger :message="errorMessage"/>
+          <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
             <tr>
               <th scope="col">Eesnimi</th>
@@ -54,7 +49,7 @@
           </table>
         </div>
         <div v-if="showMedicationPlan" class="col col-lg-7 justify-content-start mt-2">
-          <PatientMedicationPlan ref="patientMedicationPlanRef"/>
+          <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor"/>
         </div>
       </div>
     </div>
@@ -79,6 +74,7 @@ export default {
       showMedicationPlan: false,
       errorResponse: '',
       errorMessage: '',
+      isDoctor: true,
       doctorId: sessionStorage.getItem('userId'),
       selectedPatientId: 0,
       patients: [
