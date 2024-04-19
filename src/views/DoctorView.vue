@@ -97,8 +97,8 @@
 <script>
 import router from "@/router";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
-import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
 

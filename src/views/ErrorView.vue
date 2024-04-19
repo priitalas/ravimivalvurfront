@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <template>
     <div class=" container text-center">
     <div class="row">
@@ -15,20 +13,8 @@
   </div>
 </template>
 
->>>>>>> master
 <script>
 export default {
   name: "ErrorView"
 }
 </script>
-
-<<<<<<< HEAD
-<template>
-
-</template>
-
-<style scoped>
-
-</style>
-=======
->>>>>>> master

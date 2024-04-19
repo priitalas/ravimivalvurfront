@@ -83,7 +83,7 @@ export default {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
-        router.push({name: 'errorRoute'})
+      //  router.push({name: 'errorRoute'})
       }
     },
   },
