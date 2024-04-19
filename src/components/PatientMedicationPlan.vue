@@ -83,7 +83,7 @@ export default {
     },
   },
   beforeMount() {
-    this.sendGetPatientMedicationPlan()
+    this.sendGetPatientMedicationPlan(this.patientId)
   }
 }
 </script>
