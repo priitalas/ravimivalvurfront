@@ -65,10 +65,10 @@ export default {
     },
 
     sendGetPatientMedicationPlan() {
-      this.$http.get("/medication-plans/patient/{patientId}", {
-            params: {
-              patientId: this.selectedPatientId
-            }
+      this.$http.get(`/medication-plans/patient/${this.selectedPatientId}`, {
+           params: {
+           patientId: this.selectedPatientId
+           }
           }
       ).then(response => {
         this.medicationPlans = response.data
