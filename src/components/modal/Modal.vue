@@ -4,11 +4,11 @@
     <div class="modal-dialog" ref="Modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">
+          <h2 class="modal-title fs-5">
             <slot name="title">
               <!-- Title-->
             </slot>
-          </h1>
+          </h2>
           <button type="button" class="btn-close" @click="closeModal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

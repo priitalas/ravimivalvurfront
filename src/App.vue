@@ -1,13 +1,26 @@
 <template>
   <div>
-    <RegistrationModal ref="registrationModalRef"/>
+    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
+                @event-update-nav-menu="updateNavMenu"/>
+    <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalWithAlert"/>
+    <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
-      <a href="#" @click="openRegistrationModal">Registreeru kasutajaks</a>
-      |
-      <router-link to="/login">Logi sisse</router-link>
-      |
+      <template v-if="isLoggedIn">
+        <template v-if="isDoctor || isAdmin">
+        <router-link to="/doctor">Arsti töölaud</router-link>
+          |
+        </template>
+        <template v-if="isPatient">
+          <router-link to="/patient">Minu ravimid</router-link>
+          |
+        </template>
+        <a href="#" @click="openLogOutModal">Logi välja</a>
+      </template>
+      <template v-else>
+        <a href="#" @click="openLoginModal">Logi sisse</a>
+      </template>
     </nav>
     <router-view @event-update-nav-menu="updateNavMenu"/>
   </div>
@@ -15,39 +28,72 @@
 
 <script>
 
-
-
+import LoginModal from "@/components/modal/LoginModal.vue";
 import RegistrationModal from "@/components/modal/RegistrationModal.vue";
+import LogOutModal from "@/components/modal/LogOutModal.vue";
 
 export default {
   name: 'App',
-  components: {RegistrationModal},
+  components: {LogOutModal, RegistrationModal, LoginModal},
   data() {
     return {
-      isRegistered: false,
-      isLogIn: false,
-      isAdmin: false,
-      // isRegistrationModalOpen: false
+      isLoggedIn: false,
+      isDoctor: false,
+      isPatient: false,
+      isAdmin: false
     }
   },
 
   methods: {
     updateNavMenu() {
-      this.isRegistered = true
+      this.updateIsLoggedInValue()
+      this.updateRoleValue()
     },
 
-    openRegistrationModal() {
-      // this.isRegistrationModalOpen = true
-      this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    updateIsLoggedInValue() {
+      let userId = sessionStorage.getItem('userId')
+      this.isLoggedIn = userId !== null
     },
 
+    updateRoleValue() {
+      if (this.isLoggedIn) {
+        let roleName = sessionStorage.getItem('roleName')
+        this.isDoctor = roleName === 'doctor'
+        this.isPatient = roleName === 'patient'
+        this.isAdmin = roleName === 'admin'
+
+      }
+    },
+
+  openRegistrationModal() {
+    this.$refs.registrationModalRef.$refs.modalRef.openModal()
+  },
+
+  openLoginModal() {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+  },
+
+  openLoginModalWithAlert(message) {
+    this.$refs.loginModalRef.$refs.modalRef.openModal()
+    this.$refs.loginModalRef.successMessage = message
+  },
+
+  openLogOutModal() {
+    this.$refs.logOutModalRef.$refs.modalRef.openModal()
   }
+
+},
+
+mounted() {
+    this.updateNavMenu()
+}
+
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, sans-serif;
+  font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -68,7 +114,11 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: blue;
+  color: #0d6efd;
+}
+
+nav a:active {
+  color: #0d6efd;
 }
 
 </style>
