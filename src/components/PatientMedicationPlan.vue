@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{medicationPlans}}
     <table v-if="medicationPlans.length>0" class="table table-responsive">
       <thead>
       <tr>
@@ -13,7 +14,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="medicationPlan in medicationPlans" :key="medicationPlans.medicationPlanIdId">
+      <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId">
         <td>{{ medicationPlan.medicationName }}</td>
         <td>{{ medicationPlan.quantity }}</td>
         <td>{{ medicationPlan.medicationUnitName }}</td>
@@ -21,9 +22,9 @@
         <td>{{ medicationPlan.periodStart }}</td>
         <td>{{ medicationPlan.periodEnd }}</td>
         <td v-if="isDoctor">
-          <font-awesome-icon @click="navigateToEditPlan(patientId)" class="link-custom cursor-pointer me-lg-2"
+          <font-awesome-icon @click="navigateToEditPlan()" class="link-custom cursor-pointer me-lg-2"
                              :icon="['fas', 'pen-to-square']"/>
-          <font-awesome-icon @click="openDeletePlan(patientId)" class="link-custom cursor-pointer"
+          <font-awesome-icon @click="openDeletePlan()" class="link-custom cursor-pointer"
                              :icon="['fas', 'trash']"/>
         </td>
       </tr>
@@ -33,7 +34,6 @@
 </template>
 
 <script>
-import router from "@/router";
 
 export default {
   name: "PatientMedicationPlan",
@@ -65,7 +65,7 @@ export default {
     },
 
     sendGetPatientMedicationPlan() {
-      this.$http.get(`/medication-plans/patient/${this.patientId}`
+      this.$http.get(`/medication-plans//patient/${this.patientId}`
       ).then(response => {
         this.medicationPlans = response.data
       }).catch(error => {
@@ -75,17 +75,16 @@ export default {
     },
 
     handleError(statusCode) {
-      if (statusCode === 403 && this.errorResponse.errorCode === 666) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 777) {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
-      //  router.push({name: 'errorRoute'})
+        //  router.push({name: 'errorRoute'})
       }
     },
   },
-
-  beforeMount() {
-    this.sendGetPatientMedicationPlan();
+  mounted() {
+    this.sendGetPatientMedicationPlan()
   }
 }
 </script>

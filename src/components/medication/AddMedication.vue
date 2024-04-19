@@ -84,7 +84,6 @@ export default {
   methods: {
 
     handleNewUnitAdded(addedUnitId) {
-      // todo too ära dropdowni andmed ja muuda ära selected unit Id
       this.sendGetUnitsRequest()
       this.medicationInfo.unitId = addedUnitId
     },
