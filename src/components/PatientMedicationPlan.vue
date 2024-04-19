@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{medicationPlans}}
     <table v-if="medicationPlans.length>0" class="table table-responsive">
       <thead>
       <tr>
