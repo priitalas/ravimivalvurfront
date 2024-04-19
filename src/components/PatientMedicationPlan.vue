@@ -39,7 +39,7 @@ export default {
   name: "PatientMedicationPlan",
   props: {
     isDoctor: Boolean,
-    patientId: String
+    patientId: Number
   },
 
   data() {
@@ -65,11 +65,7 @@ export default {
     },
 
     sendGetPatientMedicationPlan() {
-      this.$http.get(`/medication-plans/patient/${this.selectedPatientId}`, {
-           params: {
-           patientId: this.selectedPatientId
-           }
-          }
+      this.$http.get(`/medication-plans/patient/${this.patientId}`
       ).then(response => {
         this.medicationPlans = response.data
       }).catch(error => {

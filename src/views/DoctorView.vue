@@ -38,10 +38,10 @@
               <td>{{ patient.firstName }}</td>
               <td>{{ patient.lastName }}</td>
               <td>
-                <font-awesome-icon @click="showPatientMedicationPlan(patient_Id)"
+                <font-awesome-icon @click="showPatientMedicationPlan = true, this.selectedPatientId=this.patient.patientId"
                                    class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
-                <font-awesome-icon @click="deactivatePatient(patient_Id)" class="link-custom cursor-pointer"
+                <font-awesome-icon @click="deactivatePatient(patient.patientId)" class="link-custom cursor-pointer"
                                    :icon="['fas', 'trash']"/>
               </td>
             </tr>
@@ -52,37 +52,40 @@
           <div class="accordion" id="#accordionExample">
             <div class="accordion-item">
               <div class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
                   Patsiendi raviplaan
                 </button>
               </div>
               <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor" :patientId="this.selectedPatientId"/>
+                <div v-if="showMedicationPlan" class="accordion-body">
+                  <PatientMedicationPlan :isDoctor="isDoctor" :patientId="this.selectedPatientId"/>
                 </div>
               </div>
             </div>
             <div class="accordion-item">
               <div class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   Lisa raviplaan
                 </button>
               </div>
               <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <AddPatientMedicationPlan ref="addPatientMedicationPlanRef" :patientId="this.selectedPatientId"/>
+                  <AddPatientMedicationPlan/>
                 </div>
               </div>
             </div>
             <div class="accordion-item">
               <div class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                   Ravimite võtmise logi
                 </button>
               </div>
               <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <PatientMedicationLogbook ref="patientMedicationLogbookRef" :patientId="this.selectedPatientId"/>
+                  <PatientMedicationLogbook/>
                 </div>
               </div>
             </div>
@@ -114,8 +117,9 @@ export default {
       errorResponse: '',
       errorMessage: '',
       isDoctor: true,
-      doctorId: sessionStorage.getItem('userId'),
       selectedPatientId: 0,
+      showPatientMedicationPlan: false,
+      doctorId: sessionStorage.getItem('userId'),
       patients: [
         {
           patientId: 0,
@@ -145,10 +149,6 @@ export default {
       })
     },
 
-    showPatientMedicationPlan() {
-      this.selectedPatientId = this.patients.patientId
-      this.showMedicationPlan = true
-    },
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 666) {
