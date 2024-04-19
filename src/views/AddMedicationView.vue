@@ -24,7 +24,7 @@
         </div>
         <div class="row align-bottom mt-lg-3">
           <div class="col col-4 justify-content-evenly align-bottom">
-            <select v-model="medicationInfo.unitId" @change="handleUnitChange" class="form-select">
+            <select v-model="medicationInfo.unitId" @change="handleUnitChange" class="form-select custom-dropdown">
               <option selected :value="0">Vali ühik</option>
               <option v-for="unit in units" :value="unit.unitId" :key="unit.unitId">{{ unit.unitName }}</option>
               <option selected :value="-1">-Lisa ühik-</option>
@@ -126,6 +126,7 @@ export default {
     },
 
     navigateToDoctorView() {
+      this.$emit('event-new-medication-added')
       router.push({name: "doctorRoute"})
     },
 

@@ -4,15 +4,17 @@ h1 {
     font-size: 4em;
 }
 
-h2{
+h2 {
     margin-bottom: 30px;
 }
 
 h4 {
     font-weight: normal;
+    font-size: large;
     color: #415E57;
     background-color: lightblue;
-    padding: 5px;
+    padding: 8px;
+    margin-bottom: 12px;
 }
 
 h5 {
@@ -25,10 +27,26 @@ h5 {
     background-color: lightblue
 }
 
+input[type="search"].light {
+    background: #fff;
+    width: 55%;
+    color: #415E57;
+    border: none;
+    padding: 6px;
+    border-radius: 8px 0px 0px 8px;
+}
+
+.active {
+    background-color: #415E57;
+}
 
 .rounded-image {
     border-radius: 10px;
     border-color: #7dc4fc;
+}
+
+.link-custom {
+    color: #415E57;
 }
 
 /* modal */
@@ -49,14 +67,13 @@ h5 {
     --bs-modal-bg: #f2f9ff; /* Modaaliakna taustavärv */
     top: 5%; /* Ülemine paigutus on 5% */
     left: 40%; /* Vasak paigutus on 40% */
-    width: 300px;
+    width: 320px;
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
 
 }
 
 .img-fluid {
     height: 60%;
-
 }
 
 .custom-file-button input[type=file] {
@@ -74,6 +91,12 @@ h5 {
 .custom-file-button:hover label {
     background-color: #dde0e3;
     cursor: pointer;
+}
+
+input[type='radio'] {
+    border-radius: 50%;
+    outline: none;
+    border: 1px solid blue;
 }
 
 
