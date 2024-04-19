@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ErrorView from "@/views/ErrorView.vue";
 import DoctorView from "@/views/DoctorView.vue";
 import PatientView from "@/views/PatientView.vue";
-import AddMedicationView from "@/views/AddMedicationView.vue";
+import AddMedicationView from "@/components/medication/AddMedication.vue";
 
 const routes = [
   {

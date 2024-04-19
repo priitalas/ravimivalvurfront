@@ -14,12 +14,12 @@
       </thead>
       <tbody>
       <tr v-for="medicationPlan in medicationPlans" :key="medicationPlans.medicationPlanIdId">
-          <td>{{ medicationPlan.medicationName }}</td>
-          <td>{{ medicationPlan.quantity }}</td>
-          <td>ühik</td>
-          <td>{{ medicationPlan.frequency }}</td>
-          <td>{{ medicationPlan.periodStart }}</td>
-          <td>{{ medicationPlan.periodEnd }}</td>
+        <td>{{ medicationPlan.medicationName }}</td>
+        <td>{{ medicationPlan.quantity }}</td>
+        <td>{{ medicationPlan.medicationUnitName }}</td>
+        <td>{{ medicationPlan.frequency }}</td>
+        <td>{{ medicationPlan.periodStart }}</td>
+        <td>{{ medicationPlan.periodEnd }}</td>
         <td v-if="isDoctor">
           <font-awesome-icon @click="navigateToEditPlan(patientId)" class="link-custom cursor-pointer me-lg-2"
                              :icon="['fas', 'pen-to-square']"/>
@@ -39,12 +39,12 @@ export default {
   name: "PatientMedicationPlan",
   props: {
     isDoctor: Boolean,
-    selectedPatientId: String
+    patientId: String
   },
 
-  data(){
+  data() {
     return {
-      medicationPlans: [ {
+      medicationPlans: [{
         medicationPlanId: 0,
         medicationPlanStatus: "",
         medicationName: "",
@@ -58,9 +58,10 @@ export default {
   },
 
   methods: {
-    navigateToEditPlan(){
+    navigateToEditPlan() {
     },
-    openDeletePlan(){
+
+    openDeletePlan() {
     },
 
     sendGetPatientMedicationPlan() {
@@ -73,7 +74,7 @@ export default {
         this.medicationPlans = response.data
       }).catch(error => {
         this.errorResponse = error.response.data
-     //   this.handleError(error.response.status)
+        this.handleError(error.response.status)
       })
     },
 
@@ -87,8 +88,8 @@ export default {
     },
   },
 
-   beforeMount() {
-     this.sendGetPatientMedicationPlan();
-   }
+  beforeMount() {
+    this.sendGetPatientMedicationPlan();
+  }
 }
 </script>

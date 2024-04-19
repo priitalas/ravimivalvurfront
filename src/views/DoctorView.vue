@@ -58,7 +58,7 @@
               </div>
               <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor" :selectedPatientId="this.selectedPatientId"/>
+                  <PatientMedicationPlan ref="patientMedicationPlanRef" :isDoctor="isDoctor" :patientId="this.selectedPatientId"/>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@
               </div>
               <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Siia tuleb eraldi komponent raviplaani lisamiseks, kus on ka ravimite tabel ja ravimi lisamise nupp
+                  <AddPatientMedicationPlan ref="addPatientMedicationPlanRef" :patientId="this.selectedPatientId"/>
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@
               </div>
               <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Siia tulevad andmed patsiendi raviplaani Id järgi logbook tabelist
+                  <PatientMedicationLogbook ref="patientMedicationLogbookRef" :patientId="this.selectedPatientId"/>
                 </div>
               </div>
             </div>
@@ -99,10 +99,12 @@ import router from "@/router";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
+import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
 
 export default {
   name: "DoctorView",
-  components: {AlertDanger, PatientMedicationPlan, AlertSuccess},
+  components: {PatientMedicationLogbook, AddPatientMedicationPlan, AlertDanger, PatientMedicationPlan, AlertSuccess},
 
   data() {
     return {

@@ -52,8 +52,8 @@
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import router from "@/router";
-import ImageInput from "@/components/ImageInput.vue";
-import MedicationImage from "@/components/MedicationImage.vue";
+import ImageInput from "@/components/medication/ImageInput.vue";
+import MedicationImage from "@/components/medication/MedicationImage.vue";
 import AddUnitModal from "@/components/modal/AddUnitModal.vue";
 
 export default {
