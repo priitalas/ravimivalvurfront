@@ -64,7 +64,7 @@ export default {
     },
 
     sendGetPatientMedicationPlan() {
-      this.$http.get(`/medication-plans//patient/${this.patientId}`
+      this.$http.get(`/medication-plans/patient/${this.patientId}`
       ).then(response => {
         this.medicationPlans = response.data
       }).catch(error => {
