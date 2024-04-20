@@ -1,17 +1,10 @@
 <template>
+  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-patient-added="handlePatientAdded" />
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
   <div>
     <div class="container">
-      <div class="row mb-2">
-        <div class="col col-lg-5">
-          <h4> Patsiendid </h4>
-        </div>
-        <div class="col col-7">
-          <h4>Raviplaanid</h4>
-        </div>
-      </div>
       <div class="row text-start">
         <div class="col col-5 justify-content-evenly">
           <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
@@ -19,7 +12,7 @@
           <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
             <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
           </button>
-          <button type="button" class="btn btn-primary m-lg-2 mt-2">Lisa uus patsient</button>
+          <button @click="goToAddNewPatient" type="button" class="btn btn-primary m-lg-2 mt-2">Lisa uus patsient</button>
         </div>
       </div>
       <div class="row">
@@ -27,6 +20,9 @@
           <AlertDanger :message="errorMessage"/>
           <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
+            <tr>
+              <th colspan="3"><h4>Patsiendid</h4></th>
+            </tr>
             <tr>
               <th scope="col">Eesnimi</th>
               <th scope="col">Perekonnanimi</th>
@@ -104,10 +100,13 @@ import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
+import AddPatientModal from "@/components/modal/AddPatientModal.vue";
 
 export default {
   name: "DoctorView",
-  components: {PatientMedicationLogbook, AddPatientMedicationPlan, AlertDanger, PatientMedicationPlan, AlertSuccess},
+  components: {
+    AddPatientModal,
+    PatientMedicationLogbook, AddPatientMedicationPlan, AlertDanger, PatientMedicationPlan, AlertSuccess},
 
   data() {
     return {
@@ -123,18 +122,24 @@ export default {
         {
           patientId: 0,
           firstName: '',
-          lastName: ''
+          lastName: '',
+          status: ''
         }
       ]
     };
   },
 
   methods: {
+
+    goToAddNewPatient(){
+      this.$refs.addPatientModalRef.$refs.modalRef.openModal()
+    },
+
     goToAddMedication() {
       router.push({name: 'addMedicationRoute'})
     },
 
-    sendGetDoctorActivePatientsRequest() {
+    sendGetDoctorPatientsRequest() {
       this.$http.get("/patients", {
             params: {
               doctorId: this.doctorId
@@ -146,6 +151,11 @@ export default {
         this.errorResponse = error.response.data
         this.handleError(error.response.status)
       })
+    },
+
+    handlePatientAdded(){
+      this.sendGetDoctorPatientsRequest()
+
     },
 
 
@@ -160,7 +170,7 @@ export default {
   },
 
   beforeMount() {
-    this.sendGetDoctorActivePatientsRequest();
+    this.sendGetDoctorPatientsRequest();
   }
 }
 
