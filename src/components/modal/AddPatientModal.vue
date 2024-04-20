@@ -11,9 +11,11 @@
             <AlertDanger :message="errorMessage"/>
             <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
-              <select class="form-select">
+              <select v-model="addedPatientId" class="form-select">
                 <option selected>Vali patsient</option>
-                <option v-for="patient in patients" :value="patient.patientId" :key="patient.patientId">{{ patient.firstName }} {{ patient.lastName }}</option>
+                <option v-for="patient in patients" :value="patient.patientId" :key="patient.patientId">
+                  {{ patient.firstName }} {{ patient.lastName }}
+                </option>
               </select>
             </div>
           </div>
@@ -22,7 +24,7 @@
     </template>
 
     <template #buttons>
-      <button @click="executeAddNewPatient" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta
+      <button @click="sendPostNewPatientToDoctorList" type="submit" class="btn btn-primary text-center text-nowrap">Lisa
       </button>
     </template>
 
@@ -42,14 +44,16 @@ export default {
   data() {
     return {
       doctorId: sessionStorage.getItem('userId'),
-      patients: {
-        patientId: 0,
-        firstName: '',
-        lastName: '',
-      },
+      addedPatientId: 0,
+      patients: [
+        {
+          patientId: 0,
+          firstName: '',
+          lastName: '',
+        }
+      ],
       successMessage: '',
       errorMessage: '',
-      addedPatientId: 0,
       errorResponse: {
         message: '',
         errorCode: ''
@@ -60,24 +64,26 @@ export default {
   methods: {
 
     sendGetPatientsNotInDoctorsList() {
-      this.$http.get("/patients/nonactive", {
+      this.$http.get("/doctor/patients/newpatient", {
             params: {
               doctorId: this.doctorId
             }
           }
       ).then(response => {
-            this.patients = response.data
-          })
+        this.patients = response.data
+      })
           .catch(error => {
-            const errorResponseBody = error.response.data
+            this.errorResponse = error.response.data
+            this.handleError(error.response.status)
           })
     },
 
 
-    sendPostPatientRequest() {
-      this.$http.post('/doctor/', null, {
+    sendPostNewPatientToDoctorList() {
+      this.$http.post('/patient', null, {
             params: {
-              patientId: this.addedPatientId
+              patientId: this.addedPatientId,
+              doctorId: this.doctorId
             }
           }
       ).then(response => {
@@ -91,7 +97,7 @@ export default {
     },
 
     handleError(statusCode) {
-      if (statusCode === 403 && this.errorResponse.errorCode === 555) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 888) {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
@@ -101,7 +107,7 @@ export default {
 
 
     resetMessages() {
-      this.unitName = ''
+      this.errorMessage = ''
     }
 
   },
