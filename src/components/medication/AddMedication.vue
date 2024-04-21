@@ -54,7 +54,7 @@ import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import router from "@/router";
 import ImageInput from "@/components/medication/ImageInput.vue";
 import MedicationImage from "@/components/medication/MedicationImage.vue";
-import AddUnitModal from "@/components/modal/AddUnitModal.vue";
+import AddUnitModal from "@/components/modal/medication/AddUnitModal.vue";
 
 export default {
   name: "AddMedicationView",

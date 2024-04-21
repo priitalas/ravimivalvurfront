@@ -35,7 +35,7 @@
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
-import RegistrationModal from "@/components/modal/RegistrationModal.vue";
+import RegistrationModal from "@/components/modal/login/RegistrationModal.vue";
 import router from "@/router";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";

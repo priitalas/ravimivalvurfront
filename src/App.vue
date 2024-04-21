@@ -28,9 +28,9 @@
 
 <script>
 
-import LoginModal from "@/components/modal/LoginModal.vue";
-import RegistrationModal from "@/components/modal/RegistrationModal.vue";
-import LogOutModal from "@/components/modal/LogOutModal.vue";
+import LoginModal from "@/components/modal/login/LoginModal.vue";
+import RegistrationModal from "@/components/modal/login/RegistrationModal.vue";
+import LogOutModal from "@/components/modal/login/LogOutModal.vue";
 
 export default {
   name: 'App',

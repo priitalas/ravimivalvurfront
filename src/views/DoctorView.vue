@@ -1,5 +1,10 @@
 <template>
   <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded" />
+ <!-- <DeletePatientFromListModal ref="deletePatientFromListModalRef"
+                              :patientId="patient.patientId"
+                              :firstName="patient.firstName"
+                              :lastName="patient.lastName"
+                              @event-patient-deleted-from-list="handlePatientDeletedFromList" /> -->
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
@@ -44,8 +49,9 @@
                 kinnitamata
               </td>
               <td>
-                <font-awesome-icon @click="deactivatePatient(patient.patientId)" class="link-custom cursor-pointer"
+                <font-awesome-icon  class="link-custom cursor-pointer"
                                    :icon="['fas', 'trash']"/>
+                <!-- @click="deletePatientFromDoctorsList()" -->
               </td>
 
             </tr>
@@ -108,13 +114,15 @@ import AlertDanger from "@/components/Alert/AlertDanger.vue";
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
-import AddPatientModal from "@/components/modal/AddPatientModal.vue";
+import AddPatientModal from "@/components/modal/patient/AddPatientModal.vue";
+import DeletePatientFromListModal from "@/components/modal/patient/DeletePatientFromListModal.vue";
 
 export default {
   name: "DoctorView",
   components: {
-    AddPatientModal,
-    PatientMedicationLogbook, AddPatientMedicationPlan, AlertDanger, PatientMedicationPlan, AlertSuccess},
+    AddPatientModal, DeletePatientFromListModal,
+    PatientMedicationLogbook, AddPatientMedicationPlan, PatientMedicationPlan,
+    AlertDanger, AlertSuccess},
 
   data() {
     return {
@@ -174,12 +182,21 @@ export default {
       })
     },
 
+    deletePatientFromDoctorsList(){
+      this.$refs.deletePatientFromListModalRef.$refs.modalRef.openModal()
+    },
+
     handlePatientAdded(message){
       this.successMessage = message
       setTimeout(this.resetMessages, 4000);
       this.sendGetDoctorPatientsRequest()
     },
 
+    handlePatientDeletedFromList(message){
+      this.successMessage = message
+      setTimeout(this.resetMessages, 4000);
+      this.sendGetDoctorPatientsRequest()
+    },
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 666) {
