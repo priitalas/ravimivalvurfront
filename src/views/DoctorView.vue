@@ -1,5 +1,5 @@
 <template>
-  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-patient-added="handlePatientAdded" />
+  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded" />
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
@@ -18,28 +18,36 @@
       <div class="row">
         <div class="col col-lg-5">
           <AlertDanger :message="errorMessage"/>
+          <AlertSuccess :message="successMessage"/>
           <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
             <tr>
-              <th colspan="3"><h4>Patsiendid</h4></th>
+              <th colspan="4"><h4>Patsiendid</h4></th>
             </tr>
             <tr>
-              <th scope="col">Eesnimi</th>
               <th scope="col">Perekonnanimi</th>
-              <th scope="col" style="width:15%"></th>
+              <th scope="col">Eesnimi</th>
+              <th scope="col" style="width:10%"></th>
+              <th scope="col" style="width:10%"></th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="patient in patients" :key="patient.patientId">
-              <td>{{ patient.firstName }}</td>
+            <tr v-for="patient in sortedPatients" :key="patient.patientId" :class="{ 'table-secondary': patient.patientStatus === 'P' }">
               <td>{{ patient.lastName }}</td>
-              <td>
+              <td>{{ patient.firstName }}</td>
+              <td v-if="patient.patientStatus === 'A'">
                 <font-awesome-icon @click="showPatientMedicationPlan = true, selectedPatientId =patient.patientId"
                                    class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
+              </td>
+              <td v-else>
+                kinnitamata
+              </td>
+              <td>
                 <font-awesome-icon @click="deactivatePatient(patient.patientId)" class="link-custom cursor-pointer"
                                    :icon="['fas', 'trash']"/>
               </td>
+
             </tr>
             </tbody>
           </table>
@@ -114,6 +122,7 @@ export default {
       found: false,
       errorResponse: '',
       errorMessage: '',
+      successMessage: '',
       isDoctor: true,
       selectedPatientId: 0,
       showPatientMedicationPlan: false,
@@ -123,10 +132,22 @@ export default {
           patientId: 0,
           firstName: '',
           lastName: '',
-          status: ''
+          patientStatus: ''
         }
-      ]
+      ],
     };
+  },
+
+  computed: {
+    sortedPatients() {
+      return this.patients.sort((a, b) => {
+        if (a.status === b.status) {
+          return a.lastName.localeCompare(b.lastName);
+        } else {
+          return a.status.localeCompare(b.status);
+        }
+      });
+    }
   },
 
   methods: {
@@ -140,7 +161,7 @@ export default {
     },
 
     sendGetDoctorPatientsRequest() {
-      this.$http.get("/patients", {
+      this.$http.get("doctor/patients", {
             params: {
               doctorId: this.doctorId
             }
@@ -153,9 +174,10 @@ export default {
       })
     },
 
-    handlePatientAdded(){
+    handlePatientAdded(message){
+      this.successMessage = message
+      setTimeout(this.resetMessages, 4000);
       this.sendGetDoctorPatientsRequest()
-
     },
 
 
@@ -166,6 +188,11 @@ export default {
       } else {
         router.push({name: 'errorRoute'})
       }
+    },
+
+    resetMessages() {
+      this.errorMessage = ''
+      this.successMessage = ''
     }
   },
 

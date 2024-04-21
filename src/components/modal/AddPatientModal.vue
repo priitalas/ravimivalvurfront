@@ -9,10 +9,9 @@
         <div class="row justify-content-center">
           <div class="col">
             <AlertDanger :message="errorMessage"/>
-            <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
               <select v-model="addedPatientId" class="form-select">
-                <option selected>Vali patsient</option>
+                <option selected :value="0">Vali patsient</option>
                 <option v-for="patient in patients" :value="patient.patientId" :key="patient.patientId">
                   {{ patient.firstName }} {{ patient.lastName }}
                 </option>
@@ -39,7 +38,7 @@ import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 
 export default {
   name: "AddPatientModal",
-  components: {Modal, AlertSuccess, AlertDanger},
+  components: {Modal, AlertDanger},
 
   data() {
     return {
@@ -52,7 +51,6 @@ export default {
           lastName: '',
         }
       ],
-      successMessage: '',
       errorMessage: '',
       errorResponse: {
         message: '',
@@ -80,13 +78,15 @@ export default {
 
 
     sendPostNewPatientToDoctorList() {
-      this.$http.post('/patient', null, {
+      this.$http.post('/doctor/patient', null, {
             params: {
               patientId: this.addedPatientId,
               doctorId: this.doctorId
             }
           }
       ).then(response => {
+        this.$emit('event-new-patient-added', 'Patsient on nimekirja lisatud, ootab temapoolset kinnitust')
+        this.resetMessage()
         this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
 
@@ -105,8 +105,13 @@ export default {
       }
     },
 
+    resetAllInputFields() {
+      this.patients.patientId = 0
+          this.patients.firstName = ''
+          this.patients.lastName = ''
+    },
 
-    resetMessages() {
+    resetMessage() {
       this.errorMessage = ''
     }
 
