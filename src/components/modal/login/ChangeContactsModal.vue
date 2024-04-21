@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       changeContactsRequest: {
+        userId: sessionStorage.getItem('userId'),
         firstName: '',
         lastName: '',
         username: '',
@@ -91,43 +92,43 @@ export default {
 
   methods: {
 
-  sendChangeContactsRequest() {
-    this.changeContactsRequest.roleId = Number(this.changeContactsRequest.roleId)
-    this.$http.put('/registration', this.changeContactsRequest
-    ).then(response => {
-      this.resetAllInputFields()
-      this.$emit('event-contacts-successfully-changed', 'Teie andmed on muudetud')
-      this.$refs.modalRef.closeModal()
+    sendChangeContactsRequest() {
+      this.changeContactsRequest.roleId = Number(this.changeContactsRequest.roleId)
+      this.$http.put('/registration', this.changeContactsRequest
+      ).then(response => {
+        this.resetAllInputFields()
+        this.$emit('event-contacts-successfully-changed', 'Teie andmed on muudetud')
+        this.$refs.modalRef.closeModal()
 
-    }).catch(error => {
-      this.errorResponse = error.response.data
-      this.handleError(error.response.status)
-    })
-  },
+      }).catch(error => {
+        this.errorResponse = error.response.data
+        this.handleError(error.response.status)
+      })
+    },
 
-  handleError(statusCode) {
-    if (statusCode === 403 && this.errorResponse.errorCode === 333) {
-      this.errorMessage = this.errorResponse.message;
-      setTimeout(this.resetMessages, 4000);
-    } else {
-      router.push({name: 'errorRoute'})
-    }
-  },
+    handleError(statusCode) {
+      if (statusCode === 403 && this.errorResponse.errorCode === 333) {
+        this.errorMessage = this.errorResponse.message;
+        setTimeout(this.resetMessages, 4000);
+      } else {
+        router.push({name: 'errorRoute'})
+      }
+    },
 
-  resetAllInputFields() {
-    this.changeContactsRequest.firstName = ''
-    this.changeContactsRequest.lastName = ''
-    this.changeContactsRequest.username = ''
-    this.changeContactsRequest.password = ''
-    this.changeContactsRequest.email = ''
-    this.changeContactsRequest.roleId = ''
-  },
+    resetAllInputFields() {
+      this.changeContactsRequest.firstName = ''
+      this.changeContactsRequest.lastName = ''
+      this.changeContactsRequest.username = ''
+      this.changeContactsRequest.password = ''
+      this.changeContactsRequest.email = ''
+      this.changeContactsRequest.roleId = ''
+    },
 
-  resetMessages() {
-    this.successMessage = ''
-    this.errorMessage = ''
-  },
+    resetMessages() {
+      this.successMessage = ''
+      this.errorMessage = ''
+    },
 
-}
+  }
 }
 </script>

@@ -7,7 +7,7 @@
           Patsiendi raviplaan
         </button>
       </div>
-      <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div v-if="showPatientCompleteMedicationInfo" id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <PatientMedicationPlan :isDoctor="isDoctor" :patientId="patientId"/>
         </div>
@@ -52,7 +52,9 @@ export default {
   components: {AddPatientMedicationPlan, PatientMedicationLogbook, PatientMedicationPlan},
 
   props: {
-    patientId: Number
+    patientId: Number,
+    isDoctor: Boolean,
+    showPatientCompleteMedicationInfo: Boolean
   }
 
 }

@@ -9,7 +9,7 @@
         <th scope="col">Kogus päevas</th>
         <th scope="col">Kuuri algus</th>
         <th scope="col">Kuuri lõpp</th>
-        <th v-if="isDoctor" scope="col">Muuda</th>
+        <th v-if="isDoctor" colspan="2" style="width:10%">Muuda / Kustuta</th>
       </tr>
       </thead>
       <tbody>
@@ -20,9 +20,11 @@
         <td>{{ medicationPlan.frequency }}</td>
         <td>{{ medicationPlan.periodStart }}</td>
         <td>{{ medicationPlan.periodEnd }}</td>
-        <td v-if="isDoctor">
+        <td v-if="isDoctor" style="width:10%; text-align: center; justify-content: center;">
           <font-awesome-icon @click="navigateToEditPlan()" class="link-custom cursor-pointer me-lg-2"
                              :icon="['fas', 'pen-to-square']"/>
+        </td>
+        <td v-if="isDoctor" style="width:10%; text-align: center; justify-content: center;">
           <font-awesome-icon @click="openDeletePlan()" class="link-custom cursor-pointer"
                              :icon="['fas', 'trash']"/>
         </td>

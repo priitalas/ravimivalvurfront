@@ -32,20 +32,20 @@
             <tr>
               <th scope="col">Perekonnanimi</th>
               <th scope="col">Eesnimi</th>
-              <th scope="col" style="width:10%"></th>
-              <th scope="col" style="width:10%"></th>
+              <th colspan="2" style="width:20%; text-align: center; justify-content: center;">Vaata / Kustuta</th>
+
             </tr>
             </thead>
             <tbody>
             <tr v-for="patient in sortedPatients" :key="patient.patientId" :class="{ 'table-secondary': patient.patientStatus === 'P' }">
               <td>{{ patient.lastName }}</td>
               <td>{{ patient.firstName }}</td>
-              <td v-if="patient.patientStatus === 'A'">
-                <font-awesome-icon @click="showPatientMedicationPlan = true, selectedPatientId = patient.patientId"
+              <td v-if="patient.patientStatus === 'A'" style="width:10%; text-align: center; justify-content: center;">
+                <font-awesome-icon @click="showPatientCompleteMedicationInfo = true; selectedPatientId = patient.patientId"
                                    class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
               </td>
-              <td v-else>
+              <td v-else style="width:10%; text-align: center; justify-content: center;">
                 kinnitamata
               </td>
               <td>
@@ -59,7 +59,7 @@
           </table>
         </div>
         <div class="col col-lg-7 justify-content-start mt-2">
-          <PatientCompleteMedicationInfo :patientId="selectedPatientId"/>
+          <PatientCompleteMedicationInfo :patientId="selectedPatientId" :isDoctor="isDoctor" :showPatientCompleteMedicationInfo="showPatientCompleteMedicationInfo"/>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
       successMessage: '',
       isDoctor: true,
       selectedPatientId: 0,
-      showPatientMedicationPlan: false,
+      showPatientCompleteMedicationInfo: false,
       doctorId: sessionStorage.getItem('userId'),
       patients: [
         {
@@ -155,6 +155,7 @@ export default {
       setTimeout(this.resetMessages, 4000);
       this.sendGetDoctorPatientsRequest()
     },
+
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 666) {
