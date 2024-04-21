@@ -3,19 +3,22 @@
     <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"/>
     <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalWithAlert"/>
+    <ChangeContactsModal ref="changeContactsModalRef" @event-contacts-successfully-changed="updateNavMenu"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
     <nav>
       <router-link to="/">Kodu</router-link>
       |
       <template v-if="isLoggedIn">
         <template v-if="isDoctor || isAdmin">
-        <router-link to="/doctor">Arsti töölaud</router-link>
+          <router-link to="/doctor">Arsti töölaud</router-link>
           |
         </template>
         <template v-if="isPatient">
           <router-link to="/patient">Minu ravimid</router-link>
           |
         </template>
+        <a href="#" @click="openChangeContactsModal">Muuda oma andmeid</a>
+        |
         <a href="#" @click="openLogOutModal">Logi välja</a>
       </template>
       <template v-else>
@@ -31,16 +34,19 @@
 import LoginModal from "@/components/modal/login/LoginModal.vue";
 import RegistrationModal from "@/components/modal/login/RegistrationModal.vue";
 import LogOutModal from "@/components/modal/login/LogOutModal.vue";
+import ChangeContactsModal from "@/components/modal/login/ChangeContactsModal.vue";
+import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 
 export default {
   name: 'App',
-  components: {LogOutModal, RegistrationModal, LoginModal},
+  components: {AlertSuccess, LogOutModal, RegistrationModal, LoginModal, ChangeContactsModal},
   data() {
     return {
       isLoggedIn: false,
       isDoctor: false,
       isPatient: false,
-      isAdmin: false
+      isAdmin: false,
+      successMessage: ''
     }
   },
 
@@ -65,28 +71,33 @@ export default {
       }
     },
 
-  openRegistrationModal() {
-    this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    openRegistrationModal() {
+      this.$refs.registrationModalRef.$refs.modalRef.openModal()
+    },
+
+    openLoginModal() {
+      this.$refs.loginModalRef.$refs.modalRef.openModal()
+    },
+
+    openLoginModalWithAlert(message) {
+      this.$refs.loginModalRef.$refs.modalRef.openModal()
+      this.$refs.loginModalRef.successMessage = message
+    },
+
+    openChangeContactsModal() {
+      this.$refs.changeContactsModalRef.$refs.modalRef.openModal()
+    },
+
+
+    openLogOutModal() {
+      this.$refs.logOutModalRef.$refs.modalRef.openModal()
+    }
+
   },
 
-  openLoginModal() {
-    this.$refs.loginModalRef.$refs.modalRef.openModal()
-  },
-
-  openLoginModalWithAlert(message) {
-    this.$refs.loginModalRef.$refs.modalRef.openModal()
-    this.$refs.loginModalRef.successMessage = message
-  },
-
-  openLogOutModal() {
-    this.$refs.logOutModalRef.$refs.modalRef.openModal()
-  }
-
-},
-
-mounted() {
+  mounted() {
     this.updateNavMenu()
-}
+  }
 
 }
 </script>

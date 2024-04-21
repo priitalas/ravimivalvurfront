@@ -41,7 +41,7 @@
               <td>{{ patient.lastName }}</td>
               <td>{{ patient.firstName }}</td>
               <td v-if="patient.patientStatus === 'A'">
-                <font-awesome-icon @click="showPatientMedicationPlan = true, selectedPatientId =patient.patientId"
+                <font-awesome-icon @click="showPatientMedicationPlan = true, selectedPatientId = patient.patientId"
                                    class="link-custom cursor-pointer me-lg-2"
                                    :icon="['fas', 'eye']"/>
               </td>
@@ -59,47 +59,7 @@
           </table>
         </div>
         <div class="col col-lg-7 justify-content-start mt-2">
-          <div class="accordion" id="#accordionExample">
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                  Patsiendi raviplaan
-                </button>
-              </div>
-              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <PatientMedicationPlan :isDoctor="isDoctor" :patientId="selectedPatientId"/>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Lisa raviplaan
-                </button>
-              </div>
-              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <AddPatientMedicationPlan/>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Ravimite võtmise logi
-                </button>
-              </div>
-              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <PatientMedicationLogbook/>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PatientCompleteMedicationInfo :patientId="selectedPatientId"/>
         </div>
       </div>
     </div>
@@ -111,17 +71,15 @@
 import router from "@/router";
 import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
 import AlertDanger from "@/components/Alert/AlertDanger.vue";
-import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
-import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
-import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
 import AddPatientModal from "@/components/modal/patient/AddPatientModal.vue";
 import DeletePatientFromListModal from "@/components/modal/patient/DeletePatientFromListModal.vue";
+import PatientCompleteMedicationInfo from "@/components/PatientCompleteMedicationInfo.vue";
 
 export default {
   name: "DoctorView",
   components: {
+    PatientCompleteMedicationInfo,
     AddPatientModal, DeletePatientFromListModal,
-    PatientMedicationLogbook, AddPatientMedicationPlan, PatientMedicationPlan,
     AlertDanger, AlertSuccess},
 
   data() {
