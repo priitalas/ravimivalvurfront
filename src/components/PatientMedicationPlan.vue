@@ -37,7 +37,7 @@
 
 <script>
 
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
 
 export default {
   name: "PatientMedicationPlan",

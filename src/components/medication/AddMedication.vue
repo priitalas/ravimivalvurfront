@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
-import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 import router from "@/router";
 import ImageInput from "@/components/medication/ImageInput.vue";
 import MedicationImage from "@/components/medication/MedicationImage.vue";
