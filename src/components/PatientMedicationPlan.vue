@@ -66,6 +66,11 @@ export default {
   },
 
   methods: {
+    navigateToEditPlan() {
+    },
+
+    openDeletePlan() {
+    },
 
     sendGetPatientMedicationPlan() {
       this.$http.get(`/medication-plans/patient/${this.patientId}`

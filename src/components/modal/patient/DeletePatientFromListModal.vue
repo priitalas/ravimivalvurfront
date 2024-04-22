@@ -32,15 +32,13 @@ export default {
   name: "DeletePatientFromListModal",
   components: {Modal},
 
-  props: {
-    patientId: Number,
-    firstName: String,
-    lastName: String
-  },
 
   data() {
     return {
       doctorId: sessionStorage.getItem('userId'),
+      patientId: 0,
+      firstName: '',
+      lastName: ''
     }
   },
 
@@ -55,6 +53,7 @@ export default {
           }
       ).then(response => {
         this.$emit('event-patient-deleted-from-list', 'Patsient on nimekirjast kustutatud')
+        this.resetAllInputFields()
         this.$refs.modalRef.closeModal()
       }).catch(error => {
         router.push({name: 'errorRoute'})
@@ -62,11 +61,11 @@ export default {
     },
 
 
-//  resetAllInputFields() {
-//    this.patientId = 0
-//    this.firstName = ''
-//    this.lastName = ''
-//  },
+  resetAllInputFields() {
+    this.patientId = 0
+    this.firstName = ''
+    this.lastName = ''
+  },
   },
 
 }
