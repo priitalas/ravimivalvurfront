@@ -12,7 +12,8 @@
     </thead>
 
     <tbody>
-    <tr v-for="patientCurrentMedication in patientCurrentMedications" :key="patientCurrentMedication.medicationId">
+    <tr>
+<!--      v-for="patientCurrentMedication in patientCurrentMedications" :key="patientCurrentMedication.medicationId"-->
       <td>Siia tuleb pilt</td>
       <td>Aspirin</td>
       <td>1</td>
@@ -31,28 +32,30 @@ export default {
   name: 'PatientMedicationsTable',
   data() {
     return {
-
       patientCurrentMedications: [
-        // Swaggeri jsonist kontrolli üle:
-        medicationPlanId: 0,
-        medicationId: 0,
-    medicationName: '',
-        medicationImageData: '',
-        quantity: 0,
-        medicationUnitName: '',
-        medicationNote: '',
-        timeSlotStatus: ''
+        {
+          medicationPlanId: 0,
+          medicationId: 0,
+          medicationName: '',
+          medicationImageData: '',
+          quantity: 0,
+          medicationUnitName: '',
+          medicationNote: '',
+          timeSlotStatus: ''
+        }
       ]
-
     }
   },
+
   methods: {
 
     sendGetPatientCurrentMedicationsRequest: function () {
       this.$http.get("/patient/medications")
           .then(response => {
+
             this.patientCurrentMedications = response.data
           })
+
           .catch(error => {
             const errorResponseBody = error.response.data
           })
