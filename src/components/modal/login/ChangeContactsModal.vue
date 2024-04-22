@@ -61,7 +61,7 @@
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
 import router from "@/router";
 
 export default {
