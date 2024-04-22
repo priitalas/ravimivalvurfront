@@ -23,16 +23,37 @@ h5 {
     padding: 20px;
 }
 
+.accordion-header {
+    font-size: 10em;
+    background-color: white;
+    padding: 10px;
+}
+
+.accordion-button {
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.accordion-button:not(.collapsed){
+    font-weight: normal;
+    background-color: #0d6efd;
+    color: white;
+}
+
 .input-group-text {
     background-color: lightblue
 }
 
+.table-responsive {
+    max-height: 60%
+}
+
 input[type="search"].light {
-    background: #fff;
+    background: lightgray;
     width: 55%;
     color: #415E57;
     border: none;
-    padding: 6px;
+    padding: 8px;
     border-radius: 8px 0px 0px 8px;
 }
 
@@ -46,7 +67,8 @@ input[type="search"].light {
 }
 
 .link-custom {
-    color: #415E57;
+    color: #2c3e50;
+    opacity: 60%;
 }
 
 /* modal */
@@ -96,9 +118,8 @@ input[type="search"].light {
 input[type='radio'] {
     border-radius: 50%;
     outline: none;
-    border: 1px solid blue;
+    border: 1px #0d6efd;
 }
-
 
 .cursor-pointer {
     cursor: pointer;
