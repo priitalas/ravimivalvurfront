@@ -1,8 +1,8 @@
 <template>
 
-  <table class="table table-striped table-primary table-hover" style="vertical-align: middle;">
+  <table v-if="patientMedicationsToTakeNow.length > 0" class="table table-striped table-primary table-hover" style="vertical-align: middle;">
     <thead>
-    <tr>
+    <tr >
       <th scope="col">Pilt</th>
       <th scope="col">Nimi</th>
       <th scope="col">Kogus</th>
@@ -14,11 +14,11 @@
 
     <tbody>
     <tr v-for="patientMedicationToTakeNow in patientMedicationsToTakeNow" :key="patientMedicationToTakeNow.medicationPlanId">
-      <td>{{  }}</td>
+      <td>{{ }}</td>
       <td>{{ patientMedicationToTakeNow.medicationName }}</td>
       <td>{{ patientMedicationToTakeNow.quantity }}</td>
       <td>{{ patientMedicationToTakeNow.medicationUnitName }}</td>
-      <td>{{patientMedicationToTakeNow.medicationNote}}</td>
+      <td>{{ patientMedicationToTakeNow.medicationNote }}</td>
       <td>
         <button type="button" class="btn btn-danger btn-lg">Märgi võetuks</button>
       </td>
@@ -28,6 +28,8 @@
   </table>
 </template>
 <script>
+import router from "@/router";
+
 export default {
   name: 'PatientMedicationsTable',
   data() {
@@ -43,8 +45,12 @@ export default {
           medicationUnitName: '',
           medicationNote: '',
           timeSlotStatus: ''
-        }
-      ]
+        }],
+      errorResponse:
+          {
+            message: '',
+            errorCode: 0
+          }
     }
   },
 
@@ -58,11 +64,10 @@ export default {
           }
       ).then(response => {
         this.patientMedicationsToTakeNow = response.data
-      }).catch(error => {
-        const errorResponseBody = error.response.data
+      }).catch(() => {
+       // this.$parent.$data.message = "Hetkel ei ole võtmist vajavaid ravimeid!"
       })
     },
-
 
 
   },
