@@ -1,25 +1,15 @@
 <template>
-  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded" />
- <!-- <DeletePatientFromListModal ref="deletePatientFromListModalRef"
-                              :patientId="patient.patientId"
-                              :firstName="patient.firstName"
-                              :lastName="patient.lastName"
-                              @event-patient-deleted-from-list="handlePatientDeletedFromList" /> -->
+  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
+  <!-- <DeletePatientFromListModal ref="deletePatientFromListModalRef"
+                               :patientId="patient.patientId"
+                               :firstName="patient.firstName"
+                               :lastName="patient.lastName"
+                               @event-patient-deleted-from-list="handlePatientDeletedFromList" /> -->
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
   <div>
     <div class="container">
-      <div class="row text-start">
-        <div class="col col-5 justify-content-evenly">
-          <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
-                 class="light me-lg-1" name="q"/>
-          <button @click="findSearchedPatient" type="button" class="btn btn-primary me-4">
-            <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
-          </button>
-          <button @click="goToAddNewPatient" type="button" class="btn btn-primary m-lg-2 mt-2">Lisa uus patsient</button>
-        </div>
-      </div>
       <div class="row">
         <div class="col col-lg-5">
           <AlertDanger :message="errorMessage"/>
@@ -27,7 +17,18 @@
           <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
             <tr>
-              <th colspan="4"><h4>Patsiendid</h4></th>
+              <th colspan="4" style="text-align: center"><h4>Patsiendid</h4></th>
+            </tr>
+            <tr>
+              <th colspan="4" class="justify-content-evenly">
+                <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
+                       class="light me-lg-1" name="q"/>
+                <button @click="findSearchedPatient" type="button" class="btn btn-primary me-2">
+                  <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
+                </button>
+                <button @click="goToAddNewPatient" type="button" class="btn btn-primary m-lg-2 mt-2">Lisa uus patsient
+                </button>
+              </th>
             </tr>
             <tr>
               <th scope="col">Perekonnanimi</th>
@@ -37,19 +38,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="patient in sortedPatients" :key="patient.patientId" :class="{ 'table-secondary': patient.patientStatus === 'P' }">
+            <tr v-for="patient in sortedPatients" :key="patient.patientId"
+                :class="{ 'table-secondary': patient.patientStatus === 'P' }">
               <td>{{ patient.lastName }}</td>
               <td>{{ patient.firstName }}</td>
               <td v-if="patient.patientStatus === 'A'" style="width:10%; text-align: center; justify-content: center;">
-                <font-awesome-icon @click="showPatientCompleteMedicationInfo = true; selectedPatientId = patient.patientId"
-                                   class="link-custom cursor-pointer me-lg-2"
-                                   :icon="['fas', 'eye']"/>
+                <font-awesome-icon
+                    @click="showPatientCompleteMedicationInfo = true; selectedPatientId = patient.patientId"
+                    class="link-custom cursor-pointer me-lg-2"
+                    :icon="['fas', 'eye']"/>
               </td>
               <td v-else style="width:10%; text-align: center; justify-content: center;">
                 kinnitamata
               </td>
               <td>
-                <font-awesome-icon  class="link-custom cursor-pointer"
+                <font-awesome-icon class="link-custom cursor-pointer"
                                    :icon="['fas', 'trash']"/>
                 <!-- @click="deletePatientFromDoctorsList()" -->
               </td>
@@ -59,7 +62,19 @@
           </table>
         </div>
         <div class="col col-lg-7 justify-content-start mt-2">
-          <PatientCompleteMedicationInfo :patientId="selectedPatientId" :isDoctor="isDoctor" :showPatientCompleteMedicationInfo="showPatientCompleteMedicationInfo"/>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col"><h4>Patsiendi raviinfo</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <PatientCompleteMedicationInfo :patientId="selectedPatientId" :isDoctor="isDoctor"
+                                             :showPatientCompleteMedicationInfo="showPatientCompleteMedicationInfo"/>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -80,7 +95,8 @@ export default {
   components: {
     PatientCompleteMedicationInfo,
     AddPatientModal, DeletePatientFromListModal,
-    AlertDanger, AlertSuccess},
+    AlertDanger, AlertSuccess
+  },
 
   data() {
     return {
@@ -118,7 +134,7 @@ export default {
 
   methods: {
 
-    goToAddNewPatient(){
+    goToAddNewPatient() {
       this.$refs.addPatientModalRef.$refs.modalRef.openModal()
     },
 
@@ -140,17 +156,17 @@ export default {
       })
     },
 
-    deletePatientFromDoctorsList(){
+    deletePatientFromDoctorsList() {
       this.$refs.deletePatientFromListModalRef.$refs.modalRef.openModal()
     },
 
-    handlePatientAdded(message){
+    handlePatientAdded(message) {
       this.successMessage = message
       setTimeout(this.resetMessages, 4000);
       this.sendGetDoctorPatientsRequest()
     },
 
-    handlePatientDeletedFromList(message){
+    handlePatientDeletedFromList(message) {
       this.successMessage = message
       setTimeout(this.resetMessages, 4000);
       this.sendGetDoctorPatientsRequest()

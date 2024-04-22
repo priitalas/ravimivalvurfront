@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table v-if="medicationPlans.length>0" class="table table-responsive">
+    <table v-if="medicationPlans.length>0" class="table table-hover table-responsive">
       <thead>
       <tr>
         <th scope="col">Ravim</th>
