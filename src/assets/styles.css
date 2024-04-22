@@ -48,6 +48,10 @@ h5 {
     max-height: 60%
 }
 
+table-secondary {
+    color: grey !important;
+}
+
 input[type="search"].light {
     background: lightgray;
     width: 55%;

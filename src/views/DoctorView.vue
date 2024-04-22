@@ -1,10 +1,7 @@
 <template>
   <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
-  <!-- <DeletePatientFromListModal ref="deletePatientFromListModalRef"
-                               :patientId="patient.patientId"
-                               :firstName="patient.firstName"
-                               :lastName="patient.lastName"
-                               @event-patient-deleted-from-list="handlePatientDeletedFromList" /> -->
+  <DeletePatientFromListModal ref="deletePatientFromListModalRef"
+                               @event-patient-deleted-from-list="handlePatientDeletedFromList" />
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
@@ -12,12 +9,13 @@
     <div class="container">
       <div class="row">
         <div class="col col-lg-5">
-          <AlertDanger :message="errorMessage"/>
-          <AlertSuccess :message="successMessage"/>
           <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
             <tr>
-              <th colspan="4" style="text-align: center"><h4>Patsiendid</h4></th>
+              <th colspan="5" style="text-align: center"><h4>Patsiendid</h4>
+                <AlertDanger :message="errorMessage"/>
+                <AlertSuccess :message="successMessage"/>
+              </th>
             </tr>
             <tr>
               <th colspan="4" class="justify-content-evenly">
@@ -52,11 +50,9 @@
                 kinnitamata
               </td>
               <td>
-                <font-awesome-icon class="link-custom cursor-pointer"
-                                   :icon="['fas', 'trash']"/>
-                <!-- @click="deletePatientFromDoctorsList()" -->
+                <font-awesome-icon @click="deletePatientFromDoctorsList(patient)" class="link-custom cursor-pointer"
+                                   :icon="['fas', 'trash']" />
               </td>
-
             </tr>
             </tbody>
           </table>
@@ -163,7 +159,11 @@ export default {
       })
     },
 
-    deletePatientFromDoctorsList() {
+    deletePatientFromDoctorsList(selectedPatient) {
+      this.$refs.deletePatientFromListModalRef.patientId = selectedPatient.patientId
+      this.$refs.deletePatientFromListModalRef.lastName = selectedPatient.lastName
+      this.$refs.deletePatientFromListModalRef.firstName = selectedPatient.firstName
+      this.$refs.deletePatientFromListModalRef.doctorId = this.doctorId
       this.$refs.deletePatientFromListModalRef.$refs.modalRef.openModal()
     },
 
@@ -174,8 +174,8 @@ export default {
     },
 
     handlePatientDeletedFromList(message) {
-      this.successMessage = message
-      setTimeout(this.resetMessages, 4000);
+      this.errorMessage = message
+      setTimeout(this.resetMessages, 2000);
       this.sendGetDoctorPatientsRequest()
     },
 
