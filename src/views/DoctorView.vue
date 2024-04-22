@@ -44,7 +44,7 @@
               <td>{{ patient.firstName }}</td>
               <td v-if="patient.patientStatus === 'A'" style="width:10%; text-align: center; justify-content: center;">
                 <font-awesome-icon
-                    @click="showPatientCompleteMedicationInfo = true; selectedPatientId = patient.patientId"
+                    @click="showPatientCompleteMedicationInfo(patient.patientId)"
                     class="link-custom cursor-pointer me-lg-2"
                     :icon="['fas', 'eye']"/>
               </td>
@@ -70,8 +70,7 @@
             </thead>
             <tbody>
             <tr>
-              <PatientCompleteMedicationInfo :patientId="selectedPatientId" :isDoctor="isDoctor"
-                                             :showPatientCompleteMedicationInfo="showPatientCompleteMedicationInfo"/>
+              <PatientCompleteMedicationInfo ref="patientCompleteMedicationInfoRef" />
             </tr>
             </tbody>
           </table>
@@ -107,7 +106,6 @@ export default {
       successMessage: '',
       isDoctor: true,
       selectedPatientId: 0,
-      showPatientCompleteMedicationInfo: false,
       doctorId: sessionStorage.getItem('userId'),
       patients: [
         {
@@ -133,6 +131,15 @@ export default {
   },
 
   methods: {
+
+    showPatientCompleteMedicationInfo(selectedPatientId) {
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.isDoctor = true
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.patientId = selectedPatientId
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.medicationPlans = []
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
+
+    },
 
     goToAddNewPatient() {
       this.$refs.addPatientModalRef.$refs.modalRef.openModal()

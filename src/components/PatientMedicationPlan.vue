@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="showPatientCompleteMedicationInfo">
+    <AlertDanger :message="errorMessage"/>
     <table v-if="medicationPlans.length>0" class="table table-hover table-responsive">
       <thead>
       <tr>
@@ -36,15 +37,17 @@
 
 <script>
 
+import AlertDanger from "@/components/Alert/AlertDanger.vue";
+
 export default {
   name: "PatientMedicationPlan",
-  props: {
-    isDoctor: Boolean,
-    patientId: Number
-  },
-
+  components: {AlertDanger},
   data() {
     return {
+      showPatientCompleteMedicationInfo: false,
+      isDoctor: false,
+      patientId: 0,
+      errorMessage: '',
       medicationPlans: [{
         medicationPlanId: 0,
         medicationPlanStatus: "",
@@ -55,6 +58,10 @@ export default {
         periodStart: null,
         periodEnd: null
       }],
+      errorResponse: {
+        message: '',
+        errorCode: ''
+      }
     }
   },
 
@@ -71,6 +78,7 @@ export default {
         this.medicationPlans = response.data
       }).catch(error => {
         this.errorResponse = error.response.data
+        setTimeout(this.resetMessage, 2000);
         this.handleError(error.response.status)
       })
     },
@@ -80,12 +88,13 @@ export default {
         this.errorMessage = this.errorResponse.message;
         setTimeout(this.resetMessages, 4000);
       } else {
-        //  router.push({name: 'errorRoute'})
+        router.push({name: 'errorRoute'})
       }
     },
+
+    resetMessage() {
+      this.errorMessage = ""
+    },
   },
-  beforeMount() {
-    this.sendGetPatientMedicationPlan(this.patientId)
-  }
 }
 </script>
