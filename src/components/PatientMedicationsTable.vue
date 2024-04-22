@@ -12,13 +12,12 @@
     </thead>
 
     <tbody>
-    <tr>
-<!--      v-for="patientCurrentMedication in patientCurrentMedications" :key="patientCurrentMedication.medicationId"-->
-      <td>Siia tuleb pilt</td>
-      <td>Aspirin</td>
-      <td>1</td>
-      <td>Tablett</td>
-      <td>Võtta enne sööki</td>
+    <tr v-for="patientMedicationToTakeNow in patientMedicationsToTakeNow" :key="patientMedicationToTakeNow.medicationPlanId">
+      <td>{{  }}</td>
+      <td>{{ patientMedicationToTakeNow.medicationName }}</td>
+      <td>{{ patientMedicationToTakeNow.quantity }}</td>
+      <td>{{ patientMedicationToTakeNow.medicationUnitName }}</td>
+      <td>{{patientMedicationToTakeNow.medicationNote}}</td>
       <td>
         <button type="button" class="btn btn-danger btn-lg">Märgi võetuks</button>
       </td>
@@ -32,7 +31,8 @@ export default {
   name: 'PatientMedicationsTable',
   data() {
     return {
-      patientCurrentMedications: [
+      patientId: sessionStorage.getItem('userId'),
+      patientMedicationsToTakeNow: [
         {
           medicationPlanId: 0,
           medicationId: 0,
@@ -49,22 +49,24 @@ export default {
 
   methods: {
 
-    sendGetPatientCurrentMedicationsRequest: function () {
-      this.$http.get("/patient/medications")
-          .then(response => {
-
-            this.patientCurrentMedications = response.data
-          })
-
-          .catch(error => {
-            const errorResponseBody = error.response.data
-          })
+    sendGetPatientMedicationsToTakeNowRequest: function () {
+      this.$http.get("medication-plans/patient/to-take-now", {
+            params: {
+              patientId: this.patientId
+            }
+          }
+      ).then(response => {
+        this.patientMedicationsToTakeNow = response.data
+      }).catch(error => {
+        const errorResponseBody = error.response.data
+      })
     },
+
 
   },
 
   beforeMount() {
-    this.sendGetPatientCurrentMedicationsRequest()
+    this.sendGetPatientMedicationsToTakeNowRequest()
   }
 }
 </script>
