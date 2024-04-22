@@ -83,8 +83,8 @@
 
 <script>
 import router from "@/router";
-import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AddPatientModal from "@/components/modal/patient/AddPatientModal.vue";
 import DeletePatientFromListModal from "@/components/modal/patient/DeletePatientFromListModal.vue";
 import PatientCompleteMedicationInfo from "@/components/PatientCompleteMedicationInfo.vue";

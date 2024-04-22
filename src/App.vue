@@ -35,7 +35,7 @@ import LoginModal from "@/components/modal/login/LoginModal.vue";
 import RegistrationModal from "@/components/modal/login/RegistrationModal.vue";
 import LogOutModal from "@/components/modal/login/LogOutModal.vue";
 import ChangeContactsModal from "@/components/modal/login/ChangeContactsModal.vue";
-import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
   name: 'App',

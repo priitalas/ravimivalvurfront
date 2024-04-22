@@ -37,7 +37,7 @@
 
 <script>
 
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
 
 export default {
   name: "PatientMedicationPlan",
@@ -66,6 +66,11 @@ export default {
   },
 
   methods: {
+    navigateToEditPlan() {
+    },
+
+    openDeletePlan() {
+    },
 
     sendGetPatientMedicationPlan() {
       this.$http.get(`/medication-plans/patient/${this.patientId}`

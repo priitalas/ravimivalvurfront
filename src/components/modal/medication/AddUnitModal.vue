@@ -30,8 +30,8 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import router from "@/router";
-import AlertDanger from "@/components/Alert/AlertDanger.vue";
-import AlertSuccess from "@/components/Alert/AlertSuccess.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
   name: "AddUnitModal",
