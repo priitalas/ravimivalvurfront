@@ -1,9 +1,39 @@
 <template>
-  <h2>Siia tuleb patsiendi vaade</h2>
+
+  <h2></h2>
+  <h2>Hetkel võtmist vajavad ravimid:</h2>
+
+  <div class="container">
+    <!-- <ViewMedicineInfoModal ref="viewMedicineInfoModalRef" />-->
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+
+        <PatientMedicationsTable/>
+
+      </div>
+    </div>
+  </div>
+
 
 </template>
 <script>
+import PatientMedicationsTable from "@/components/PatientMedicationsTable.vue";
+
 export default {
-  name: "PatientView"
+  name: "PatientView",
+  components: {PatientMedicationsTable},
+
+  data() {
+    return {
+      userId: sessionStorage.getItem('userId')
+    }
+  },
+
+  methods: {
+    openViewMedicineInfoModal(medicationId) {
+    },
+
+
+  }
 }
 </script>
