@@ -1,7 +1,7 @@
 <template>
 
   <h2></h2>
-  <h2>Hetkel võtmist vajavad ravimid:</h2>
+  <h2 style="font-size: xx-large;" >Hetkel võtmist vajavad ravimid:</h2>
 
   <div class="container">
     <!-- <ViewMedicineInfoModal ref="viewMedicineInfoModalRef" />-->
