@@ -1,4 +1,5 @@
 <template>
+
   <table class="table table-striped table-primary table-hover" style="vertical-align: middle;">
     <thead>
     <tr>
@@ -61,6 +62,7 @@ export default {
         const errorResponseBody = error.response.data
       })
     },
+
 
 
   },
