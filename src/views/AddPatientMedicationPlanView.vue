@@ -1,10 +1,9 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-3">
+      <div class="col-4">
         <h2>Lisa uus ravikuur</h2>
       </div>
-      <AlertDanger :message="errorMessage" />
       <div class="row justify-content-lg-center">
         <div class="col col-sm-3">
           <select v-model="newMedicationPlanInfo.medicationId" @change="handleMedicationChange"
@@ -38,6 +37,7 @@
     <p></p>
     <div class="row justify-content-center">
       <div class="col-9">
+        <AlertDanger :message="errorMessage"/>
         <table class="table">
           <thead>
           <tr>
@@ -52,9 +52,9 @@
           </thead>
           <tbody>
           <tr>
-            <td>Aspirin</td>
-            <td>01/05/2024</td>
-            <td>20/05/2024</td>
+            <td>{{}}</td>
+            <td>{{newMedicationPlanInfo.planStart}}</td>
+            <td>{{newMedicationPlanInfo.planEnd}}</td>
             <td>0</td>
             <td style="width:10%; text-align: center; justify-content: center;">
               <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
@@ -81,14 +81,17 @@
 import {useRoute} from "vue-router";
 import router from "@/router";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
+import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 
 export default {
   name: "AddPatientMedicationPlanView.vue",
-  components: {AlertDanger},
+  components: {PatientMedicationPlan, AlertDanger},
 
   data() {
     return {
       errorMessage: '',
+      successMessage: '',
+      selectedMedicationName: '',
       medications: [
         {
           medicationId: 0,
@@ -98,6 +101,7 @@ export default {
       ],
       newMedicationPlanInfo: {
         patientId: useRoute().query.patientId,
+        medicationName: '',
         medicationId: 0,
         planStart: null,
         planEnd: null
@@ -112,7 +116,7 @@ export default {
 
   methods: {
 
-    addNewMedicationPlan(){
+    addNewMedicationPlan() {
       if (this.allFieldsWithCorrectInput()) {
         this.sendAddPatientMedicationPlanInfo();
       } else {
@@ -120,28 +124,25 @@ export default {
       }
     },
 
-    sendAddPatientMedicationPlanInfo () {
-        this.$http.post("/medication-plans/patient/", this.newMedicationPlanInfo
-        ).then(response => {
-          this.medicationPlanId = response.data
-        }).catch(error => {
-          router.push({name: 'errorRoute'})
-        })
-      },
-
-    sendGetNewMedicationPlanInfo(){
-
+    sendAddPatientMedicationPlanInfo() {
+      this.$http.post("/medication-plans/patient/", this.newMedicationPlanInfo
+      ).then(response => {
+        this.medicationPlanId = response.data
+        this.successMessage = "Kuur on lisatud, lisa igapäevased võtmise ajad ja doosid."
+      }).catch(error => {
+        router.push({name: 'errorRoute'})
+      })
     },
 
     handleMedicationChange() {
-      if (this.medicationPlanInfo.medicationId < 0) {
+      if (this.newMedicationPlanInfo.medicationId < 0) {
         router.push({name: 'addMedicationRoute'})
       }
     },
 
     handleNewMedicationAdded() {
       this.sendGetMedicationsRequest()
-      this.medicationPlanInfo.medicationId = data.message
+      this.newMedicationPlanInfo.medicationId = data.message
     },
 
     sendGetMedicationsRequest() {
@@ -160,14 +161,19 @@ export default {
     },
 
     allFieldsWithCorrectInput() {
-      return this.medicationPlanInfoInfo.medicationId !== 0 &&
-          this.medicationPlanInfoInfo.planStart !== null &&
-          this.medicationPlanInfoInfo.planEnd !== null
+      return this.newMedicationPlanInfo.medicationId !== 0 &&
+          this.newMedicationPlanInfo.planStart !== null &&
+          this.newMedicationPlanInfo.planEnd !== null
     },
 
     displayAllFieldsRequiredAlert() {
       this.errorMessage = 'Täida kõik väljad!'
-      setTimeout(this.resetMessage, 4000)
+      setTimeout(this.resetMessages, 2000)
+    },
+
+    resetMessages() {
+      this.errorMessage = ''
+      this.successMessage = ''
     },
   },
   beforeMount() {

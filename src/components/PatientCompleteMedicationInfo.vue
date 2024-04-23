@@ -10,6 +10,13 @@
       <div  id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <PatientMedicationPlan ref="patientMedicationPlanRef"/>
+          <div class="row align-content-lg-start">
+            <div v-if="patientId > 0" class="col col-lg-3">
+              <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
+                Lisa ravikuur
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -33,6 +40,7 @@
 <script>
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
+import router from "@/router";
 
 export default {
   name: "PatientCompleteMedicationInfo",
@@ -40,11 +48,14 @@ export default {
 
   data() {
     return {
-      patientId: 0
+      patientId: 4
     }
   },
   methods: {
-
+    navigateToAddPatientMedicationPlan() {
+      // URL + query/request parameter example
+      router.push({name: 'addPatientMedicationPlanRoute', query: {patientId: this.patientId}})
+    },
   }
 }
 </script>

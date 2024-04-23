@@ -39,13 +39,7 @@
         </tbody>
       </table>
     </div>
-    <div class="row align-content-lg-start">
-      <div class="col col-lg-3">
-      <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
-        Lisa raviplaan
-      </button>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -119,8 +113,6 @@ export default {
     navigateToPatientTimeslots(medicationPlanId) {
       // URL + query/request parameter example
       router.push({name: 'patientTimeslotsRoute', query: {medicationPlanId: medicationPlanId}})
-
-
     },
   },
 }
