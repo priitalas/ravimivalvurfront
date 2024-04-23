@@ -141,9 +141,6 @@ export default {
       this.$refs.addPatientModalRef.$refs.modalRef.openModal()
     },
 
-    goToAddMedication() {
-      router.push({name: 'addMedicationRoute'})
-    },
 
     sendGetDoctorPatientsRequest() {
       this.$http.get("doctor/patients", {

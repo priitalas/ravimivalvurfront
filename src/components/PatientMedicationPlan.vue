@@ -7,7 +7,7 @@
         <tr>
           <th scope="col" style="text-align: start">Ravim</th>
           <th scope="col">Ühik</th>
-          <th scope="col">Kogus päevas</th>
+          <th scope="col">Päevane annus</th>
           <th scope="col">Kuuri algus</th>
           <th scope="col">Kuuri lõpp</th>
           <th v-if="isDoctor" style="width:10%">Lisa aegu</th>

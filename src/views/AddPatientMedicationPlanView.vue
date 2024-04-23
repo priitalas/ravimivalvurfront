@@ -1,40 +1,43 @@
 <template>
-  <div class="container text-center">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-3">
-        <h2>Lisa uus raviplaan</h2>
+        <h2>Lisa uus ravikuur</h2>
       </div>
-      <div class="row justify-content-center">
-        <div class="col col-2">
-          <select v-model="medicationPlanInfo.medicationId" class="form-select custom-dropdown">
+      <AlertDanger :message="errorMessage" />
+      <div class="row justify-content-lg-center">
+        <div class="col col-sm-3">
+          <select v-model="newMedicationPlanInfo.medicationId" @change="handleMedicationChange"
+                  class="form-select custom-dropdown">
             <option selected :value="0">Vali ravim</option>
             <option v-for="medication in medications" :value="medication.medicationId" :key="medication.medicationId">
-              {{ medication.medicationName }}</option>
+              {{ medication.medicationName }}, {{ medication.unitName }}
+            </option>
             <option selected :value="-1">-Lisa ravim-</option>
           </select>
         </div>
-<!--        <div class="col col-2">-->
-<!--          Ühik {{selectedMedication.medicationUnitName}}-->
-<!--        </div>-->
-        <div class="col col-2">
+        <div class="col col-sm-2 me-0">
           <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Kuuri algus</span>
-            <input v-model="medicationPlanInfo.planStart" type="date" class="form-control">
+            <span class="input-group-text" id="basic-addon1">Algus</span>
+            <input v-model="newMedicationPlanInfo.planStart" type="date" class="form-control">
           </div>
         </div>
-        <div class="col col-3">
+        <div class="col col-sm-2 me-0">
           <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Kuuri lõpp</span>
-            <input v-model="medicationPlanInfo.planEnd" type="date" class="form-control">
+            <span class="input-group-text" id="basic-addon1">Lõpp</span>
+            <input v-model="newMedicationPlanInfo.planEnd" type="date" class="form-control">
           </div>
         </div>
-        <div class="col col-3">
-          <button @click="addNewMedicationPlan" type="button" class="btn btn-primary">Lisa</button>
+        <div class="col col-sm-2 ms-0">
+          <button @click="addNewMedicationPlan" type="button" class="btn btn-primary"
+                  @event-new-medication-added="handleNewMedicationAdded">Lisa
+          </button>
         </div>
       </div>
     </div>
+    <p></p>
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-9">
         <table class="table">
           <thead>
           <tr>
@@ -44,7 +47,7 @@
             <th scope="col">Võtmise tihedus</th>
             <th scope="col">Muuda</th>
             <th scope="col">Kustuta</th>
-            <th scope="col">Ajad</th>
+            <th scope="col">Lisa ajad</th>
           </tr>
           </thead>
           <tbody>
@@ -77,28 +80,31 @@
 <script>
 import {useRoute} from "vue-router";
 import router from "@/router";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
 
 export default {
   name: "AddPatientMedicationPlanView.vue",
+  components: {AlertDanger},
 
   data() {
     return {
+      errorMessage: '',
       medications: [
         {
           medicationId: 0,
           medicationName: '',
-          medicationUnitId: 0,
-          medicationUnitName: ''
+          unitName: ''
         }
-
       ],
-      medicationPlanInfo: {
+      newMedicationPlanInfo: {
         patientId: useRoute().query.patientId,
         medicationId: 0,
-        medicationUnitId: 0,
         planStart: null,
         planEnd: null
       },
+
+      medicationPlanId: 0,
+
       // URL + query/request parameter example
       patientId: useRoute().query.patientId,
     }
@@ -106,8 +112,36 @@ export default {
 
   methods: {
 
-    addNewMedicationPlan() {
+    addNewMedicationPlan(){
+      if (this.allFieldsWithCorrectInput()) {
+        this.sendAddPatientMedicationPlanInfo();
+      } else {
+        this.displayAllFieldsRequiredAlert()
+      }
+    },
 
+    sendAddPatientMedicationPlanInfo () {
+        this.$http.post("/medication-plans/patient/", this.newMedicationPlanInfo
+        ).then(response => {
+          this.medicationPlanId = response.data
+        }).catch(error => {
+          router.push({name: 'errorRoute'})
+        })
+      },
+
+    sendGetNewMedicationPlanInfo(){
+
+    },
+
+    handleMedicationChange() {
+      if (this.medicationPlanInfo.medicationId < 0) {
+        router.push({name: 'addMedicationRoute'})
+      }
+    },
+
+    handleNewMedicationAdded() {
+      this.sendGetMedicationsRequest()
+      this.medicationPlanInfo.medicationId = data.message
     },
 
     sendGetMedicationsRequest() {
@@ -116,14 +150,25 @@ export default {
             this.medications = response.data
           })
           .catch(() => {
-            //  router.push({name: 'errorRoute'})
+            router.push({name: 'errorRoute'})
           })
     },
 
     navigateToPatientTimeslots(medicationPlanId) {
       // URL + query/request parameter example
       router.push({name: 'patientTimeslotsRoute', query: {medicationPlanId: medicationPlanId}})
-    }
+    },
+
+    allFieldsWithCorrectInput() {
+      return this.medicationPlanInfoInfo.medicationId !== 0 &&
+          this.medicationPlanInfoInfo.planStart !== null &&
+          this.medicationPlanInfoInfo.planEnd !== null
+    },
+
+    displayAllFieldsRequiredAlert() {
+      this.errorMessage = 'Täida kõik väljad!'
+      setTimeout(this.resetMessage, 4000)
+    },
   },
   beforeMount() {
     this.sendGetMedicationsRequest()

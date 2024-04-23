@@ -33,16 +33,14 @@
 <script>
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
-import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
-import router from "@/router";
 
 export default {
   name: "PatientCompleteMedicationInfo",
-  components: {AddPatientMedicationPlan, PatientMedicationLogbook, PatientMedicationPlan},
+  components: {PatientMedicationLogbook, PatientMedicationPlan},
 
   data() {
     return {
-      patientId: 4
+      patientId: 0
     }
   },
   methods: {
