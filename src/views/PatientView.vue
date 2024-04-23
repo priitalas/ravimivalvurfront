@@ -29,6 +29,7 @@ export default {
     return {
       userId: sessionStorage.getItem('userId'),
       message: ''
+
     }
   },
 
