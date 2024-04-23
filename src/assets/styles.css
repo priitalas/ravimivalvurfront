@@ -48,8 +48,16 @@ h5 {
     max-height: 60%
 }
 
-table-secondary {
-    color: grey !important;
+.table-secondary td {
+    color: #415E57 !important;
+}
+
+.background-container {
+    background-image:url(~@/assets/doctor_background.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
 }
 
 input[type="search"].light {
@@ -73,6 +81,11 @@ input[type="search"].light {
 .link-custom {
     color: #2c3e50;
     opacity: 60%;
+}
+
+.rounded-table {
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 /* modal */

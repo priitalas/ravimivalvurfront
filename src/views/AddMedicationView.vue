@@ -36,7 +36,7 @@
         </div>
         <div class="row justify-content-start mt-lg-5">
           <div class="col col-6 text-nowrap">
-            <button @click="navigateToDoctorView" type="button" class="btn btn-dark me-3 ">Tagasi</button>
+            <button @click="navigateToAddPatientMedicationPlanView" type="button" class="btn btn-dark me-3 ">Tagasi</button>
             <button @click="getAndSetMedicationInfo" type="button" class="btn btn-primary me-3">Salvesta</button>
           </div>
         </div>
@@ -71,6 +71,7 @@ export default {
       },
       errorMessage: '',
       successMessage: '',
+      addedMedicationId: 0,
 
       units: [
         {
@@ -115,6 +116,8 @@ export default {
     sendMedicationInfo() {
       this.$http.post('/medication', this.medicationInfo
       ).then(response => {
+        this.addedMedicationId = response.data
+        this.$emit('event-new-medication-added', this.addedMedicationId)
         this.successMessage = "Ravim lisatud"
         setTimeout(this.resetMessages, 4000)
         this.resetAllInputFields()
@@ -124,9 +127,8 @@ export default {
       })
     },
 
-    navigateToDoctorView() {
-      this.$emit('event-new-medication-added')
-      router.push({name: "doctorRoute"})
+    navigateToAddPatientMedicationPlanView() {
+      router.push({name: "addPatientMedicationPlanRoute"})
     },
 
     allRequiredFieldsWithCorrectInput() {
@@ -165,7 +167,7 @@ export default {
     resetMessages() {
       this.errorMessage = ''
       this.successMessage = ''
-    }
+    },
 
   },
 

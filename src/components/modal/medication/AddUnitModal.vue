@@ -12,7 +12,7 @@
             <AlertSuccess :message="successMessage"/>
             <div class="mb-3">
               <label for="unitName" class="form-label"></label>
-              <input v-model="unitName" type="text" class="form-control" id="userName">
+              <input v-model="unitName" type="text" class="form-control" id="unitName">
             </div>
           </div>
         </div>
