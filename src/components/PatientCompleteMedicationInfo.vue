@@ -13,19 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="accordion-item">
-      <div class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Lisa raviplaan
-        </button>
-      </div>
-      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <AddPatientMedicationPlan/>
-        </div>
-      </div>
-    </div>
+
     <div class="accordion-item">
       <div class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -46,6 +34,7 @@
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
 import PatientMedicationLogbook from "@/components/PatientMedicationLogbook.vue";
 import AddPatientMedicationPlan from "@/components/AddPatientMedicationPlan.vue";
+import router from "@/router";
 
 export default {
   name: "PatientCompleteMedicationInfo",
@@ -53,9 +42,11 @@ export default {
 
   data() {
     return {
-
+      patientId: 4
     }
   },
+  methods: {
 
+  }
 }
 </script>

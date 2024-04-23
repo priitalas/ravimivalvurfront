@@ -4,6 +4,8 @@ import ErrorView from "@/views/ErrorView.vue";
 import DoctorView from "@/views/DoctorView.vue";
 import PatientView from "@/views/PatientView.vue";
 import AddMedicationView from "@/components/medication/AddMedication.vue";
+import PatientTimeslotsView from "@/views/PatientTimeslotsView.vue";
+import AddPatientMedicationPlanView from "@/views/AddPatientMedicationPlanView.vue";
 
 const routes = [
   {
@@ -32,6 +34,18 @@ const routes = [
     path: '/medication',
     name: 'addMedicationRoute',
     component: AddMedicationView
+  },
+
+  {
+    path: '/patient/timeslots',
+    name: 'patientTimeslotsRoute',
+    component: PatientTimeslotsView
+  },
+
+  {
+    path: '/patient/new/medication-plan',
+    name: 'addPatientMedicationPlanRoute',
+    component: AddPatientMedicationPlanView
   }
 
 ]
