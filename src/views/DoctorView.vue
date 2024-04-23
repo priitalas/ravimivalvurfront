@@ -1,15 +1,15 @@
 <template>
+  <div class="background-container">
   <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
   <DeletePatientFromListModal ref="deletePatientFromListModalRef"
                                @event-patient-deleted-from-list="handlePatientDeletedFromList" />
   <h2>Arsti / hooldaja töölaud</h2>
   <p></p>
   <p></p>
-  <div>
     <div class="container">
       <div class="row">
         <div class="col col-lg-5">
-          <table v-if="patients.length>0" class="table table-hover mt-2 text-start table-responsive" id="patientTable">
+          <table v-if="patients.length>0" class="table rounded-table table-hover mt-2 text-start table-responsive" id="patientTable">
             <thead>
             <tr>
               <th colspan="5" style="text-align: center"><h4>Patsiendid</h4>
@@ -31,7 +31,8 @@
             <tr>
               <th scope="col">Perekonnanimi</th>
               <th scope="col">Eesnimi</th>
-              <th colspan="2" style="width:20%; text-align: center; justify-content: center;">Vaata / Kustuta</th>
+              <th class="col-2 width:20% justify-content-center">Raviinfo</th>
+              <th class="col-2 width:20% justify-content-center">Kustuta</th>
 
             </tr>
             </thead>
@@ -40,17 +41,17 @@
                 :class="{ 'table-secondary': patient.patientStatus === 'P' }">
               <td>{{ patient.lastName }}</td>
               <td>{{ patient.firstName }}</td>
-              <td v-if="patient.patientStatus === 'A'" style="width:10%; text-align: center; justify-content: center;">
+              <td v-if="patient.patientStatus === 'A'" class="col-2 text-center">
                 <font-awesome-icon
                     @click="showPatientCompleteMedicationInfo(patient.patientId)"
-                    class="link-custom cursor-pointer me-lg-2"
+                    class="link-custom cursor-pointer"
                     :icon="['fas', 'eye']"/>
               </td>
-              <td v-else style="width:10%; text-align: center; justify-content: center;">
+              <td v-else class="col-2 text-center">
                 kinnitamata
               </td>
-              <td>
-                <font-awesome-icon @click="deletePatientFromDoctorsList(patient)" class="link-custom cursor-pointer"
+              <td class="col-2 text-center">
+                <font-awesome-icon @click="deletePatientFromDoctorsList(patient)" class="link-custom cursor-pointer justify-content-center"
                                    :icon="['fas', 'trash']" />
               </td>
             </tr>
@@ -58,7 +59,7 @@
           </table>
         </div>
         <div class="col col-lg-7 justify-content-start mt-2">
-          <table class="table">
+          <table class="table rounded-table">
             <thead>
             <tr>
               <th scope="col"><h4>Patsiendi raviinfo</h4></th>

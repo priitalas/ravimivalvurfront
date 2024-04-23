@@ -10,13 +10,6 @@
       <div  id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
           <PatientMedicationPlan ref="patientMedicationPlanRef"/>
-          <div class="row align-content-lg-start">
-            <div v-if="patientId > 0" class="col col-lg-3">
-              <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
-                Lisa ravikuur
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

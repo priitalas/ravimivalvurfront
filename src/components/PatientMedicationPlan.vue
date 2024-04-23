@@ -2,7 +2,7 @@
   <div v-if="showPatientCompleteMedicationInfo" class="container text-center">
     <div class="row">
       <AlertDanger :message="errorMessage"/>
-      <table v-if="medicationPlans.length>0" class="table table-hover table-responsive ">
+      <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
         <thead>
         <tr>
           <th scope="col" style="text-align: start">Ravim</th>
@@ -38,6 +38,11 @@
         </tr>
         </tbody>
       </table>
+      <div class="col col-lg-3">
+        <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
+          Lisa ravikuur
+        </button>
+      </div>
     </div>
 
   </div>
