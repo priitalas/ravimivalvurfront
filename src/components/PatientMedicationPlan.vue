@@ -1,21 +1,21 @@
 <template>
   <div v-if="showPatientCompleteMedicationInfo">
     <AlertDanger :message="errorMessage"/>
-    <table v-if="medicationPlans.length>0" class="table table-hover table-responsive">
+    <table v-if="medicationPlans.length>0" class="table table-hover table-responsive " >
       <thead>
       <tr>
-        <th scope="col">Ravim</th>
+        <th scope="col" style="text-align: start">Ravim</th>
         <th scope="col">Annus</th>
         <th scope="col">Ühik</th>
         <th scope="col">Kogus päevas</th>
         <th scope="col">Kuuri algus</th>
         <th scope="col">Kuuri lõpp</th>
-        <th v-if="isDoctor" colspan="2" style="width:10%">Muuda / Kustuta</th>
+        <th v-if="isDoctor" colspan="2" style="width:20%">Muuda / Kustuta</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId">
-        <td>{{ medicationPlan.medicationName }}</td>
+      <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId" >
+        <td style="text-align: start">{{ medicationPlan.medicationName }}</td>
         <td>{{ medicationPlan.quantity }}</td>
         <td>{{ medicationPlan.medicationUnitName }}</td>
         <td>{{ medicationPlan.frequency }}</td>
