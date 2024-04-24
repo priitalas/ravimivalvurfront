@@ -1,16 +1,15 @@
 <template>
-  <Modal ref="modalRef" class = modal-fullscreen>
+  <Modal ref="modalRef" class=modal-fullscreen>
     <template #title>
       Ravimi laiendatud info:
     </template>
     <template #body>
       <div>
-         <h1> <img :src="medication.medicationImageData" alt="Medication Image" style="width: 300px"> </h1>
+        <h3><img :src="medication.medicationImageData" alt="Medication Image"></h3>
         <h2> Nimi: {{ medication.medicationName }}</h2>
         <h5>Tarvitamisjuhis:</h5>
-        <h6> {{ medication.quantity }}</h6>
-        <h6> {{ medication.medicationUnitName }}</h6>
         <h6> {{ medication.medicationNote }}</h6>
+        <h6> {{ medication.medicationDescription }}</h6>
 
 
       </div>
@@ -38,7 +37,15 @@ export default {
   },
   methods: {
     openModal(medicationId) {
-      // medicationId === 1
+      //   this.$http.get("/medication/${this.medicationId}")
+      //       .then(() => {
+      //         this.medication = response.data
+      //       })
+      //       .catch(error => {
+      //         const errorResponseBody = error.response.data
+      //       })
+      // },
+
       // todo: too ära backendist konkreetse ravimi kogu info kasutades medicationId
       //  GET /medication?medicationId=1
       //  GET /medication/1

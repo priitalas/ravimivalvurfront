@@ -42,7 +42,7 @@
 
 <style>
 .bigger-text td {
-  font-size: xx-large; /* Adjust the font size as needed */
+  font-size: xx-large;
 }
 </style>
 
@@ -117,9 +117,7 @@ export default {
       this.$refs.ViewPatientMedicationInfoModalRef.openModal(medicationId);
     },
 
-
   },
-
 
   beforeMount() {
     this.sendGetPatientMedicationsToTakeNowRequest()
