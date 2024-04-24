@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <img class="rounded-image" src="../assets/background_image.jpg" height="400"/>
+        <img class="rounded-image" src="../assets/background_image.jpg" height="500"/>
       </div>
     </div>
     <div class="row">

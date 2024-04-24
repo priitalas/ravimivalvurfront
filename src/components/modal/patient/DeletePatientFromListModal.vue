@@ -17,7 +17,7 @@
     </template>
 
     <template #buttons>
-      <button @click="sendDeletePatientFromDoctorsList" type="submit" class="btn btn-primary text-center text-nowrap">
+      <button @click="sendDeletePatientFromDoctorsList" type="submit" class="btn btn-warning text-center text-nowrap">
         Kustuta
       </button>
     </template>
@@ -32,10 +32,9 @@ export default {
   name: "DeletePatientFromListModal",
   components: {Modal},
 
-
   data() {
     return {
-      doctorId: sessionStorage.getItem('userId'),
+      doctorId: 0,
       patientId: 0,
       firstName: '',
       lastName: ''
