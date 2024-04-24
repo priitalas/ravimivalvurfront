@@ -35,27 +35,33 @@
       </div>
     </div>
     <p></p>
+
     <div class="row justify-content-center">
             <div class="col-8">
+              <h4>Lisa sisestatud ravikuurile ravimi igapäevased võtmise ajad</h4>
               <AlertDanger :message="errorMessage"/>
               <table class="table rounded-table">
                 <thead>
                 <tr>
-                  <th scope="col">Ravimi nimi</th>
-                  <th scope="col">Algus</th>
-                  <th scope="col">Lõpp</th>
-                  <th scope="col">Mitu korda päevas</th>
-                  <th scope="col">Muuda</th>
-                  <th scope="col">Kustuta</th>
-                  <th scope="col">Lisa ajad</th>
+                  <th class="col">Ravimi nimi</th>
+                  <th class="col">Algus</th>
+                  <th class="col">Lõpp</th>
+                  <th class="col">Mitu korda päevas</th>
+                  <th class="col text-danger">Lisa ajad</th>
+                  <th class="col">Muuda</th>
+                  <th class="col">Kustuta</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>{{ selectedMedication.medicationName }}</td>
-                  <td>{{ newMedicationPlanInfo.planStart }}</td>
-                  <td>{{ newMedicationPlanInfo.planEnd }}</td>
-                  <td>0</td>
+                <tr v-for="addedMedicationPlan in addedMedicationPlans" :key="addedMedicationPlan.medicationPlanId">
+                  <td>{{addedMedicationPlan.medicationName}}</td>
+                  <td>{{addedMedicationPlan.periodStart}}</td>
+                  <td>{{addedMedicationPlan.periodEnd}}</td>
+                  <td>{{addedMedicationPlan.frequency}}</td>
+                  <td style="width:10%; text-align: center; justify-content: center;">
+                    <font-awesome-icon @click="navigateToPatientTimeslots()" class="link-custom cursor-pointer text-danger"
+                                       :icon="['fas', 'clock']"/>
+                  </td>
                   <td style="width:10%; text-align: center; justify-content: center;">
                     <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
                                        :icon="['fas', 'pen-to-square']"/>
@@ -63,10 +69,6 @@
                   <td style="width:10%; text-align: center; justify-content: center;">
                     <font-awesome-icon class="link-custom cursor-pointer"
                                        :icon="['fas', 'trash']"/>
-                  </td>
-                  <td style="width:10%; text-align: center; justify-content: center;">
-                    <font-awesome-icon @click="navigateToPatientTimeslots()" class="link-custom cursor-pointer"
-                                       :icon="['fas', 'clock']"/>
                   </td>
                 </tr>
 
@@ -112,6 +114,16 @@ export default {
         periodEnd: null
       },
 
+      addedMedicationPlans: [
+        {
+          medicationPlanId: 0,
+          medicationName: '',
+          periodStart: null,
+          periodEnd: null,
+          frequency: 0
+        }
+      ],
+
       // URL + query/request parameter example
       patientId: useRoute().query.patientId,
       patientFirstName: useRoute().query.patientFirstName,
@@ -132,12 +144,20 @@ export default {
     sendAddPatientMedicationPlanInfo() {
       this.$http.post("/medication-plans/patient/", this.newMedicationPlanInfo
       ).then(response => {
+        this.sendGetAddedMedicationPlansRequest()
+      }).catch(error => {
+        router.push({name: 'errorRoute'})
+      })
+    },
 
-        this.successMessage = "Kuur on lisatud, lisa igapäevased võtmise ajad ja doosid."
-        this.$refs.patientMedicationPlanRef.showAddPlanButton = false
-        this.$refs.patientMedicationPlanRef.patientId = this.newMedicationPlanInfo.patientId
-        this.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
-
+    sendGetAddedMedicationPlansRequest () {
+      this.$http.get("/medication-plans/patient/new-plans/", {
+            params: {
+              patientId: this.patientId
+            }
+          }
+      ).then(response => {
+        this.addedMedicationPlans = response.data
       }).catch(error => {
         router.push({name: 'errorRoute'})
       })
