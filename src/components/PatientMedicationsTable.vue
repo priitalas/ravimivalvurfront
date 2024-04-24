@@ -1,7 +1,7 @@
 <template>
   <div>
     <ViewPatientMedicationInfoModal ref="ViewPatientMedicationInfoModalRef"/>
-    <table v-if="patientMedicationsToTakeNow.length > 0" class="table table-striped table-primary table-hover"
+    <table v-if="medications.length > 0" class="table table-striped table-primary table-hover"
            style="vertical-align: middle;">
       <thead>
       <tr>
@@ -15,19 +15,20 @@
       </thead>
 
       <tbody>
-      <tr v-for="patientMedicationToTakeNow in patientMedicationsToTakeNow"
-          :key="patientMedicationToTakeNow.medicationPlanId">
+      <tr v-for="medication in medications"
+          :key="medication.medicationPlanId">
         <td>
-          <img :src="patientMedicationToTakeNow.medicationImageData" alt="Medication Image" style="width: 180px;
-        cursor: pointer;" @click="openViewPatientMedicationInfoModal(patientMedicationToTakeNow)">
+          <img :src="medication.medicationImageData" alt="Medication Image" style="width: 180px;
+        cursor: pointer;" @click="openViewPatientMedicationInfoModal(medication.medicationId)">
         </td>
-        <td style="font-size: x-large;">{{ patientMedicationToTakeNow.medicationName }}</td>
-        <td style="font-size: x-large;">{{ patientMedicationToTakeNow.quantity }}</td>
-        <td style="font-size: x-large;">{{ patientMedicationToTakeNow.medicationUnitName }}</td>
-        <td style="font-size: x-large;">{{ patientMedicationToTakeNow.medicationNote }}</td>
+        <td style="font-size: x-large;">{{ medication.medicationName }}</td>
+        <td style="font-size: x-large;">{{ medication.quantity }}</td>
+        <td style="font-size: x-large;">{{ medication.medicationUnitName }}</td>
+        <td style="font-size: x-large;">{{ medication.medicationNote }}</td>
 
         <td>
-          <button @click="postPatientTakesMedicationToLogbook" type="button" class="btn btn-danger btn-lg">Märgi
+          <button @click="takeMedication(medication.medicationPlanId, medication.medicationTimeId)" type="button"
+                  class="btn btn-danger btn-lg">Märgi
             võetuks
           </button>
 
@@ -56,55 +57,66 @@ export default {
   data() {
     return {
       patientId: sessionStorage.getItem('userId'),
-      patientMedicationsToTakeNow: [
+
+      medications: [
         {
           medicationPlanId: 0,
           medicationId: 0,
           medicationName: '',
-          medicationImageData: '',
-          quantity: 0,
           medicationUnitName: '',
           medicationNote: '',
-          timeSlotStatus: ''
-        }],
-      medicationTimeId: '',
-      errorResponse:
-          {
-            message: '',
-            errorCode: 0
-          }
+          itsTimeToTakeMedication: true,
+          medicationTimeId: 0,
+          quantity: 0,
+          medicationImageData: ''
+        }
+      ],
+
+      errorResponse: {
+        message: '',
+        errorCode: 0
+      }
     }
   },
 
   methods: {
 
-    sendGetPatientMedicationsToTakeNowRequest: function () {
+    takeMedication(medicationPlanId, medicationTimeId) {
+      this.sendPostLogbookRequest(medicationPlanId, medicationTimeId)
+    },
+
+    sendPostLogbookRequest(medicationPlanId, medicationTimeId) {
+      this.$http.post("/logbook", null, {
+            params: {
+              medicationPlanId: medicationPlanId,
+              medicationTimeId: medicationTimeId
+            }
+          }
+      ).then(() => {
+        this.sendGetPatientMedicationsToTakeNowRequest()
+      }).catch(error => {
+        const errorResponseBody = error.response.data
+      })
+    },
+
+
+    sendGetPatientMedicationsToTakeNowRequest() {
       this.$http.get("medication-plans/patient/to-take-now", {
             params: {
               patientId: this.patientId
             }
           }
       ).then(response => {
-        this.patientMedicationsToTakeNow = response.data
+        this.medications = response.data
       }).catch(() => {
         this.$parent.$data.message = "Hetkel ei ole võtmist vajavaid ravimeid!"
       })
     },
 
-    openViewPatientMedicationInfoModal(patientMedicationToTakeNow) {
-      this.$refs.ViewPatientMedicationInfoModalRef.openModal(patientMedicationToTakeNow);
+    openViewPatientMedicationInfoModal(medicationId) {
+      this.$refs.ViewPatientMedicationInfoModalRef.openModal(medicationId);
     },
 
-
-    postPatientTakesMedicationToLogbook() {
-      this.$http.post('/medication-plan/patient/take-medication-logbook', null, {
-            params: {
-              medicationPlanId: this.medicationPlanId,
-              medicationTimeId: this.medicationTimeId
-            }
-          }
-      );
-    }
 
   },
 

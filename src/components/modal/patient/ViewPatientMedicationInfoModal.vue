@@ -5,12 +5,12 @@
     </template>
     <template #body>
       <div>
-         <h1> <img :src="selectedMedication.medicationImageData" alt="Medication Image" style="width: 300px"> </h1>
-        <h2> Nimi: {{ selectedMedication.medicationName }}</h2>
+         <h1> <img :src="medication.medicationImageData" alt="Medication Image" style="width: 300px"> </h1>
+        <h2> Nimi: {{ medication.medicationName }}</h2>
         <h5>Tarvitamisjuhis:</h5>
-        <h6> {{ selectedMedication.quantity }}</h6>
-        <h6> {{ selectedMedication.medicationUnitName }}</h6>
-        <h6> {{ selectedMedication.medicationNote }}</h6>
+        <h6> {{ medication.quantity }}</h6>
+        <h6> {{ medication.medicationUnitName }}</h6>
+        <h6> {{ medication.medicationNote }}</h6>
 
 
       </div>
@@ -32,13 +32,17 @@ export default {
   components: {MedicationImage, Modal},
   data() {
     return {
-      selectedMedication: {}
+      // todo: swageri resonse pealt saad mudeli
+      medication: {}
     };
   },
   methods: {
-    openModal(patientMedicationToTakeNow) {
-      console.log("Received medication data:", patientMedicationToTakeNow);
-      this.selectedMedication = patientMedicationToTakeNow;
+    openModal(medicationId) {
+      // medicationId === 1
+      // todo: too ära backendist konkreetse ravimi kogu info kasutades medicationId
+      //  GET /medication?medicationId=1
+      //  GET /medication/1
+
       this.$refs.modalRef.openModal();
     }
   }
