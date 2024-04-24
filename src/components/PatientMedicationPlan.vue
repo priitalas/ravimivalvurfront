@@ -9,7 +9,7 @@
           <th scope="col-3">Kuuri algus</th>
           <th scope="col-3">Kuuri lõpp</th>
           <th scope="col-2">Päevas kordi</th>
-          <th v-if="isDoctor" style="width:10%">Lisa aegu</th>
+          <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
           <th v-if="isDoctor" style="width:10%">Muuda</th>
           <th v-if="isDoctor" style="width:10%">Kustuta</th>
 
@@ -17,7 +17,10 @@
         </thead>
         <tbody>
         <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId">
-          <td style="text-align: start">{{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName }}</td>
+          <td style="text-align: start">{{ medicationPlan.medicationName }}, {{
+              medicationPlan.medicationUnitName
+            }}
+          </td>
           <td>{{ medicationPlan.periodStart }}</td>
           <td>{{ medicationPlan.periodEnd }}</td>
           <td>{{ medicationPlan.frequency }}</td>
@@ -36,7 +39,7 @@
         </tr>
         </tbody>
       </table>
-      <div v-if="showAddPlanButton" class="col col-lg-3">
+      <div class="col col-lg-3">
         <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
           Lisa ravikuur
         </button>
@@ -54,9 +57,10 @@ import router from "@/router";
 export default {
   name: "PatientMedicationPlan",
   components: {AlertDanger},
+  props: ['patientFirstName', 'patientLastName'],
+
   data() {
     return {
-      showAddPlanButton: true,
       showPatientCompleteMedicationInfo: false,
       isDoctor: false,
       patientId: 0,
@@ -78,9 +82,16 @@ export default {
   },
 
   methods: {
+    // URL + query/request parameter example
     navigateToAddPatientMedicationPlan() {
-      // URL + query/request parameter example
-      router.push({name: 'addPatientMedicationPlanRoute', query: {patientId: this.patientId}})
+      router.push({
+        name: 'addPatientMedicationPlanRoute',
+        query: {
+          patientId: this.patientId,
+          patientFirstName: this.patientFirstName,
+          patientLastName: this.patientLastName
+        }
+      })
     },
 
     navigateToEditPlan() {

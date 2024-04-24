@@ -1,15 +1,16 @@
 <template>
   <div class="background-container">
-  <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
-  <DeletePatientFromListModal ref="deletePatientFromListModalRef"
-                               @event-patient-deleted-from-list="handlePatientDeletedFromList" />
-  <h2>Arsti / hooldaja töölaud</h2>
-  <p></p>
-  <p></p>
+    <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
+    <DeletePatientFromListModal ref="deletePatientFromListModalRef"
+                                @event-patient-deleted-from-list="handlePatientDeletedFromList"/>
+    <h2>Arsti / hooldaja töölaud</h2>
+    <p></p>
+    <p></p>
     <div class="container">
       <div class="row">
         <div class="col col-lg-5">
-          <table v-if="patients.length>0" class="table rounded-table table-hover mt-2 text-start table-responsive" id="patientTable">
+          <table v-if="patients.length>0" class="table rounded-table table-hover mt-2 text-start table-responsive"
+                 id="patientTable">
             <thead>
             <tr>
               <th colspan="5" style="text-align: center"><h4>Patsiendid</h4>
@@ -43,16 +44,17 @@
               <td>{{ patient.firstName }}</td>
               <td v-if="patient.patientStatus === 'A'" class="col-2 text-center">
                 <font-awesome-icon
-                    @click="showPatientCompleteMedicationInfo(patient.patientId)"
                     class="link-custom cursor-pointer"
+                    @click="showPatientCompleteMedicationInfo(patient.patientId, patient.firstName, patient.lastName)"
                     :icon="['fas', 'eye']"/>
               </td>
               <td v-else class="col-2 text-center">
                 kinnitamata
               </td>
               <td class="col-2 text-center">
-                <font-awesome-icon @click="deletePatientFromDoctorsList(patient)" class="link-custom cursor-pointer justify-content-center"
-                                   :icon="['fas', 'trash']" />
+                <font-awesome-icon @click="deletePatientFromDoctorsList(patient)"
+                                   class="link-custom cursor-pointer justify-content-center"
+                                   :icon="['fas', 'trash']"/>
               </td>
             </tr>
             </tbody>
@@ -67,7 +69,7 @@
             </thead>
             <tbody>
             <tr>
-              <PatientCompleteMedicationInfo ref="patientCompleteMedicationInfoRef" />
+              <PatientCompleteMedicationInfo ref="patientCompleteMedicationInfoRef"/>
             </tr>
             </tbody>
           </table>
@@ -103,6 +105,8 @@ export default {
       successMessage: '',
       isDoctor: true,
       selectedPatientId: 0,
+      selectedPatientFirstName: '',
+      selectedPatientLastName: '',
       doctorId: sessionStorage.getItem('userId'),
       patients: [
         {
@@ -129,13 +133,14 @@ export default {
 
   methods: {
 
-    showPatientCompleteMedicationInfo(selectedPatientId) {
+    showPatientCompleteMedicationInfo(selectedPatientId, selectedPatientFirstName, selectedPatientLastName) {
+      this.$refs.patientCompleteMedicationInfoRef.patientFirstName = selectedPatientFirstName
+      this.$refs.patientCompleteMedicationInfoRef.patientLastName = selectedPatientLastName
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.isDoctor = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.patientId = selectedPatientId
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.medicationPlans = []
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
-
     },
 
     goToAddNewPatient() {

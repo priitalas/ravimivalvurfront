@@ -2,7 +2,7 @@
   <div class="background-container">
     <div class="row justify-content-center">
       <div class="col-8">
-        <h2>Lisa uus ravikuur</h2>
+        <h2>Lisa uus ravikuur patsiendile {{ patientFirstName}} {{ patientLastName}}</h2>
       </div>
       <div class="row justify-content-lg-center">
         <div class="col-3">
@@ -36,44 +36,43 @@
     </div>
     <p></p>
     <div class="row justify-content-center">
-      <PatientMedicationPlan ref="patientMedicationPlanRef"/>
-      <!--      <div class="col-8">-->
-      <!--        <AlertDanger :message="errorMessage"/>-->
-      <!--        <table class="table rounded-table">-->
-      <!--          <thead>-->
-      <!--          <tr>-->
-      <!--            <th scope="col">Ravimi nimi</th>-->
-      <!--            <th scope="col">Algus</th>-->
-      <!--            <th scope="col">Lõpp</th>-->
-      <!--            <th scope="col">Mitu korda päevas</th>-->
-      <!--            <th scope="col">Muuda</th>-->
-      <!--            <th scope="col">Kustuta</th>-->
-      <!--            <th scope="col">Lisa ajad</th>-->
-      <!--          </tr>-->
-      <!--          </thead>-->
-      <!--          <tbody>-->
-      <!--          <tr>-->
-      <!--            <td>{{ selectedMedication.medicationName }}</td>-->
-      <!--            <td>{{ newMedicationPlanInfo.planStart }}</td>-->
-      <!--            <td>{{ newMedicationPlanInfo.planEnd }}</td>-->
-      <!--            <td>0</td>-->
-      <!--            <td style="width:10%; text-align: center; justify-content: center;">-->
-      <!--              <font-awesome-icon class="link-custom cursor-pointer me-lg-2"-->
-      <!--                                 :icon="['fas', 'pen-to-square']"/>-->
-      <!--            </td>-->
-      <!--            <td style="width:10%; text-align: center; justify-content: center;">-->
-      <!--              <font-awesome-icon class="link-custom cursor-pointer"-->
-      <!--                                 :icon="['fas', 'trash']"/>-->
-      <!--            </td>-->
-      <!--            <td style="width:10%; text-align: center; justify-content: center;">-->
-      <!--              <font-awesome-icon @click="navigateToPatientTimeslots()" class="link-custom cursor-pointer"-->
-      <!--                                 :icon="['fas', 'clock']"/>-->
-      <!--            </td>-->
-      <!--          </tr>-->
+            <div class="col-8">
+              <AlertDanger :message="errorMessage"/>
+              <table class="table rounded-table">
+                <thead>
+                <tr>
+                  <th scope="col">Ravimi nimi</th>
+                  <th scope="col">Algus</th>
+                  <th scope="col">Lõpp</th>
+                  <th scope="col">Mitu korda päevas</th>
+                  <th scope="col">Muuda</th>
+                  <th scope="col">Kustuta</th>
+                  <th scope="col">Lisa ajad</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>{{ selectedMedication.medicationName }}</td>
+                  <td>{{ newMedicationPlanInfo.planStart }}</td>
+                  <td>{{ newMedicationPlanInfo.planEnd }}</td>
+                  <td>0</td>
+                  <td style="width:10%; text-align: center; justify-content: center;">
+                    <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
+                                       :icon="['fas', 'pen-to-square']"/>
+                  </td>
+                  <td style="width:10%; text-align: center; justify-content: center;">
+                    <font-awesome-icon class="link-custom cursor-pointer"
+                                       :icon="['fas', 'trash']"/>
+                  </td>
+                  <td style="width:10%; text-align: center; justify-content: center;">
+                    <font-awesome-icon @click="navigateToPatientTimeslots()" class="link-custom cursor-pointer"
+                                       :icon="['fas', 'clock']"/>
+                  </td>
+                </tr>
 
-      <!--          </tbody>-->
-      <!--        </table>-->
-      <!--      </div>-->
+                </tbody>
+              </table>
+            </div>
     </div>
   </div>
 </template>
@@ -115,6 +114,8 @@ export default {
 
       // URL + query/request parameter example
       patientId: useRoute().query.patientId,
+      patientFirstName: useRoute().query.patientFirstName,
+      patientLastName: useRoute().query.patientLastName,
     }
   },
 
