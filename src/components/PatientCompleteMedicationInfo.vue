@@ -6,10 +6,12 @@
                 aria-expanded="true" aria-controls="collapseOne">
           Patsiendi raviplaan
         </button>
+        <h6>{{ patientFirstName}} {{patientLastName}}</h6>
       </div>
-      <div  id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div  id="collapseOne" class="accordion-collapse collapse show" data-bs-toggle="collapse">
         <div class="accordion-body">
-          <PatientMedicationPlan ref="patientMedicationPlanRef"/>
+          <PatientMedicationPlan ref="patientMedicationPlanRef"
+                                 :patientFirstName="patientFirstName" :patientLastName="patientLastName"/>
         </div>
       </div>
     </div>
@@ -41,14 +43,11 @@ export default {
 
   data() {
     return {
-      patientId: 4
+      patientId: 0,
+      patientFirstName: '',
+      patientLastName: ''
     }
   },
-  methods: {
-    navigateToAddPatientMedicationPlan() {
-      // URL + query/request parameter example
-      router.push({name: 'addPatientMedicationPlanRoute', query: {patientId: this.patientId}})
-    },
-  }
+
 }
 </script>
