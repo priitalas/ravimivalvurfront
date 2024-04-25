@@ -8,19 +8,19 @@
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Aja algus</span>
-            <input v-model="timeslot.timeStart" type="time" class="form-control">
+            <input v-model="addedTimeslot.slotStart" type="time" class="form-control">
           </div>
         </div>
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Aja lõpp</span>
-            <input v-model="timeslot.timeEnd" type="time" class="form-control">
+            <input v-model="addedTimeslot.slotEnd" type="time" class="form-control">
           </div>
         </div>
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Doos</span>
-            <input v-model="timeslot.quantity" type="text" class="form-control">
+            <input v-model="addedTimeslot.quantity" type="text" class="form-control">
           </div>
         </div>
         <div class="col-2 justify-content-center">
@@ -80,28 +80,58 @@
 
 <script>
 import {useRoute} from "vue-router";
+import router from "@/router";
 
 export default {
   name: "PatientTimeslotsView",
 
   data() {
     return {
-      // URL + query/request parameter example
       medicationPlanId: useRoute().query.medicationPlanId,
-      timeslot: {
-          timeStart: null,
-          timeEnd: null,
-          quantity: 0
-        },
+      // URL + query/request parameter example
+      //  medicationPlanId: useRoute().query.medicationPlanId,
+      addedTimeslot: {
+        medicationPlanId: useRoute().query.medicationPlanId,
+        slotStart: null,
+        slotEnd: null,
+        quantity: 0
+      },
+
+      timeslots: [
+          {
+        timeslotId: 0,
+        slotStart: null,
+        slotEnd: null,
+        quantity: 0
+      }]
     }
   },
 
   methods: {
 
-    sendAddTimeslotRequest(){
+    sendAddTimeslotRequest() {
+      this.$http.post("/medication-plans/patient/time-slots", this.addedTimeslot
+      ).then(response => {
+        this.updateTimeslotsTable()
+      }).catch(error => {
+        router.push({name: 'errorRoute'})
+      })
+    },
 
-    }
+    updateTimeslotsTable() {
+      this.$http.get("/medication-plans/patient/time-slot", {
+            params: {
+              medicationPlanId: this.addedTimeslot.medicationPlanId
+            }
+          }
+      ).then(response => {
+        this.timeslots = response.data
+      }).catch(error => {
+        router.push({name: 'errorRoute'})
+      })
+    },
 
-  },
+  }
+
 }
 </script>

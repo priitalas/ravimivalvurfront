@@ -126,7 +126,15 @@ export default {
 
     navigateToPatientTimeslots(medicationPlanId) {
       // URL + query/request parameter example
-      router.push({name: 'patientTimeslotsRoute', query: {medicationPlanId: medicationPlanId}})
+      router.push({
+        name: 'patientTimeslotsRoute',
+        query: {
+          patientId: this.patientId,
+          patientFirstName: this.patientFirstName,
+          patientLastName: this.patientLastName,
+          medicationName: this.medicationPlans.medicationName
+        }
+      })
     },
   },
 }

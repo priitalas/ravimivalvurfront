@@ -193,11 +193,18 @@ export default {
     }
     ,
 
-    navigateToPatientTimeslots(medicationPlanId) {
+    navigateToPatientTimeslots() {
       // URL + query/request parameter example
-      router.push({name: 'patientTimeslotsRoute', query: {medicationPlanId: medicationPlanId}})
-    }
-    ,
+      router.push({
+        name: 'patientTimeslotsRoute',
+        query: {
+          medicationPlanId: this.addedMedicationPlans.medicationPlanId,
+          patientFirstName: this.patientFirstName,
+          patientLastName: this.patientLastName,
+          medicationName: this.addedMedicationPlans.medicationName
+        }
+      })
+    },
 
     allFieldsWithCorrectInput() {
       return this.newMedicationPlanInfo.medicationId !== 0 &&
