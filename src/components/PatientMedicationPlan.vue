@@ -5,12 +5,11 @@
       <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
         <thead>
         <tr>
-          <th scope="col" style="text-align: start">Ravim</th>
-          <th scope="col">Ühik</th>
-          <th scope="col">Päevane annus</th>
-          <th scope="col">Kuuri algus</th>
-          <th scope="col">Kuuri lõpp</th>
-          <th v-if="isDoctor" style="width:10%">Lisa aegu</th>
+          <th scope="col-2" style="text-align: start">Ravim</th>
+          <th scope="col-3">Kuuri algus</th>
+          <th scope="col-3">Kuuri lõpp</th>
+          <th scope="col-2">Päevas kordi</th>
+          <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
           <th v-if="isDoctor" style="width:10%">Muuda</th>
           <th v-if="isDoctor" style="width:10%">Kustuta</th>
 
@@ -18,20 +17,22 @@
         </thead>
         <tbody>
         <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId">
-          <td style="text-align: start">{{ medicationPlan.medicationName }}</td>
-          <td>{{ medicationPlan.medicationUnitName }}</td>
-          <td>{{ medicationPlan.frequency }}</td>
+          <td style="text-align: start">{{ medicationPlan.medicationName }}, {{
+              medicationPlan.medicationUnitName
+            }}
+          </td>
           <td>{{ medicationPlan.periodStart }}</td>
           <td>{{ medicationPlan.periodEnd }}</td>
-          <td v-if="isDoctor" style="width:10%; text-align: center; justify-content: center;">
+          <td>{{ medicationPlan.frequency }}</td>
+          <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId)"
                                class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
           </td>
-          <td v-if="isDoctor" style="width:10%; text-align: center; justify-content: center;">
+          <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon @click="navigateToEditPlan()" class="link-custom cursor-pointer me-lg-2"
                                :icon="['fas', 'pen-to-square']"/>
           </td>
-          <td v-if="isDoctor" style="width:10%; text-align: center; justify-content: center;">
+          <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon @click="openDeletePlan()" class="link-custom cursor-pointer"
                                :icon="['fas', 'trash']"/>
           </td>
@@ -56,6 +57,8 @@ import router from "@/router";
 export default {
   name: "PatientMedicationPlan",
   components: {AlertDanger},
+  props: ['patientFirstName', 'patientLastName'],
+
   data() {
     return {
       showPatientCompleteMedicationInfo: false,
@@ -68,7 +71,6 @@ export default {
         medicationName: "",
         medicationUnitName: "",
         frequency: 0,
-        quantity: 0,
         periodStart: null,
         periodEnd: null
       }],
@@ -80,9 +82,16 @@ export default {
   },
 
   methods: {
+    // URL + query/request parameter example
     navigateToAddPatientMedicationPlan() {
-      // URL + query/request parameter example
-      router.push({name: 'addPatientMedicationPlanRoute', query: {patientId: this.patientId}})
+      router.push({
+        name: 'addPatientMedicationPlanRoute',
+        query: {
+          patientId: this.patientId,
+          patientFirstName: this.patientFirstName,
+          patientLastName: this.patientLastName
+        }
+      })
     },
 
     navigateToEditPlan() {
