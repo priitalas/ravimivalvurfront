@@ -97,7 +97,21 @@ export default {
         this.$refs.modalRef.closeModal()
 
         if (sessionStorage.getItem('roleName') === 'patient') {
-          router.push({name: 'patientRoute'})
+
+          if (this.loginResponse.userStatus === 'P') {
+            this.$emit('event-open-doctor-patient-connecting-modal')
+            this.$refs.modalRef.closeModal()
+            // todo: kui loginresponse.status on "P", siis käivita teenus, mis toob ära doktori palve siduda ennast patsiendig
+            // todo: saadakse kätte andmed (doctorPatientId, doctorFirstName,doctorLastName)
+            //  todo: sulge loginModal ja ava modal, kus kuvatakse doktori andmeid (doctorFirstName, doctorLastName) ja on 2 nuppu: kinnita ja keeldu
+            //  todo: Kui patsient vajutab "kinnia", siis käivita teenus     @Put"/patient/doctor" sisenditega doctorPatientId=doctorPatientId, hasAccepted=true
+            //  todo: Kui patsient vajutab keeldu", siis käivita teenus     @Put"/patient/doctor" sisenditega doctorPatientId=doctorPatientId, hasAccepted=false
+            //  todo: Sulge see modal ja router.push({name: 'patientRoute'})
+          } else {
+            router.push({name: 'patientRoute'});
+          }
+
+
         } else {
           router.push({name: 'doctorRoute'});
         }
@@ -108,6 +122,8 @@ export default {
         this.handleError(error.response.status)
       })
     },
+
+
 
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 111) {

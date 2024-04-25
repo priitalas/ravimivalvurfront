@@ -1,7 +1,11 @@
 <template>
   <div>
-    <LoginModal ref="loginModalRef" @event-open-registration-modal="openRegistrationModal"
-                @event-update-nav-menu="updateNavMenu"/>
+    <LoginModal ref="loginModalRef"
+                @event-open-registration-modal="openRegistrationModal"
+                @event-update-nav-menu="updateNavMenu"
+                @event-open-doctor-patient-connecting-modal="openDoctorPatientConnectingModal"
+    />
+    <DoctorPatientConnectingModal ref="doctorPatientConnectingModalRef"/>
     <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalWithAlert"/>
     <ChangeContactsModal ref="changeContactsModalRef" @event-contacts-successfully-changed="updateNavMenu"/>
     <LogOutModal ref="logOutModalRef" @event-update-nav-menu="updateNavMenu"/>
@@ -36,10 +40,13 @@ import RegistrationModal from "@/components/modal/login/RegistrationModal.vue";
 import LogOutModal from "@/components/modal/login/LogOutModal.vue";
 import ChangeContactsModal from "@/components/modal/login/ChangeContactsModal.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import DoctorPatientConnectingModal from "@/components/modal/patient/DoctorPatientConnectingModal.vue";
 
 export default {
   name: 'App',
-  components: {AlertSuccess, LogOutModal, RegistrationModal, LoginModal, ChangeContactsModal},
+  components: {
+    DoctorPatientConnectingModal,
+    AlertSuccess, LogOutModal, RegistrationModal, LoginModal, ChangeContactsModal},
   data() {
     return {
       isLoggedIn: false,
@@ -91,8 +98,10 @@ export default {
 
     openLogOutModal() {
       this.$refs.logOutModalRef.$refs.modalRef.openModal()
-    }
-
+    },
+    openDoctorPatientConnectingModal() {
+      this.$refs.doctorPatientConnectingModalRef.handleOpenDoctorPatientConnectingModal()
+    },
   },
 
   mounted() {

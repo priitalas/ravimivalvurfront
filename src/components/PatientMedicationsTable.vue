@@ -114,7 +114,7 @@ export default {
     },
 
     openViewPatientMedicationInfoModal(medicationId) {
-      this.$refs.ViewPatientMedicationInfoModalRef.openModal(medicationId);
+      this.$refs.ViewPatientMedicationInfoModalRef.handleOpenViewPatientMedicationInfoModal(medicationId)
     },
 
   },

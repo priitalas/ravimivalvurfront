@@ -1,10 +1,8 @@
 <template>
-
   <h2></h2>
-  <h2 style="font-size: xx-large;" >Hetkel võtmist vajavad ravimid:</h2>
+  <h2 style="font-size: xx-large;">Hetkel võtmist vajavad ravimid:</h2>
 
   <div class="container">
-    <!-- <ViewMedicineInfoModal ref="viewMedicineInfoModalRef" />-->
     <AlertDanger :message="message"/>
     <div class="row justify-content-center">
       <div class="col-md-12">
@@ -28,19 +26,14 @@ export default {
   data() {
     return {
       userId: sessionStorage.getItem('userId'),
-      message: ''
+      message: '',
+      statusInfo: {
+          doctorPatientId: 0,
+          doctorFirstName: "",
+          doctorLastName: ""
+        },
 
     }
-  },
-
-  methods: {
-    openViewMedicineInfoModal(medicationId) {
-    },
-
-    updatePatientMedicationsTable(patientId) {
-// todo: f10:02:15 refidega?
-    },
-
   }
-}
+  }
 </script>
