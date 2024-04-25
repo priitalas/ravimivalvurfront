@@ -94,10 +94,9 @@ export default {
 
     sendChangeContactsRequest() {
       this.changeContactsRequest.roleId = Number(this.changeContactsRequest.roleId)
-      this.$http.put('/registration', this.changeContactsRequest
+      this.$http.put('/user', this.changeContactsRequest
       ).then(response => {
         this.resetAllInputFields()
-        this.$emit('event-contacts-successfully-changed', 'Teie andmed on muudetud')
         this.$refs.modalRef.closeModal()
 
       }).catch(error => {

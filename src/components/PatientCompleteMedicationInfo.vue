@@ -25,7 +25,7 @@
       </div>
       <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <PatientMedicationLogbook/>
+          <PatientMedicationLogbook ref="patientMedicationLogbookRef" :patientId="patientId"/>
         </div>
       </div>
     </div>

@@ -114,7 +114,7 @@ export default {
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 777) {
         this.errorMessage = this.errorResponse.message;
-        setTimeout(this.resetMessages, 4000);
+        setTimeout(this.resetMessage, 4000);
       } else {
         router.push({name: 'errorRoute'})
       }
