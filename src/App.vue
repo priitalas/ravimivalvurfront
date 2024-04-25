@@ -21,7 +21,7 @@
           <router-link to="/patient">Minu ravimid</router-link>
           |
         </template>
-        <a href="#" @click="openChangeContactsModal">Muuda oma andmeid</a>
+        <a href="#" @click="openChangeContactsModal">Muuda oma kontakte</a>
         |
         <a href="#" @click="openLogOutModal">Logi välja</a>
       </template>

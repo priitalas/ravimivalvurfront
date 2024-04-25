@@ -1,7 +1,7 @@
 <template>
   <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
     <template #title>
-      Muuda oma andmeid
+      Muuda oma kontakte
     </template>
 
     <template #body>
