@@ -3,6 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-8">
         <h2>Lisa ravimi võtmise ajad ja doosid</h2>
+        <h6>Patsient {{patientFirstName}} {{patientLastName}}, ravim {{medicationName}}</h6>
       </div>
       <div class="row justify-content-center">
         <div class="col-2">
@@ -88,6 +89,9 @@ export default {
   data() {
     return {
       medicationPlanId: useRoute().query.medicationPlanId,
+      patientFirstName: useRoute().query.patientFirstName,
+      patientLastName: useRoute().query.patientLastName,
+      medicationName: useRoute().query.medicationName,
       // URL + query/request parameter example
       //  medicationPlanId: useRoute().query.medicationPlanId,
       addedTimeslot: {
@@ -98,12 +102,12 @@ export default {
       },
 
       timeslots: [
-          {
-        timeslotId: 0,
-        slotStart: null,
-        slotEnd: null,
-        quantity: 0
-      }]
+        {
+          timeslotId: 0,
+          slotStart: null,
+          slotEnd: null,
+          quantity: 0
+        }]
     }
   },
 

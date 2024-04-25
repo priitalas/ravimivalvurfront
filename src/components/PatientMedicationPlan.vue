@@ -25,7 +25,7 @@
           <td>{{ medicationPlan.periodEnd }}</td>
           <td>{{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId)"
+            <font-awesome-icon @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
                                class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
@@ -124,7 +124,7 @@ export default {
       this.errorMessage = ""
     },
 
-    navigateToPatientTimeslots(medicationPlanId) {
+    navigateToPatientTimeslots(selectedMedicationPlanId, selectedMedicationName) {
       // URL + query/request parameter example
       router.push({
         name: 'patientTimeslotsRoute',
@@ -132,7 +132,8 @@ export default {
           patientId: this.patientId,
           patientFirstName: this.patientFirstName,
           patientLastName: this.patientLastName,
-          medicationName: this.medicationPlans.medicationName
+          medicationPlanId: selectedMedicationPlanId,
+          medicationName: selectedMedicationName
         }
       })
     },
