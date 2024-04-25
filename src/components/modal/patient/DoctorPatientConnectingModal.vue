@@ -1,16 +1,15 @@
 <template>
   <Modal ref="modalRef">
     <template #title>
-      <div>Arst soovib Teid enda patsiendiks!</div>
+            <div>Arst soovib lisada Sind enda patsiendiks!</div>
     </template>
     <template #body>
-      <div class="m-2">{{ doctorRelationship.doctorFirstName }}</div>
-      <div class="m-2">{{ doctorRelationship.doctorLastName }}</div>
+      <div class="m-2">{{"Arsti nimi:  " + doctorRelationship.doctorFirstName + "  " + doctorRelationship.doctorLastName }}</div>
+      <div class="mb-1">Kas Sa oled sellega nõus?</div>
     </template>
-
     <template #buttons>
-      <button @click="patientRejects" type="button" class="btn btn-warning">Ei</button>
-      <button @click="patientAccepts" type="button" class="btn btn-warning">Jah</button>
+      <button @click="patientRejects" type="button" class="btn btn-danger">Keeldun</button>
+      <button @click="patientAccepts" type="button" class="btn btn-success">Nõustun</button>
     </template>
 
   </Modal>
