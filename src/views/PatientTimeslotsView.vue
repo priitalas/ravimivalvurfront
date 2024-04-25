@@ -1,5 +1,5 @@
 <template>
-  <div class="background-container">
+  <div class="doctorbackground-container">
     <div class="row justify-content-center">
       <div class="col-8">
         <h2>Lisa ravimi võtmise ajad ja doosid</h2>

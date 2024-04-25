@@ -95,10 +95,10 @@ export default {
       this.$refs.changeContactsModalRef.$refs.modalRef.openModal()
     },
 
-
     openLogOutModal() {
       this.$refs.logOutModalRef.$refs.modalRef.openModal()
     },
+
     openDoctorPatientConnectingModal() {
       this.$refs.doctorPatientConnectingModalRef.handleOpenDoctorPatientConnectingModal()
     },
