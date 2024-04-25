@@ -45,10 +45,10 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>10:00</td>
-            <td>12:00</td>
-            <td>2</td>
+          <tr v-for="timeslot in timeslots" :key="timeslot.timeslotId">
+            <td>{{ timeslot.slotStart }}</td>
+            <td>{{ timeslot.slotEnd }}</td>
+            <td>{{ timeslot.quantity }}</td>
             <td style="width:10%; text-align: center; justify-content: center;">
               <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
                                  :icon="['fas', 'pen-to-square']"/>
@@ -57,20 +57,6 @@
               <font-awesome-icon class="link-custom cursor-pointer"
                                  :icon="['fas', 'trash']"/>
             </td>
-          </tr>
-          <tr>
-            <td>14:00</td>
-            <td>16:00</td>
-            <td>2</td>
-            <td style="width:10%; text-align: center; justify-content: center;">
-              <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
-                                 :icon="['fas', 'pen-to-square']"/>
-            </td>
-            <td style="width:10%; text-align: center; justify-content: center;">
-              <font-awesome-icon class="link-custom cursor-pointer"
-                                 :icon="['fas', 'trash']"/>
-            </td>
-
           </tr>
           </tbody>
         </table>
