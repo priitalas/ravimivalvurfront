@@ -18,13 +18,13 @@
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Algus</span>
-            <input v-model="newMedicationPlanInfo.periodStart" type="date" class="form-control">
+            <input v-model="newMedicationPlanInfo.periodStart" type="datetime-local" id="startTime" class="form-control">
           </div>
         </div>
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Lõpp</span>
-            <input v-model="newMedicationPlanInfo.periodEnd" type="date" class="form-control">
+            <input v-model="newMedicationPlanInfo.periodEnd" type="datetime-local" id="endTime" min="startTime" class="form-control">
           </div>
         </div>
         <div class="col-1 justify-content-start">
@@ -204,6 +204,7 @@ export default {
         query: {
           medicationPlanId: selectedMedicationPlanId,
           medicationName: selectedMedicationName,
+          patientId: this.patientId,
           patientFirstName: this.patientFirstName,
           patientLastName: this.patientLastName,
         }

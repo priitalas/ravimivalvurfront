@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-8">
         <h2>Lisa ravimi võtmise ajad ja doosid</h2>
-        <h6>Patsient {{patientFirstName}} {{patientLastName}}, ravim {{medicationName}}</h6>
+        <h6>Patsient {{ patientFirstName }} {{ patientLastName }}, ravim {{ medicationName }}</h6>
       </div>
       <div class="row justify-content-center">
         <div class="col-2">
@@ -25,44 +25,43 @@
           </div>
         </div>
         <div class="col-2 justify-content-center">
-          <div class="input-group mb-3">
-            <button @click="sendAddTimeslotRequest" type="button" class="btn btn-primary">Salvesta</button>
-          </div>
+          <button @click="sendAddTimeslotRequest" type="button" class="btn btn-primary me-3">Salvesta</button>
+          <button @click="goBackToDoctorPage" type="button" class="btn btn-dark">Tagasi</button>
         </div>
       </div>
     </div>
     <p></p>
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <table class="table rounded-table">
-          <thead>
-          <tr>
-            <th scope="col">Aja algus</th>
-            <th scope="col">Aja lõpp</th>
-            <th scope="col">Doos</th>
-            <th scope="col">Muuda</th>
-            <th scope="col">Kustuta</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="timeslot in timeslots" :key="timeslot.timeslotId">
-            <td>{{ timeslot.slotStart }}</td>
-            <td>{{ timeslot.slotEnd }}</td>
-            <td>{{ timeslot.quantity }}</td>
-            <td style="width:10%; text-align: center; justify-content: center;">
-              <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
-                                 :icon="['fas', 'pen-to-square']"/>
-            </td>
-            <td style="width:10%; text-align: center; justify-content: center;">
-              <font-awesome-icon class="link-custom cursor-pointer"
-                                 :icon="['fas', 'trash']"/>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <table class="table rounded-table">
+            <thead>
+            <tr>
+              <th scope="col">Aja algus</th>
+              <th scope="col">Aja lõpp</th>
+              <th scope="col">Doos</th>
+              <th scope="col">Muuda</th>
+              <th scope="col">Kustuta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="timeslot in timeslots" :key="timeslot.timeslotId">
+              <td>{{ timeslot.slotStart }}</td>
+              <td>{{ timeslot.slotEnd }}</td>
+              <td>{{ timeslot.quantity }}</td>
+              <td style="width:10%; text-align: center; justify-content: center;">
+                <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
+                                   :icon="['fas', 'pen-to-square']"/>
+              </td>
+              <td style="width:10%; text-align: center; justify-content: center;">
+                <font-awesome-icon class="link-custom cursor-pointer"
+                                   :icon="['fas', 'trash']"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -75,11 +74,11 @@ export default {
   data() {
     return {
       medicationPlanId: useRoute().query.medicationPlanId,
+      patientId: useRoute().query.patientId,
       patientFirstName: useRoute().query.patientFirstName,
       patientLastName: useRoute().query.patientLastName,
       medicationName: useRoute().query.medicationName,
-      // URL + query/request parameter example
-      //  medicationPlanId: useRoute().query.medicationPlanId,
+
       addedTimeslot: {
         medicationPlanId: useRoute().query.medicationPlanId,
         slotStart: null,
@@ -108,6 +107,10 @@ export default {
       })
     },
 
+    goBackToDoctorPage() {
+      router.push({name: 'doctorRoute'})
+    },
+
     updateTimeslotsTable() {
       this.$http.get("/medication-plans/patient/time-slot", {
             params: {
@@ -120,8 +123,6 @@ export default {
         router.push({name: 'errorRoute'})
       })
     },
-
   }
-
 }
 </script>

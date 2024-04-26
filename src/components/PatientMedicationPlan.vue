@@ -21,14 +21,14 @@
         <tr v-for="medicationPlan in sortedMedicationPlans" :key="medicationPlan.medicationPlanId"
             :class="{ 'table-secondary': medicationPlan.medicationPlanStatus === 'D' }">
           <td style="text-align: start">
-            {{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName}}
+            {{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName }}
           </td>
           <td>{{ medicationPlan.periodStart }}</td>
           <td>{{ medicationPlan.periodEnd }}</td>
-          <td>{{ medicationPlan.frequency }}</td>
+          <td> {{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon
-                @click="navigateToPatientTimeslots(sortedMedicationPlan.medicationPlanId, sortedMedicationPlan.medicationName)"
+                @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
                 class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
@@ -37,8 +37,10 @@
                                :icon="['fas', 'pen-to-square']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)" class="link-custom cursor-pointer"
+            <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
+                               class="link-custom cursor-pointer"
                                :icon="['fas', 'trash']"/>
+
           </td>
         </tr>
         </tbody>
@@ -69,6 +71,7 @@ export default {
     return {
       showPatientCompleteMedicationInfo: false,
       isDoctor: false,
+      isWithoutTimeslots: false,
       patientId: 0,
       errorMessage: '',
       selectedMedicationPlanId: 0,
@@ -123,12 +126,21 @@ export default {
       ).then(response => {
         this.medicationPlans = response.data
         this.$emit('event-medication-plans-found');
+        this.isWithoutTimeslots = this.checkIfAnyPlanWithZeroFrequency()
+        if (this.isWithoutTimeslots) {
+          this.errorMessage = "Patsiendil on raviplaane, millel on võtmise ajad ja doosid sisestamata!"
+          setTimeout(this.resetMessage, 4000);
+        }
       }).catch(error => {
         this.$emit('event-medication-plans-not-found');
         this.errorResponse = error.response.data
         setTimeout(this.resetMessage, 2000);
         this.handleError(error.response.status)
       })
+    },
+
+    checkIfAnyPlanWithZeroFrequency() {
+      return this.medicationPlans.some(plan => plan.frequency === 0);
     },
 
     handleMedicationPlanDeleted(message) {
