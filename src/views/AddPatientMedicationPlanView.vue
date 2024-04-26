@@ -1,5 +1,7 @@
 <template>
   <div class="doctorbackground-container">
+    <DeleteMedicationPlanModal ref="deleteMedicationPlanModalRef"
+                               @event-medication-plan-deleted="handleMedicationPlanDeleted"/>
     <div class="row justify-content-center">
       <div class="col-8">
         <h2>Lisa patsiendile {{ patientFirstName }} {{ patientLastName }} uus ravikuur</h2>
@@ -18,13 +20,15 @@
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Algus</span>
-            <input v-model="newMedicationPlanInfo.periodStart" type="datetime-local" id="startTime" class="form-control">
+            <input v-model="newMedicationPlanInfo.periodStart" type="date" id="startDate"
+                   class="form-control">
           </div>
         </div>
         <div class="col-2">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Lõpp</span>
-            <input v-model="newMedicationPlanInfo.periodEnd" type="datetime-local" id="endTime" min="startTime" class="form-control">
+            <input v-model="newMedicationPlanInfo.periodEnd" type="date" id="endDate" min="startDate"
+                   class="form-control">
           </div>
         </div>
         <div class="col-1 justify-content-start">
@@ -69,7 +73,8 @@
                                  :icon="['fas', 'pen-to-square']"/>
             </td>
             <td style="width:10%; text-align: center; justify-content: center;">
-              <font-awesome-icon class="link-custom cursor-pointer"
+              <font-awesome-icon @click="navigateToDeleteMedicationPlan(addedMedicationPlan.medicationPlanId)"
+                                 class="link-custom cursor-pointer"
                                  :icon="['fas', 'trash']"/>
             </td>
           </tr>
@@ -86,10 +91,11 @@ import {useRoute} from "vue-router";
 import router from "@/router";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
+import DeleteMedicationPlanModal from "@/components/modal/medication/DeleteMedicationPlanModal.vue";
 
 export default {
   name: "AddPatientMedicationPlanView.vue",
-  components: {PatientMedicationPlan, AlertDanger},
+  components: {DeleteMedicationPlanModal, PatientMedicationPlan, AlertDanger},
 
   data() {
     return {
@@ -167,6 +173,16 @@ export default {
       })
     },
 
+    handleMedicationPlanDeleted(message) {
+      this.errorMessage = message
+      this.sendGetAddedMedicationPlansRequest()
+    },
+
+    navigateToDeleteMedicationPlan(selectedMedicationPlanId) {
+      this.$refs.deleteMedicationPlanModalRef.medicationPlanId = selectedMedicationPlanId
+      this.$refs.deleteMedicationPlanModalRef.$refs.modalRef.openModal()
+    },
+
     handleMedicationChange() {
       this.selectedMedication = this.medications.find(medication => medication.medicationId === this.newMedicationPlanInfo.medicationId);
       if (this.selectedMedication) {
@@ -183,8 +199,7 @@ export default {
     handleNewMedicationAdded() {
       this.sendGetMedicationsRequest()
       this.newMedicationPlanInfo.medicationId = data.message
-    }
-    ,
+    },
 
     sendGetMedicationsRequest() {
       this.$http.get("/medications")
@@ -194,8 +209,7 @@ export default {
           .catch(() => {
             router.push({name: 'errorRoute'})
           })
-    }
-    ,
+    },
 
     navigateToMedicationTimeslots(selectedMedicationPlanId, selectedMedicationName) {
       // URL + query/request parameter example
@@ -215,21 +229,19 @@ export default {
       return this.newMedicationPlanInfo.medicationId !== 0 &&
           this.newMedicationPlanInfo.planStart !== null &&
           this.newMedicationPlanInfo.planEnd !== null
-    }
-    ,
+    },
 
     displayAllFieldsRequiredAlert() {
       this.errorMessage = 'Täida kõik väljad!'
       setTimeout(this.resetMessages, 2000)
-    }
-    ,
+    },
 
     resetMessages() {
       this.errorMessage = ''
       this.successMessage = ''
-    }
-    ,
+    },
   },
+
   beforeMount() {
     this.sendGetMedicationsRequest()
   }

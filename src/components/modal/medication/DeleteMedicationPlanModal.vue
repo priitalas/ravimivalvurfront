@@ -12,7 +12,6 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import router from "@/router";
-import AlertDanger from "@/components/alert/AlertDanger.vue";
 
 export default {
   name: "DeleteMedicationPlanModal",

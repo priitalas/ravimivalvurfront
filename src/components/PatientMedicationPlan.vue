@@ -140,7 +140,7 @@ export default {
     },
 
     checkIfAnyPlanWithZeroFrequency() {
-      return this.medicationPlans.some(plan => plan.frequency === 0);
+      return this.medicationPlans.some(plan => plan.frequency === 0 && plan.medicationPlanStatus === "A");
     },
 
     handleMedicationPlanDeleted(message) {
