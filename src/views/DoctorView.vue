@@ -3,7 +3,8 @@
     <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
     <DeletePatientFromListModal ref="deletePatientFromListModalRef"
                                 @event-patient-deleted-from-list="handlePatientDeletedFromList"/>
-    <DoctorPatientConnectingModal ref="DoctorPatientConnectingModal" @event-patient-accepted-doctor="handlePatientAdded" />
+    <DoctorPatientConnectingModal ref="DoctorPatientConnectingModal"
+                                  @event-patient-accepted-doctor="handlePatientAdded"/>
     <h2>Arsti / hooldaja töölaud</h2>
     <p></p>
     <p></p>
@@ -125,11 +126,10 @@ export default {
   computed: {
     sortedPatients() {
       return this.patients.sort((a, b) => {
-        if (a.status === b.status) {
-          return a.lastName.localeCompare(b.lastName);
-        } else {
+        if (a.status !== b.status) {
           return a.status.localeCompare(b.status);
         }
+        return a.lastName.localeCompare(b.lastName);
       });
     }
   },
