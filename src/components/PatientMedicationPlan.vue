@@ -1,5 +1,7 @@
 <template>
   <div v-if="showPatientCompleteMedicationInfo" class="container text-center">
+    <DeleteMedicationPlanModal ref="deleteMedicationPlanModalRef"
+                               @event-medication-plan-deleted="handleMedicationPlanDeleted"/>
     <div class="row">
       <AlertDanger :message="errorMessage"/>
       <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
@@ -16,17 +18,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="medicationPlan in medicationPlans" :key="medicationPlan.medicationPlanId">
-          <td style="text-align: start">{{ medicationPlan.medicationName }}, {{
-              medicationPlan.medicationUnitName
-            }}
+        <tr v-for="medicationPlan in sortedMedicationPlans" :key="medicationPlan.medicationPlanId"
+            :class="{ 'table-secondary': medicationPlan.medicationPlanStatus === 'D' }">
+          <td style="text-align: start">
+            {{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName}}
           </td>
           <td>{{ medicationPlan.periodStart }}</td>
           <td>{{ medicationPlan.periodEnd }}</td>
           <td>{{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon
-                @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
+                @click="navigateToPatientTimeslots(sortedMedicationPlan.medicationPlanId, sortedMedicationPlan.medicationName)"
                 class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
@@ -35,7 +37,7 @@
                                :icon="['fas', 'pen-to-square']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="openDeleteMedicationPlan(medicationPlan.medicationPlanId)" class="link-custom cursor-pointer"
+            <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)" class="link-custom cursor-pointer"
                                :icon="['fas', 'trash']"/>
           </td>
         </tr>
@@ -55,17 +57,18 @@
 
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import router from "@/router";
+import DeleteMedicationPlanModal from "@/components/modal/medication/DeleteMedicationPlanModal.vue";
+import AddUnitModal from "@/components/modal/medication/AddUnitModal.vue";
 
 export default {
   name: "PatientMedicationPlan",
-  components: {AlertDanger},
+  components: {AddUnitModal, DeleteMedicationPlanModal, AlertDanger},
   props: ['patientFirstName', 'patientLastName'],
 
   data() {
     return {
       showPatientCompleteMedicationInfo: false,
       isDoctor: false,
-      editPlan: false,
       patientId: 0,
       errorMessage: '',
       selectedMedicationPlanId: 0,
@@ -85,6 +88,18 @@ export default {
     }
   },
 
+  computed: {
+    sortedMedicationPlans() {
+      return this.medicationPlans.sort((a, b) => {
+        if (a.medicationPlanStatus === b.medicationPlanStatus) {
+          return a.medicationPlanStatus.localeCompare(b.medicationPlanStatus);
+        } else {
+          return a.medicationPlanStatus.localeCompare(b.medicationPlanStatus);
+        }
+      });
+    }
+  },
+
   methods: {
     // URL + query/request parameter example
     navigateToAddPatientMedicationPlan() {
@@ -98,21 +113,10 @@ export default {
       })
     },
 
-    navigateToEditPlan() {
+    navigateToDeleteMedicationPlan(selectedMedicationPlanId) {
+      this.$refs.deleteMedicationPlanModalRef.medicationPlanId = selectedMedicationPlanId
+      this.$refs.deleteMedicationPlanModalRef.$refs.modalRef.openModal()
     },
-
-    openDeleteMedicationPlan(selectedMedicationPlanId) {
-        this.$http.delete("medication-plan/user", {
-              params: {
-                medicationPlanId: selectedMedicationPlanId
-              }
-            }
-        ).then(response => {
-          const responseBody = response.data
-        }).catch(error => {
-          const errorResponseBody = error.response.data
-        })
-      },
 
     sendGetPatientMedicationPlan() {
       this.$http.get(`/medication-plans/patient/${this.patientId}`
@@ -125,6 +129,11 @@ export default {
         setTimeout(this.resetMessage, 2000);
         this.handleError(error.response.status)
       })
+    },
+
+    handleMedicationPlanDeleted(message) {
+      this.errorMessage = message
+      this.sendGetPatientMedicationPlan()
     },
 
     handleError(statusCode) {
