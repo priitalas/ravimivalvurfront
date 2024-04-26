@@ -1,11 +1,13 @@
 <template>
-  <Modal ref="modalRef" >
+  <Modal ref="modalRef">
     <template #title>
       Ravimi laiendatud info:
     </template>
     <template #body>
       <div>
-        <h6><MedicationLargeImage :image-data="medication.medicationImageData"/></h6>
+        <h6>
+          <MedicationLargeImage :image-data="medication.medicationImageData"/>
+        </h6>
         <h5> Nimi: {{ medication.medicationName }}</h5>
         <h5> Tarvitamisjuhis:</h5>
         <h5 textarea class="form-control"> {{ medication.medicationNote }}</h5>

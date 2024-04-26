@@ -4,7 +4,7 @@
     <table v-if="medications.length > 0" class="table table-hover rounded-table table-striped"
            style="vertical-align: middle;">
       <thead>
-      <tr  style="text-align: left">
+      <tr style="text-align: left">
         <th class="bigtext" style="text-align: center" scope="col">Pilt</th>
         <th class="bigtext" scope="col">Nimi</th>
         <th class="bigtext" scope="col">Annus</th>
@@ -98,7 +98,6 @@ export default {
       })
     },
 
-
     sendGetPatientMedicationsToTakeNowRequest() {
       this.$http.get("medication-plans/patient/to-take-now", {
             params: {
@@ -115,7 +114,6 @@ export default {
     openViewPatientMedicationInfoModal(medicationId, medicationImageData) {
       this.$refs.ViewPatientMedicationInfoModalRef.handleOpenViewPatientMedicationInfoModal(medicationId, medicationImageData)
     },
-
   },
 
   beforeMount() {

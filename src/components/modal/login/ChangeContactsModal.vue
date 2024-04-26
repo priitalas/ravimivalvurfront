@@ -8,17 +8,18 @@
       <div class="container text-start">
         <div class="row justify-content-center">
           <div class="col">
+            <AlertDanger :message="errorMessage"/>
             <div class="mb-3">
               <label for="firstname" class="form-label">Eesnimi</label>
-              <input v-model="changeContactsRequest.firstName" type="text" class="form-control" id="firstname">
+              <input v-model="userContactInfo.firstName" type="text" class="form-control" id="firstname">
             </div>
             <div class="mb-3">
               <label for="lastname" class="form-label">Perekonnanimi</label>
-              <input v-model="changeContactsRequest.lastName" type="text" class="form-control" id="lastname">
+              <input v-model="userContactInfo.lastName" type="text" class="form-control" id="lastname">
             </div>
             <div class="mb-3">
               <label for="contact" class="form-label">e-mail</label>
-              <input v-model="changeContactsRequest.email" type="text" class="form-control" id="contact">
+              <input v-model="userContactInfo.email" type="text" class="form-control" id="contact">
             </div>
           </div>
         </div>
@@ -26,7 +27,7 @@
     </template>
 
     <template #buttons>
-      <button @click="sendChangeContactsRequest" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta
+      <button @click="executeContactsChange" type="submit" class="btn btn-primary text-center text-nowrap">Salvesta
       </button>
     </template>
 
@@ -44,14 +45,19 @@ export default {
 
   data() {
     return {
+      userId: sessionStorage.getItem('userId'),
+
       changeContactsRequest: {
         userId: sessionStorage.getItem('userId'),
         firstName: '',
         lastName: '',
-        username: '',
         email: '',
-        password: '',
-        roleId: 0
+      },
+
+      userContactInfo: {
+        firstName: '',
+        lastName: '',
+        email: '',
       },
 
       errorMessage: '',
@@ -66,17 +72,42 @@ export default {
 
   methods: {
 
-    sendChangeContactsRequest() {
-      this.changeContactsRequest.roleId = Number(this.changeContactsRequest.roleId)
-      this.$http.put('/user', this.changeContactsRequest
+    sendGetUserContactInfo() {
+      this.$http.get("/user", {
+            params: {
+              userId: this.userId
+            }
+          }
       ).then(response => {
-        this.resetAllInputFields()
-        this.$refs.modalRef.closeModal()
-
+        this.userContactInfo = response.data
       }).catch(error => {
-        this.errorResponse = error.response.data
-        this.handleError(error.response.status)
+        router.push({name: 'errorRoute'})
       })
+    },
+
+    allRequiredFieldsWithCorrectInput() {
+      return this.userContactInfo.firstName !== '' &&
+          this.userContactInfo.lastName !== ''
+    },
+
+    executeContactsChange() {
+      if (this.allRequiredFieldsWithCorrectInput()) {
+        this.changeContactsRequest.firstName = this.userContactInfo.firstName
+        this.changeContactsRequest.lastName = this.userContactInfo.lastName
+        this.changeContactsRequest.email = this.userContactInfo.email
+
+        this.$http.put('/user', this.changeContactsRequest
+        ).then(response => {
+          this.resetAllInputFields()
+          this.$refs.modalRef.closeModal()
+
+        }).catch(error => {
+          this.errorResponse = error.response.data
+          this.handleError(error.response.status)
+        })
+      } else {
+        this.displayAllFieldsRequiredAlert()
+      }
     },
 
     handleError(statusCode) {
@@ -88,20 +119,25 @@ export default {
       }
     },
 
+    displayAllFieldsRequiredAlert() {
+      this.errorMessage = 'Täida kõik väljad!'
+      setTimeout(this.resetMessage, 4000)
+    },
+
     resetAllInputFields() {
       this.changeContactsRequest.firstName = ''
       this.changeContactsRequest.lastName = ''
-      this.changeContactsRequest.username = ''
-      this.changeContactsRequest.password = ''
       this.changeContactsRequest.email = ''
-      this.changeContactsRequest.roleId = ''
     },
 
     resetMessages() {
       this.successMessage = ''
       this.errorMessage = ''
     },
+  },
 
+    beforeMount() {
+      this.sendGetUserContactInfo()
+    }
   }
-}
 </script>

@@ -2,7 +2,7 @@
   <div class="doctorbackground-container">
     <div class="row justify-content-center">
       <div class="col-8">
-        <h2>Lisa uus ravikuur patsiendile {{ patientFirstName }} {{ patientLastName }}</h2>
+        <h2>Lisa patsiendile {{ patientFirstName }} {{ patientLastName }} uus ravikuur</h2>
       </div>
       <div class="row justify-content-lg-center">
         <div class="col-3">

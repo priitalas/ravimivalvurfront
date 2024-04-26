@@ -60,6 +60,7 @@ export default {
       ).then(response => {
         this.doctorRelationship = response.data
 
+        this.$emit('patient-accepted-doctor', 'Nimekirja lisandus patsient' )
         this.$refs.modalRef.openModal()
       }).catch(error => {
         const errorResponseBody = error.response.data
@@ -81,5 +82,7 @@ export default {
       })
     },
   }
+
+
 }
 </script>
