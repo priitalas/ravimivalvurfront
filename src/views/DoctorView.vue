@@ -142,8 +142,10 @@ export default {
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.isDoctor = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.patientId = selectedPatientId
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.patientId = selectedPatientId
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.medicationPlans = []
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.getPatientMedicationLogbook()
     },
 
     goToAddNewPatient() {
