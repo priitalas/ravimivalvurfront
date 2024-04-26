@@ -4,8 +4,8 @@
     <table v-if="medications.length > 0" class="table table-hover rounded-table table-striped"
            style="vertical-align: middle;">
       <thead>
-      <tr>
-        <th class="bigtext" scope="col">Pilt</th>
+      <tr  style="text-align: left">
+        <th class="bigtext" style="text-align: center" scope="col">Pilt</th>
         <th class="bigtext" scope="col">Nimi</th>
         <th class="bigtext" scope="col">Annus</th>
         <th class="bigtext" scope="col">Ühik</th>
@@ -21,10 +21,10 @@
           <img :src="medication.medicationImageData" alt="Medication Image" style="width: 180px;
         cursor: pointer;" @click="openViewPatientMedicationInfoModal(medication.medicationId)">
         </td>
-        <td class="bigtext">{{ medication.medicationName }}</td>
-        <td class="bigtext">{{ medication.quantity }}</td>
-        <td class="bigtext">{{ medication.medicationUnitName }}</td>
-        <td class="bigtext">{{ medication.medicationNote }}</td>
+        <td class="bigtext" style="text-align: left">{{ medication.medicationName }}</td>
+        <td class="bigtext" style="text-align: center">{{ medication.quantity }}</td>
+        <td class="bigtext" style="text-align: left">{{ medication.medicationUnitName }}</td>
+        <td class="bigtext" style="text-align: left">{{ medication.medicationNote }}</td>
 
         <td>
           <button @click="takeMedication(medication.medicationPlanId, medication.medicationTimeId)" type="button"
@@ -112,8 +112,8 @@ export default {
       })
     },
 
-    openViewPatientMedicationInfoModal(medicationId) {
-      this.$refs.ViewPatientMedicationInfoModalRef.handleOpenViewPatientMedicationInfoModal(medicationId)
+    openViewPatientMedicationInfoModal(medicationId, medicationImageData) {
+      this.$refs.ViewPatientMedicationInfoModalRef.handleOpenViewPatientMedicationInfoModal(medicationId, medicationImageData)
     },
 
   },
