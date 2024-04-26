@@ -1,17 +1,16 @@
 <template>
   <Modal ref="modalRef">
     <template #title>
-      <div>Arst soovib lisada Sind enda patsiendiks!</div>
+      <div>Arst soovib Teid enda patsiendiks!</div>
     </template>
     <template #body>
-      <div class="m-2">
-        {{ "Arsti nimi:  " + doctorRelationship.doctorFirstName + "  " + doctorRelationship.doctorLastName }}
-      </div>
-      <div class="m-2">Kas Sa oled sellega nõus?</div>
+      <div class="m-2">{{ doctorRelationship.doctorFirstName }}</div>
+      <div class="m-2">{{ doctorRelationship.doctorLastName }}</div>
     </template>
+
     <template #buttons>
-      <button @click="patientRejects" type="button" class="btn btn-danger">Keeldun</button>
-      <button @click="patientAccepts" type="button" class="btn btn-success">Nõustun</button>
+      <button @click="patientRejects" type="button" class="btn btn-danger">Ei</button>
+      <button @click="patientAccepts" type="button" class="btn btn-warning">Jah</button>
     </template>
 
   </Modal>
@@ -59,6 +58,7 @@ export default {
           }
       ).then(response => {
         this.doctorRelationship = response.data
+        this.$emit('patient-accepted-doctor', 'Nimekirja lisandus patsient' )
         this.$refs.modalRef.openModal()
       }).catch(error => {
         const errorResponseBody = error.response.data

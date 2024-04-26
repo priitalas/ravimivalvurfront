@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center">
-<!--    <AlertDanger :message="errorMessage"/>-->
+    <AlertDanger :message="errorMessage"/>
     <div class="row">
       <div class="col">
         <table class="table">
@@ -31,25 +31,28 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 export default {
   name: "PatientMedicationLogbook",
   components: {AlertDanger},
-  // props: {
-  //   patientId: String
-  // },
 
   data() {
     return {
       patientId: 0,
+      errorMessage: '',
       patientLogbooks: [
         {
           medicationName: '',
           date: null,
           time: null
         }
-      ]
+      ],
+      errorResponse: {
+        message: '',
+        errorCode: ''
+      }
     }
   },
 
   methods: {
     getPatientMedicationLogbook () {
+      this.patientLogbooks=[]
       this.$http.get("/logbook/patient", {
             params: {
               patientId: this.patientId
@@ -67,7 +70,7 @@ export default {
     handleError(statusCode) {
       if (statusCode === 403 && this.errorResponse.errorCode === 999) {
         this.errorMessage = this.errorResponse.message;
-        setTimeout(this.resetMessage, 2000);
+        setTimeout(this.resetMessage, 6000);
       } else {
         router.push({name: 'errorRoute'})
       }
@@ -78,9 +81,9 @@ export default {
     },
   },
 
-  // mounted() {
-  //   this.getPatientMedicationLogbook()
-  // }
+  mounted() {
+    this.getPatientMedicationLogbook()
+  }
 }
 </script>
 

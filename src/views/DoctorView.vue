@@ -3,6 +3,7 @@
     <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
     <DeletePatientFromListModal ref="deletePatientFromListModalRef"
                                 @event-patient-deleted-from-list="handlePatientDeletedFromList"/>
+    <DoctorPatientConnectingModal ref="DoctorPatientConnectingModal" @event-patient-accepted-doctor="handlePatientAdded" />
     <h2>Arsti / hooldaja töölaud</h2>
     <p></p>
     <p></p>
@@ -87,10 +88,12 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AddPatientModal from "@/components/modal/patient/AddPatientModal.vue";
 import DeletePatientFromListModal from "@/components/modal/patient/DeletePatientFromListModal.vue";
 import PatientCompleteMedicationInfo from "@/components/PatientCompleteMedicationInfo.vue";
+import DoctorPatientConnectingModal from "@/App.vue";
 
 export default {
   name: "DoctorView",
   components: {
+    DoctorPatientConnectingModal,
     PatientCompleteMedicationInfo,
     AddPatientModal, DeletePatientFromListModal,
     AlertDanger, AlertSuccess
@@ -139,8 +142,10 @@ export default {
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.isDoctor = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.patientId = selectedPatientId
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.patientId = selectedPatientId
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.medicationPlans = []
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.getPatientMedicationLogbook()
     },
 
     goToAddNewPatient() {

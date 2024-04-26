@@ -25,15 +25,17 @@
           <td>{{ medicationPlan.periodEnd }}</td>
           <td>{{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
-                               class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
+            <font-awesome-icon
+                @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
+                class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="navigateToEditPlan()" class="link-custom cursor-pointer me-lg-2"
+            <font-awesome-icon @click="navigateToEditPlan()"
+                               class="link-custom cursor-pointer me-lg-2"
                                :icon="['fas', 'pen-to-square']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="openDeletePlan()" class="link-custom cursor-pointer"
+            <font-awesome-icon @click="openDeleteMedicationPlan(medicationPlan.medicationPlanId)" class="link-custom cursor-pointer"
                                :icon="['fas', 'trash']"/>
           </td>
         </tr>
@@ -63,8 +65,10 @@ export default {
     return {
       showPatientCompleteMedicationInfo: false,
       isDoctor: false,
+      editPlan: false,
       patientId: 0,
       errorMessage: '',
+      selectedMedicationPlanId: 0,
       medicationPlans: [{
         medicationPlanId: 0,
         medicationPlanStatus: "",
@@ -89,7 +93,7 @@ export default {
         query: {
           patientId: this.patientId,
           patientFirstName: this.patientFirstName,
-          patientLastName: this.patientLastName
+          patientLastName: this.patientLastName,
         }
       })
     },
@@ -97,14 +101,26 @@ export default {
     navigateToEditPlan() {
     },
 
-    openDeletePlan() {
-    },
+    openDeleteMedicationPlan(selectedMedicationPlanId) {
+        this.$http.delete("medication-plan/user", {
+              params: {
+                medicationPlanId: selectedMedicationPlanId
+              }
+            }
+        ).then(response => {
+          const responseBody = response.data
+        }).catch(error => {
+          const errorResponseBody = error.response.data
+        })
+      },
 
     sendGetPatientMedicationPlan() {
       this.$http.get(`/medication-plans/patient/${this.patientId}`
       ).then(response => {
         this.medicationPlans = response.data
+        this.$emit('event-medication-plans-found');
       }).catch(error => {
+        this.$emit('event-medication-plans-not-found');
         this.errorResponse = error.response.data
         setTimeout(this.resetMessage, 2000);
         this.handleError(error.response.status)
