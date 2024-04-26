@@ -9,7 +9,7 @@
     </template>
 
     <template #buttons>
-      <button @click="patientRejects" type="button" class="btn btn-warning">Ei</button>
+      <button @click="patientRejects" type="button" class="btn btn-danger">Ei</button>
       <button @click="patientAccepts" type="button" class="btn btn-warning">Jah</button>
     </template>
 
@@ -58,6 +58,7 @@ export default {
           }
       ).then(response => {
         this.doctorRelationship = response.data
+        this.$emit('patient-accepted-doctor', 'Nimekirja lisandus patsient' )
         this.$refs.modalRef.openModal()
       }).catch(error => {
         const errorResponseBody = error.response.data
