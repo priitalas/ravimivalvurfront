@@ -1,15 +1,15 @@
 <template>
-  <Modal ref="modalRef" class=modal-fullscreen>
+  <Modal ref="modalRef" >
     <template #title>
       Ravimi laiendatud info:
     </template>
     <template #body>
       <div>
-        <h6><img :src="medication.medicationImageData" alt="Medication Image"></h6>
-        <h6> Nimi: {{ medication.medicationName }}</h6>
-        <h6> Tarvitamisjuhis:</h6>
-        <h6> {{ medication.medicationNote }}</h6>
-        <h6> {{ medication.medicationDescription }}</h6>
+        <h6><MedicationLargeImage :image-data="medication.medicationImageData"/></h6>
+        <h5> Nimi: {{ medication.medicationName }}</h5>
+        <h5> Tarvitamisjuhis:</h5>
+        <h5 textarea class="form-control"> {{ medication.medicationNote }}</h5>
+        <h6 textarea class="form-control"> {{ medication.medicationDescription }}</h6>
 
       </div>
     </template>
@@ -23,15 +23,20 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import MedicationImage from "@/components/medication/MedicationImage.vue";
+import MedicationLargeImage from "@/components/medication/MedicationLargeImage.vue";
 
 export default {
   name: 'ViewPatientMedicationInfoModal',
 
-  components: {MedicationImage, Modal},
+  components: {MedicationLargeImage, MedicationImage, Modal},
   data() {
     return {
-      // todo: swageri resonse pealt saad mudeli
-      medication: {}
+      medication: {
+        medicationName: '',
+        medicationNote: '',
+        medicationDescription: '',
+        medicationImageData: ''
+      },
     };
   },
   methods: {
@@ -49,12 +54,6 @@ export default {
             const errorResponseBody = error.response.data
           })
     },
-
-    // todo: too ära backendist konkreetse ravimi kogu info kasutades medicationId
-    //  GET /medication?medicationId=1
-    //  GET /medication/1
-
-
   }
-};
+}
 </script>
