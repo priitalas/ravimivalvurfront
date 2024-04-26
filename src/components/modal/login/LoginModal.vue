@@ -101,11 +101,13 @@ export default {
             this.$refs.modalRef.closeModal()
 
           } else {
+            this.$refs.modalRef.closeModal()
             router.push({name: 'patientRoute'});
           }
 
 
         } else {
+          this.$refs.modalRef.closeModal()
           router.push({name: 'doctorRoute'});
         }
 
