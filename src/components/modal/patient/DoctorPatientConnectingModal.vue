@@ -47,18 +47,19 @@ export default {
       this.sendPutPatientDoctorRequest(false);
     },
 
-    handleOpenDoctorPatientConnectingModal() {
-      this.sendGetPatientDoctorStatusRequest()
+    handleOpenDoctorPatientConnectingModal(userId) {
+      this.sendGetPatientDoctorStatusRequest(userId)
     },
 
-    sendGetPatientDoctorStatusRequest() {
+    sendGetPatientDoctorStatusRequest(userId) {
       this.$http.get("/patient/doctor", {
             params: {
-              patientId: this.userId
+              patientId: userId
             }
           }
       ).then(response => {
         this.doctorRelationship = response.data
+
         this.$refs.modalRef.openModal()
       }).catch(error => {
         const errorResponseBody = error.response.data
@@ -80,7 +81,5 @@ export default {
       })
     },
   }
-
-
 }
 </script>

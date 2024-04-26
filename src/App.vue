@@ -99,8 +99,8 @@ export default {
       this.$refs.logOutModalRef.$refs.modalRef.openModal()
     },
 
-    openDoctorPatientConnectingModal() {
-      this.$refs.doctorPatientConnectingModalRef.handleOpenDoctorPatientConnectingModal()
+    openDoctorPatientConnectingModal(userId) {
+      this.$refs.doctorPatientConnectingModalRef.handleOpenDoctorPatientConnectingModal(userId)
     },
   },
 
