@@ -1,16 +1,16 @@
 <template>
   <div>
     <ViewPatientMedicationInfoModal ref="ViewPatientMedicationInfoModalRef"/>
-    <table v-if="medications.length > 0" class="table table-striped table-primary table-hover"
+    <table v-if="medications.length > 0" class="table table-hover rounded-table table-striped"
            style="vertical-align: middle;">
       <thead>
       <tr>
-        <th style="font-size: x-large;" scope="col">Pilt</th>
-        <th style="font-size: x-large;" scope="col">Nimi</th>
-        <th style="font-size: x-large;" scope="col">Annus</th>
-        <th style="font-size: x-large;" scope="col">Ühik</th>
-        <th style="font-size: x-large;" scope="col">Lisainfo</th>
-        <th style="font-size: x-large;" scope="col">Märgi võetuks</th>
+        <th class="bigtext" scope="col">Pilt</th>
+        <th class="bigtext" scope="col">Nimi</th>
+        <th class="bigtext" scope="col">Annus</th>
+        <th class="bigtext" scope="col">Ühik</th>
+        <th class="bigtext" scope="col">Lisainfo</th>
+        <th class="bigtext" scope="col">Märgi võetuks</th>
       </tr>
       </thead>
 
@@ -21,15 +21,14 @@
           <img :src="medication.medicationImageData" alt="Medication Image" style="width: 180px;
         cursor: pointer;" @click="openViewPatientMedicationInfoModal(medication.medicationId)">
         </td>
-        <td style="font-size: x-large;">{{ medication.medicationName }}</td>
-        <td style="font-size: x-large;">{{ medication.quantity }}</td>
-        <td style="font-size: x-large;">{{ medication.medicationUnitName }}</td>
-        <td style="font-size: x-large;">{{ medication.medicationNote }}</td>
+        <td class="bigtext">{{ medication.medicationName }}</td>
+        <td class="bigtext">{{ medication.quantity }}</td>
+        <td class="bigtext">{{ medication.medicationUnitName }}</td>
+        <td class="bigtext">{{ medication.medicationNote }}</td>
 
         <td>
           <button @click="takeMedication(medication.medicationPlanId, medication.medicationTimeId)" type="button"
-                  class="btn btn-danger btn-lg">Märgi
-            võetuks
+                  class="btn btn-danger btn-lg">Märgi võetuks
           </button>
 
         </td>
@@ -109,7 +108,7 @@ export default {
       ).then(response => {
         this.medications = response.data
       }).catch(() => {
-        this.$parent.$data.message = "Hetkel ei ole võtmist vajavaid ravimeid!"
+        this.$parent.$data.message = "Hetkel teil võtmist vajavaid ravimeid ei ole!"
       })
     },
 

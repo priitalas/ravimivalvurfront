@@ -1,8 +1,8 @@
 <template>
-  <div class="background-container">
+  <div class="doctorbackground-container">
     <div class="row justify-content-center">
       <div class="col-8">
-        <h2>Lisa uus ravikuur patsiendile {{ patientFirstName}} {{ patientLastName}}</h2>
+        <h2>Lisa uus ravikuur patsiendile {{ patientFirstName }} {{ patientLastName }}</h2>
       </div>
       <div class="row justify-content-lg-center">
         <div class="col-3">
@@ -37,44 +37,46 @@
     <p></p>
 
     <div class="row justify-content-center">
-            <div class="col-8">
-              <h4>Lisa sisestatud ravikuurile ravimi igapäevased võtmise ajad</h4>
-              <AlertDanger :message="errorMessage"/>
-              <table class="table rounded-table">
-                <thead>
-                <tr>
-                  <th class="col">Ravimi nimi</th>
-                  <th class="col">Algus</th>
-                  <th class="col">Lõpp</th>
-                  <th class="col">Mitu korda päevas</th>
-                  <th class="col text-danger">Lisa ajad</th>
-                  <th class="col">Muuda</th>
-                  <th class="col">Kustuta</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="addedMedicationPlan in addedMedicationPlans" :key="addedMedicationPlan.medicationPlanId">
-                  <td>{{addedMedicationPlan.medicationName}}</td>
-                  <td>{{addedMedicationPlan.periodStart}}</td>
-                  <td>{{addedMedicationPlan.periodEnd}}</td>
-                  <td>{{addedMedicationPlan.frequency}}</td>
-                  <td style="width:10%; text-align: center; justify-content: center;">
-                    <font-awesome-icon @click="navigateToPatientTimeslots()" class="link-custom cursor-pointer text-danger"
-                                       :icon="['fas', 'clock']"/>
-                  </td>
-                  <td style="width:10%; text-align: center; justify-content: center;">
-                    <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
-                                       :icon="['fas', 'pen-to-square']"/>
-                  </td>
-                  <td style="width:10%; text-align: center; justify-content: center;">
-                    <font-awesome-icon class="link-custom cursor-pointer"
-                                       :icon="['fas', 'trash']"/>
-                  </td>
-                </tr>
+      <div class="col-8">
+        <h4>Lisa sisestatud ravikuurile ravimi igapäevased võtmise ajad</h4>
+        <AlertDanger :message="errorMessage"/>
+        <table class="table rounded-table">
+          <thead>
+          <tr>
+            <th class="col">Ravimi nimi</th>
+            <th class="col">Algus</th>
+            <th class="col">Lõpp</th>
+            <th class="col">Mitu korda päevas</th>
+            <th class="col text-danger">Lisa ajad</th>
+            <th class="col">Muuda</th>
+            <th class="col">Kustuta</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="addedMedicationPlan in addedMedicationPlans" :key="addedMedicationPlan.medicationPlanId">
+            <td>{{ addedMedicationPlan.medicationName }}</td>
+            <td>{{ addedMedicationPlan.periodStart }}</td>
+            <td>{{ addedMedicationPlan.periodEnd }}</td>
+            <td>{{ addedMedicationPlan.frequency }}</td>
+            <td style="width:10%; text-align: center; justify-content: center;">
+              <font-awesome-icon
+                  @click="navigateToMedicationTimeslots(addedMedicationPlan.medicationPlanId, addedMedicationPlan.medicationName)"
+                  class="link-custom cursor-pointer text-danger"
+                  :icon="['fas', 'clock']"/>
+            </td>
+            <td style="width:10%; text-align: center; justify-content: center;">
+              <font-awesome-icon class="link-custom cursor-pointer me-lg-2"
+                                 :icon="['fas', 'pen-to-square']"/>
+            </td>
+            <td style="width:10%; text-align: center; justify-content: center;">
+              <font-awesome-icon class="link-custom cursor-pointer"
+                                 :icon="['fas', 'trash']"/>
+            </td>
+          </tr>
 
-                </tbody>
-              </table>
-            </div>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -93,6 +95,8 @@ export default {
     return {
       errorMessage: '',
       successMessage: '',
+      selectedMedicationName: '',
+      selectedMedicationPlanId: 0,
 
       selectedMedication: {
         medicationId: 0,
@@ -150,7 +154,7 @@ export default {
       })
     },
 
-    sendGetAddedMedicationPlansRequest () {
+    sendGetAddedMedicationPlansRequest() {
       this.$http.get("/medication-plans/patient/new-plans/", {
             params: {
               patientId: this.patientId
@@ -193,11 +197,18 @@ export default {
     }
     ,
 
-    navigateToPatientTimeslots(medicationPlanId) {
+    navigateToMedicationTimeslots(selectedMedicationPlanId, selectedMedicationName) {
       // URL + query/request parameter example
-      router.push({name: 'patientTimeslotsRoute', query: {medicationPlanId: medicationPlanId}})
-    }
-    ,
+      router.push({
+        name: 'patientTimeslotsRoute',
+        query: {
+          medicationPlanId: selectedMedicationPlanId,
+          medicationName: selectedMedicationName,
+          patientFirstName: this.patientFirstName,
+          patientLastName: this.patientLastName,
+        }
+      })
+    },
 
     allFieldsWithCorrectInput() {
       return this.newMedicationPlanInfo.medicationId !== 0 &&

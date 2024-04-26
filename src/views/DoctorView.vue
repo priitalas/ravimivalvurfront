@@ -1,5 +1,5 @@
 <template>
-  <div class="background-container">
+  <div class="doctorbackground-container">
     <AddPatientModal ref="addPatientModalRef" :doctorId="doctorId" @event-new-patient-added="handlePatientAdded"/>
     <DeletePatientFromListModal ref="deletePatientFromListModalRef"
                                 @event-patient-deleted-from-list="handlePatientDeletedFromList"/>

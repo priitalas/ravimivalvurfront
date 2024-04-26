@@ -1,7 +1,7 @@
 <template>
   <Modal ref="modalRef" @event-close-modal="resetAllInputFields">
     <template #title>
-      Muuda oma andmeid
+      Muuda oma kontakte
     </template>
 
     <template #body>
@@ -19,32 +19,6 @@
             <div class="mb-3">
               <label for="contact" class="form-label">e-mail</label>
               <input v-model="changeContactsRequest.email" type="text" class="form-control" id="contact">
-            </div>
-            <div class="mb-3">
-              <label for="username" class="form-label">Kasutajanimi</label>
-              <input v-model="changeContactsRequest.username" type="text" class="form-control" id="username">
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Salasõna</label>
-              <input v-model="changeContactsRequest.password" type="password" class="form-control" id="password">
-            </div>
-            <div class="mb-3">
-              <div type="roleId" class="form-check form-check-inline">
-                <input v-model="changeContactsRequest.roleId" class="form-check-input" type="radio" name="role"
-                       value="2"
-                       id="patient">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Patsient
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input v-model="changeContactsRequest.roleId" class="form-check-input" type="radio" name="role"
-                       value="3"
-                       id="doctor">
-                <label class="form-check-label" for="flexRadioDefault2">
-                  Hooldaja / Arst
-                </label>
-              </div>
             </div>
           </div>
         </div>
@@ -94,10 +68,9 @@ export default {
 
     sendChangeContactsRequest() {
       this.changeContactsRequest.roleId = Number(this.changeContactsRequest.roleId)
-      this.$http.put('/registration', this.changeContactsRequest
+      this.$http.put('/user', this.changeContactsRequest
       ).then(response => {
         this.resetAllInputFields()
-        this.$emit('event-contacts-successfully-changed', 'Teie andmed on muudetud')
         this.$refs.modalRef.closeModal()
 
       }).catch(error => {

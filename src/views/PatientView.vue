@@ -1,19 +1,15 @@
 <template>
-  <h2></h2>
-  <h2 style="font-size: xx-large;">Hetkel võtmist vajavad ravimid:</h2>
-
-  <div class="container">
-    <AlertDanger :message="message"/>
+  <div class="container patientbackground-container">
+    <h2>Hetkel võtmist vajavad ravimid:</h2>
     <div class="row justify-content-center">
-      <div class="col-md-12">
-
+      <div v-if="message.length > 0" class="col-4 justify-content-center">
+        <AlertDanger :message="message"/>
+      </div>
+      <div v-else class="col-md-12">
         <PatientMedicationsTable/>
-
       </div>
     </div>
   </div>
-
-
 </template>
 <script>
 import PatientMedicationsTable from "@/components/PatientMedicationsTable.vue";
@@ -28,12 +24,12 @@ export default {
       userId: sessionStorage.getItem('userId'),
       message: '',
       statusInfo: {
-          doctorPatientId: 0,
-          doctorFirstName: "",
-          doctorLastName: ""
-        },
+        doctorPatientId: 0,
+        doctorFirstName: "",
+        doctorLastName: ""
+      },
 
     }
   }
-  }
+}
 </script>

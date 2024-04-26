@@ -25,8 +25,12 @@ h5 {
 
 h6 {
     font-weight: bold;
-    padding: 8px;
+    margin-top: 8px;
     text-align: left;
+}
+
+.bigtext {
+    font-size: x-large;
 }
 
 .accordion-header {
@@ -55,12 +59,25 @@ h6 {
     max-height: 60%
 }
 
+.rounded-table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
 .table-secondary td {
     color: #415E57 !important;
 }
 
-.background-container {
+.doctorbackground-container {
     background-image:url(~@/assets/doctor_background.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.patientbackground-container {
+    background-image:url(~@/assets/patient_background.jpg);
     background-size: cover;
     background-position: center;
     width: 100vw;
@@ -94,11 +111,6 @@ input[type="search"].light {
     color: #E4A11B;
 }
 
-
-.rounded-table {
-    border-radius: 10px;
-    overflow: hidden;
-}
 
 /* modal */
 .modal.fade.show.d-block {
