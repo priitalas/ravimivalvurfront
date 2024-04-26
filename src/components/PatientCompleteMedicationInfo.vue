@@ -18,14 +18,14 @@
 
     <div class="accordion-item">
       <div class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        <button @click="showPatientMedicationLogbook" class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
           Ravimite võtmise logi
         </button>
       </div>
       <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <PatientMedicationLogbook ref="patientMedicationLogbookRef" :patientId="patientId"/>
+          <PatientMedicationLogbook ref="patientMedicationLogbookRef"/>
         </div>
       </div>
     </div>
@@ -48,6 +48,13 @@ export default {
       patientLastName: ''
     }
   },
+
+  methods:{
+    showPatientMedicationLogbook() {
+      this.$refs.patientMedicationLogbookRef.patientId = this.patientId
+      this.$refs.patientMedicationLogbookRef.getPatientMedicationLogbook()
+    },
+  }
 
 }
 </script>

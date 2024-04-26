@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center">
-<!--    <AlertDanger/>-->
+<!--    <AlertDanger :message="errorMessage"/>-->
     <div class="row">
       <div class="col">
         <table class="table">
@@ -31,10 +31,13 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 export default {
   name: "PatientMedicationLogbook",
   components: {AlertDanger},
-  props: ['patientId'],
+  // props: {
+  //   patientId: String
+  // },
 
   data() {
     return {
+      patientId: 0,
       patientLogbooks: [
         {
           medicationName: '',
@@ -75,9 +78,9 @@ export default {
     },
   },
 
-  beforeMount() {
-    this.getPatientMedicationLogbook()
-  }
+  // mounted() {
+  //   this.getPatientMedicationLogbook()
+  // }
 }
 </script>
 
