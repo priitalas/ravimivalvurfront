@@ -130,17 +130,17 @@ input[type="search"].light {
     --bs-modal-bg: #f2f9ff; /* Modaaliakna taustavärv */
     top: 5%; /* Ülemine paigutus on 5% */
     left: 40%; /* Vasak paigutus on 40% */
-    width: 400px;
+    width: 320px;
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
+}
 
-}.modal-info-dialog {
+.modal-info-dialog {
     position: fixed; /* Positsiooni tüüp on fikseeritud */
     --bs-modal-bg: #f2f9ff; /* Modaaliakna taustavärv */
     top: 5%; /* Ülemine paigutus on 5% */
     left: 40%; /* Vasak paigutus on 40% */
-    width: 320px;
+    width: 500px !important;
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
-
 }
 
 .img-fluid {

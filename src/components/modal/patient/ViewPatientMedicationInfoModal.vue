@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modalRef">
+  <Modal ref="modalRef" class="modal-info-dialog">
     <template #title>
       Ravimi laiendatud info:
     </template>
