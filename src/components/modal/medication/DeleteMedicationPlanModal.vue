@@ -24,7 +24,7 @@ export default {
   methods: {
 
     executeDeleteMedicationPlan() {
-        this.$http.delete("medication-plan", {
+        this.$http.delete("/medication-plan", {
               params: {
                 medicationPlanId: this.medicationPlanId
               }
