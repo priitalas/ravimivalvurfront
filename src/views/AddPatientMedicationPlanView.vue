@@ -198,7 +198,6 @@ export default {
 
     handleNewMedicationAdded() {
       this.sendGetMedicationsRequest()
-      this.newMedicationPlanInfo.medicationId = data.message
     },
 
     sendGetMedicationsRequest() {

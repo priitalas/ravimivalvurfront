@@ -1,18 +1,15 @@
 <template>
   <Modal ref="modalRef" class="modal-info-dialog">
     <template #title>
-      Ravimi laiendatud info:
+      Ravim {{ medication.medicationName }}
     </template>
     <template #body>
       <div>
-        <h6>
-          <MedicationLargeImage :image-data="medication.medicationImageData"/>
-        </h6>
-        <h5> Nimi: {{ medication.medicationName }}</h5>
-        <h5> Tarvitamisjuhis:</h5>
-        <h5 textarea class="form-control"> {{ medication.medicationNote }}</h5>
-        <h6 textarea class="form-control"> {{ medication.medicationDescription }}</h6>
-
+        <MedicationLargeImage :image-data="medication.medicationImageData"/>
+        <h6> Tarvitamisjuhis:</h6>
+        <div textarea class="form-control"> {{ medication.medicationNote }}</div>
+        <p>/</p>
+        <div textarea class="form-control"> {{ medication.medicationDescription }}</div>
       </div>
     </template>
     <template #buttons>

@@ -8,8 +8,9 @@
         <thead>
         <tr>
           <th scope="col-2" style="text-align: start">Ravim</th>
-          <th scope="col-3">Kuuri algus</th>
-          <th scope="col-3">Kuuri lõpp</th>
+          <th scope="col-2">Kuuri algus</th>
+          <th scope="col-2">Kuuri lõpp</th>
+          <th scope="col-2">Päevane annus</th>
           <th scope="col-2">Päevas kordi</th>
           <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
           <th v-if="isDoctor" style="width:10%">Muuda</th>
@@ -25,6 +26,7 @@
           </td>
           <td>{{ medicationPlan.periodStart }}</td>
           <td>{{ medicationPlan.periodEnd }}</td>
+          <td>{{ medicationPlan.quantity }}</td>
           <td> {{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon
@@ -81,6 +83,7 @@ export default {
         medicationName: "",
         medicationUnitName: "",
         frequency: 0,
+        quantity: 0,
         periodStart: null,
         periodEnd: null
       }],
@@ -93,14 +96,16 @@ export default {
 
   computed: {
     sortedMedicationPlans() {
-      return this.medicationPlans.sort((a, b) => {
-        if (a.medicationPlanStatus === b.medicationPlanStatus) {
-          return a.medicationPlanStatus.localeCompare(b.medicationPlanStatus);
-        } else {
-          return a.medicationPlanStatus.localeCompare(b.medicationPlanStatus);
-        }
-      });
-    }
+      return this.medicationPlans
+          .sort((a, b) => a.medicationPlanStatus.localeCompare(b.medicationPlanStatus))
+          .map(medicationPlan => {
+            return {
+              ...medicationPlan,
+              periodStart: this.formatDate(medicationPlan.periodStart),
+              periodEnd: this.formatDate(medicationPlan.periodEnd)
+            };
+          });
+    },
   },
 
   methods: {
@@ -141,6 +146,12 @@ export default {
 
     checkIfAnyPlanWithZeroFrequency() {
       return this.medicationPlans.some(plan => plan.frequency === 0 && plan.medicationPlanStatus === "A");
+    },
+
+    formatDate(dateString) {
+      const dateObj = new Date(dateString);
+      const options = {day: '2-digit', month: '2-digit', year: '2-digit'};
+      return dateObj.toLocaleDateString('et-EE', options);
     },
 
     handleMedicationPlanDeleted(message) {
