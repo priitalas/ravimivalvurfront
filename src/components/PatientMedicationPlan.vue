@@ -52,7 +52,7 @@
         </tr>
         </tbody>
       </table>
-      <div class="col col-lg-3">
+      <div v-if="isDoctor" class="col col-lg-3">
         <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
           Lisa ravikuur
         </button>

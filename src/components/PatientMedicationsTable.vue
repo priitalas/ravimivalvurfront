@@ -1,16 +1,15 @@
 <template>
   <div>
     <ViewPatientMedicationInfoModal ref="ViewPatientMedicationInfoModalRef"/>
-    <table v-if="medications.length > 0" class="table table-hover rounded-table table-striped"
-           style="vertical-align: middle;">
+    <table v-if="medications.length > 0" class="table table-hover rounded-table table-striped "
+          >
       <thead>
-      <tr style="text-align: left">
-        <th class="bigtext" style="text-align: center" scope="col">Pilt</th>
-        <th class="bigtext" scope="col">Nimi</th>
-        <th class="bigtext" scope="col">Annus</th>
-        <th class="bigtext" scope="col">Ühik</th>
-        <th class="bigtext" scope="col">Lisainfo</th>
-        <th class="bigtext" scope="col">Märgi võetuks</th>
+      <tr>
+        <th class="col-3 bigtext-center ms-5" colspan="2">Ravim</th>
+        <th class="col-1 bigtext-center">Annus</th>
+        <th class="col-1 bigtext-center">Ühik</th>
+        <th class="col-5 bigtext-center">Lisainfo</th>
+        <th class="col-2 bigtext-center">Märgi võetuks</th>
       </tr>
       </thead>
 
@@ -21,12 +20,11 @@
           <img :src="medication.medicationImageData" alt="Medication Image" style="width: 180px;
         cursor: pointer;" @click="openViewPatientMedicationInfoModal(medication.medicationId)">
         </td>
-        <td class="bigtext" style="text-align: left">{{ medication.medicationName }}</td>
-        <td class="bigtext" style="text-align: center">{{ medication.quantity }}</td>
-        <td class="bigtext" style="text-align: left">{{ medication.medicationUnitName }}</td>
-        <td class="bigtext" style="text-align: left">{{ medication.medicationNote }}</td>
-
-        <td>
+        <td class="col-2 bigtext-left fw-bold">{{ medication.medicationName }}</td>
+        <td class="col-1 bigtext-center">{{ medication.quantity }}</td>
+        <td class="col-1 bigtext-center">{{ medication.medicationUnitName }}</td>
+        <td class="col-5 bigtext-left mx-10">{{ medication.medicationNote }}</td>
+        <td class="col-2 bigtext-center">
           <button @click="takeMedication(medication.medicationPlanId, medication.medicationTimeId)" type="button"
                   class="btn btn-danger btn-lg">Märgi võetuks
           </button>

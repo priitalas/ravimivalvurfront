@@ -29,8 +29,15 @@ h6 {
     text-align: left;
 }
 
-.bigtext {
+.bigtext-left {
     font-size: x-large;
+    text-align: left;
+    vertical-align: middle;
+}
+.bigtext-center {
+    font-size: x-large;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .accordion-header {

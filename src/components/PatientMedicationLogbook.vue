@@ -1,14 +1,16 @@
 <template>
-  <div class="container text-center">
-    <AlertDanger :message="errorMessage"/>
-    <div class="row">
-      <div class="col">
-        <table class="table">
+  <div v-if="showPatientLogbook" class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-8">
+        <AlertDanger :message="errorMessage"/>
+      </div>
+      <div v-if="patientLogbooks.length > 0" class="col">
+        <table class="table rounded-table table-hover table-responsive">
           <thead>
           <tr>
-            <th scope="col">Ravimi nimi</th>
-            <th scope="col">Võtmise kuupäev</th>
-            <th scope="col">Võtmise kellaaeg</th>
+            <th class="col">Ravimi nimi</th>
+            <th class="col">Võtmise kuupäev</th>
+            <th class="col">Võtmise kellaaeg</th>
           </tr>
           </thead>
           <tbody>
@@ -36,6 +38,7 @@ export default {
     return {
       patientId: 0,
       errorMessage: '',
+      showPatientLogbook: false,
       patientLogbooks: [
         {
           medicationName: '',

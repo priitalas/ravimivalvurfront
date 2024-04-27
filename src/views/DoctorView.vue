@@ -140,6 +140,7 @@ export default {
       this.$refs.patientCompleteMedicationInfoRef.patientFirstName = selectedPatientFirstName
       this.$refs.patientCompleteMedicationInfoRef.patientLastName = selectedPatientLastName
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
+      this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.showPatientLogbook = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.isDoctor = true
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationPlanRef.patientId = selectedPatientId
       this.$refs.patientCompleteMedicationInfoRef.$refs.patientMedicationLogbookRef.patientId = selectedPatientId
