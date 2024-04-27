@@ -103,6 +103,7 @@ export default {
       successMessage: '',
       selectedMedicationName: '',
       selectedMedicationPlanId: 0,
+      currentDate: new Date(),
 
       selectedMedication: {
         medicationId: 0,
@@ -226,12 +227,15 @@ export default {
 
     allFieldsWithCorrectInput() {
       return this.newMedicationPlanInfo.medicationId !== 0 &&
-          this.newMedicationPlanInfo.planStart !== null &&
-          this.newMedicationPlanInfo.planEnd !== null
+          this.newMedicationPlanInfo.periodStart !== null &&
+          this.newMedicationPlanInfo.periodEnd !== null &&
+          this.newMedicationPlanInfo.periodStart > this.currentDate &&
+          this.newMedicationPlanInfo.periodStart < this.newMedicationPlanInfo.periodEnd
+
     },
 
     displayAllFieldsRequiredAlert() {
-      this.errorMessage = 'Täida kõik väljad!'
+      this.errorMessage = 'Täida kõik väljad korrektselt!'
       setTimeout(this.resetMessages, 2000)
     },
 

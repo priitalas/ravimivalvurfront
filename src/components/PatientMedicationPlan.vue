@@ -7,11 +7,11 @@
       <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
         <thead>
         <tr>
-          <th scope="col-2" style="text-align: start">Ravim</th>
-          <th scope="col-2">Kuuri algus</th>
-          <th scope="col-2">Kuuri lõpp</th>
-          <th scope="col-2">Päevane annus</th>
-          <th scope="col-2">Päevas kordi</th>
+          <th class="col-2" style="text-align: start">Ravim</th>
+          <th class="col-2">Kuuri algus</th>
+          <th class="col-2">Kuuri lõpp</th>
+          <th class="col-2">Päevane annus</th>
+          <th class="col-2">Päevas kordi</th>
           <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
           <th v-if="isDoctor" style="width:10%">Muuda</th>
           <th v-if="isDoctor" style="width:10%">Kustuta</th>

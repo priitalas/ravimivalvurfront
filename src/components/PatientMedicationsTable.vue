@@ -39,12 +39,6 @@
   </div>
 </template>
 
-<style>
-.bigger-text td {
-  font-size: xx-large;
-}
-</style>
-
 <script>
 import router from "@/router";
 import PatientViewMedicationInfoModal from "@/components/modal/patient/ViewPatientMedicationInfoModal.vue";
