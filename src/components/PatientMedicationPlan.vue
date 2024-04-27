@@ -29,9 +29,12 @@
           <td>{{ medicationPlan.quantity }}</td>
           <td> {{ medicationPlan.frequency }}</td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon
-                @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
-                class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
+            <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
+              <font-awesome-icon
+                  @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
+                  class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
+            </div>
+            <div v-else></div>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <font-awesome-icon @click="navigateToEditPlan()"
@@ -39,10 +42,12 @@
                                :icon="['fas', 'pen-to-square']"/>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
+            <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
             <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
                                class="link-custom cursor-pointer"
                                :icon="['fas', 'trash']"/>
-
+            </div>
+            <div v-else></div>
           </td>
         </tr>
         </tbody>
