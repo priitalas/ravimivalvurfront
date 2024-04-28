@@ -73,10 +73,19 @@ h6 {
 }
 
 .table-container {
-    height: 300px;
-    width: 100%;
+   overflow-y: hidden;
+}
+
+.table-body-container {
+    max-height: 200px;
     overflow-y: auto;
 }
+
+.table thead th {
+    position: sticky;
+    top: 0;
+}
+
 
 .rounded-table {
     border-radius: 10px;
@@ -103,7 +112,7 @@ h6 {
     height: 100vh;
 }
 
-input[type="search"].light {
+input[type="text"].light {
     background: lightgray;
     width: 55%;
     color: #415E57;

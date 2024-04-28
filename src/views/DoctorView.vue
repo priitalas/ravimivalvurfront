@@ -22,8 +22,8 @@
             </tr>
             <tr>
               <th colspan="6" class="justify-content-evenly">
-                <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
-                       class="light me-lg-1" name="q"/>
+                <input type="text" v-model="searchedPatient" placeholder="Otsi patsienti"
+                       class="light me-2"/>
                 <button @click="findSearchedPatient" type="button" class="btn btn-primary me-2">
                   <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
                 </button>
@@ -106,8 +106,8 @@ export default {
 
   data() {
     return {
-      searchValue: '',
-      found: false,
+      searchedPatient: '',
+      search: false,
       errorResponse: '',
       errorMessage: '',
       successMessage: '',
@@ -130,8 +130,8 @@ export default {
   computed: {
     sortedPatients() {
       return this.patients.sort((a, b) => {
-        if (a.status !== b.status) {
-          return a.status.localeCompare(b.status);
+        if (a.patientStatus !== b.patientStatus) {
+          return a.patientStatus.localeCompare(b.patientStatus);
         }
         return a.lastName.localeCompare(b.lastName);
       });
@@ -157,6 +157,18 @@ export default {
       this.$refs.addPatientModalRef.$refs.modalRef.openModal()
     },
 
+    findSearchedPatient() {
+      this.search = true
+      this.executeGetDoctorPatients()
+    },
+
+    executeGetDoctorPatients() {
+      if(this.search){
+        this.sendGetSearchedPatientRequest
+      } else {
+        this.sendGetDoctorPatientsRequest
+      }
+    },
 
     sendGetDoctorPatientsRequest() {
       this.$http.get("doctor/patients", {
@@ -169,6 +181,20 @@ export default {
       }).catch(error => {
         this.errorResponse = error.response.data
         this.handleError(error.response.status)
+      })
+    },
+
+    sendGetSearchedPatientRequest() {
+      this.$http.get("doctor/patients/searched", {
+            params: {
+              doctorId: this.doctorId,
+              query: this.searchedPatient
+            }
+          }
+      ).then(response => {
+        this.patients = response.data
+      }).catch(error => {
+        this.errorMessage = "Selliseid patsiente teil ei ole"
       })
     },
 
