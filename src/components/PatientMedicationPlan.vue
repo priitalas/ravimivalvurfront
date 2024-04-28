@@ -20,10 +20,6 @@
             <th v-if="isDoctor" style="width:10%">Kustuta</th>
           </tr>
           </thead>
-        </table>
-      </div>
-      <div class="table-body-container">
-        <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
           <tbody>
           <tr v-for="medicationPlan in sortedMedicationPlans" :key="medicationPlan.medicationPlanId"
               :class="{ 'table-secondary': medicationPlan.medicationPlanStatus === 'D' }">
