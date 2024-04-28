@@ -2,6 +2,8 @@
   <div v-if="showPatientCompleteMedicationInfo" class="container text-center">
     <DeleteMedicationPlanModal ref="deleteMedicationPlanModalRef"
                                @event-medication-plan-deleted="handleMedicationPlanDeleted"/>
+    <EditMedicationPlanModal ref="editMedicationPlanModalRef"
+                             @event-medication-plan-edited="sendGetPatientMedicationPlan"/>
     <div class="row">
       <AlertDanger :message="errorMessage"/>
       <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
@@ -37,7 +39,8 @@
             <div v-else></div>
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-            <font-awesome-icon @click="navigateToEditPlan()"
+            <font-awesome-icon @click="navigateToEditMedicationPlan(medicationPlan.medicationPlanId,
+            medicationPlan.medicationName, medicationPlan.periodStart, medicationPlan.periodEnd)"
                                class="link-custom cursor-pointer me-lg-2"
                                :icon="['fas', 'pen-to-square']"/>
           </td>
@@ -68,10 +71,11 @@ import AlertDanger from "@/components/alert/AlertDanger.vue";
 import router from "@/router";
 import DeleteMedicationPlanModal from "@/components/modal/medication/DeleteMedicationPlanModal.vue";
 import AddUnitModal from "@/components/modal/medication/AddUnitModal.vue";
+import EditMedicationPlanModal from "@/components/modal/medication/EditMedicationPlanModal.vue";
 
 export default {
   name: "PatientMedicationPlan",
-  components: {AddUnitModal, DeleteMedicationPlanModal, AlertDanger},
+  components: {EditMedicationPlanModal, AddUnitModal, DeleteMedicationPlanModal, AlertDanger},
   props: ['patientFirstName', 'patientLastName'],
 
   data() {
@@ -129,6 +133,14 @@ export default {
     navigateToDeleteMedicationPlan(selectedMedicationPlanId) {
       this.$refs.deleteMedicationPlanModalRef.medicationPlanId = selectedMedicationPlanId
       this.$refs.deleteMedicationPlanModalRef.$refs.modalRef.openModal()
+    },
+
+    navigateToEditMedicationPlan(selectedMedicationPlanId, selectedMedicationName, selectedPeriodStart, selectedPeriodEnd) {
+      this.$refs.editMedicationPlanModalRef.medicationPlanId = selectedMedicationPlanId
+      this.$refs.editMedicationPlanModalRef.medicationName = selectedMedicationName
+      this.$refs.editMedicationPlanModalRef.periodStart = selectedPeriodStart
+      this.$refs.editMedicationPlanModalRef.periodEnd = selectedPeriodEnd
+      this.$refs.editMedicationPlanModalRef.$refs.modalRef.openModal()
     },
 
     sendGetPatientMedicationPlan() {
