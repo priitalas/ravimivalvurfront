@@ -43,9 +43,9 @@
           </td>
           <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
             <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
-            <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
-                               class="link-custom cursor-pointer"
-                               :icon="['fas', 'trash']"/>
+              <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
+                                 class="link-custom cursor-pointer"
+                                 :icon="['fas', 'trash']"/>
             </div>
             <div v-else></div>
           </td>

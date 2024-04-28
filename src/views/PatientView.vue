@@ -11,24 +11,27 @@
         <button type="button" class="btn btn-primary">Kirjuta arstile</button>
       </div>
     </div>
+    <h2>Hetkel võtmist vajavad ravimid:</h2>
     <div class="row justify-content-center">
-      <h2>Hetkel võtmist vajavad ravimid:</h2>
       <div v-if="message.length > 0" class="col-4 justify-content-center">
         <AlertDanger :message="message"/>
       </div>
       <div v-else class="col-md-12">
         <PatientMedicationsTable/>
       </div>
-      <div v-if showPatientMedicationPlan>
+      <div class="row justify-content-center">
+      <div v-if showPatientMedicationPlan class="col-8 justify-content-center">
         <PatientMedicationPlan ref="patientMedicationPlanRef"/>
       </div>
-      <div v-if showPatientLogbook>
+      <div v-if showPatientLogbook class="col-8 justify-content-center">
         <PatientMedicationLogbook ref="patientMedicationLogbookRef"/>
+      </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+
 import PatientMedicationsTable from "@/components/PatientMedicationsTable.vue";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import PatientMedicationPlan from "@/components/PatientMedicationPlan.vue";
@@ -60,18 +63,11 @@ export default {
       this.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
     },
 
-    closePatientMedicationPlan() {
-      this.showPatientMedicationPlan = false
-    },
-
     navigateToPatientLogbook() {
       this.$refs.patientMedicationLogbookRef.patientId = this.userId
       this.showPatientLogbook = true
       this.$refs.patientMedicationLogbookRef.showPatientLogbook = true
       this.$refs.patientMedicationLogbookRef.getPatientMedicationLogbook()
-    },
-    closePatientLogbook() {
-      this.showPatientLogbook = false
     },
   }
 }

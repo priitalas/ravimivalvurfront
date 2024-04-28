@@ -1,33 +1,34 @@
 <template>
-  <Modal ref="modalRef" class="modal-info-dialog">
+  <ModalLarge ref="modalLargeRef">
     <template #title>
       Ravim {{ medication.medicationName }}
     </template>
     <template #body>
       <div>
         <MedicationLargeImage :image-data="medication.medicationImageData"/>
-        <h6> Tarvitamisjuhis:</h6>
-        <div textarea class="form-control"> {{ medication.medicationNote }}</div>
-        <p>/</p>
-        <div textarea class="form-control"> {{ medication.medicationDescription }}</div>
+        <p></p>
+        <h5>Milleks määratud ja tarvitamisjuhised:</h5>
+        <div class="bigtext-center"> {{ medication.medicationDescription }}</div>
+        <div class="bigtext-center"> {{ medication.medicationNote }}</div>
       </div>
     </template>
     <template #buttons>
 
     </template>
-  </Modal>
+  </ModalLarge>
 </template>
 
 
 <script>
-import Modal from "@/components/modal/Modal.vue";
 import MedicationImage from "@/components/medication/MedicationImage.vue";
 import MedicationLargeImage from "@/components/medication/MedicationLargeImage.vue";
+import ModalLarge from "@/components/modal/ModalLarge.vue";
+import router from "@/router";
 
 export default {
   name: 'ViewPatientMedicationInfoModal',
 
-  components: {MedicationLargeImage, MedicationImage, Modal},
+  components: {MedicationLargeImage, MedicationImage, ModalLarge},
   data() {
     return {
       medication: {
@@ -47,10 +48,10 @@ export default {
       this.$http.get(`/medication/${medicationId}`)
           .then(response => {
             this.medication = response.data
-            this.$refs.modalRef.openModal();
+            this.$refs.modalLargeRef.openModal();
           })
           .catch(error => {
-            const errorResponseBody = error.response.data
+            router.push({name: 'errorRoute'})
           })
     },
   }

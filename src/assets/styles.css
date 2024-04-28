@@ -40,6 +40,12 @@ h6 {
     vertical-align: middle;
 }
 
+.bigtext-justified {
+    font-size: x-large;
+    text-align: justify;
+    vertical-align: middle;
+}
+
 .accordion-header {
     font-size: 10em;
     background-color: white;
@@ -64,6 +70,12 @@ h6 {
 
 .table-responsive {
     max-height: 60%
+}
+
+.table-container {
+    height: 300px;
+    width: 100%;
+    overflow-y: auto;
 }
 
 .rounded-table {
@@ -140,20 +152,39 @@ input[type="search"].light {
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
 }
 
-.modal-info-dialog {
+.modal-dialog-info {
     position: fixed; /* Positsiooni tüüp on fikseeritud */
     --bs-modal-bg: #f2f9ff; /* Modaaliakna taustavärv */
-    top: 5%; /* Ülemine paigutus on 5% */
-    left: 40%; /* Vasak paigutus on 40% */
-    width: 500px !important;
+    top: 40%; /* Ülemine paigutus on 5% */
+    left: 50%; /* Vasak paigutus on 40% */
+    width: 500px;
     transform: translate(-50%, -50%); /* Teisendab X-telje piki -50% võrra */
 }
 
 .img-fluid {
     height: 60%;
 }
+
 .large-image {
-    width: 365px;
+    width: 400px;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.picture-button {
+    display: block;
+    width: 180px;
+    cursor: pointer
+}
+
+.magnifying-glass {
+    position: absolute;
+    top: 60%;
+    left: 80%;
+    width: 30px;
 }
 
 .custom-file-button input[type=file] {

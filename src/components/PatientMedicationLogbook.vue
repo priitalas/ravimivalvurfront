@@ -1,7 +1,7 @@
 <template>
   <div v-if="showPatientLogbook" class="container text-center">
     <div class="row justify-content-center">
-      <div class="col col-8">
+      <div>
         <AlertDanger :message="errorMessage"/>
       </div>
       <div v-if="patientLogbooks.length > 0" class="col">
