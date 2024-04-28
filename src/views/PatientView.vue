@@ -20,10 +20,10 @@
         <PatientMedicationsTable/>
       </div>
       <div class="row justify-content-center">
-      <div v-if showPatientMedicationPlan class="col-8 justify-content-center">
+      <div v-if showPatientMedicationPlan class="col-6 justify-content-start">
         <PatientMedicationPlan ref="patientMedicationPlanRef"/>
       </div>
-      <div v-if showPatientLogbook class="col-8 justify-content-center">
+      <div v-if showPatientLogbook class="col-6 justify-content-start">
         <PatientMedicationLogbook ref="patientMedicationLogbookRef"/>
       </div>
       </div>

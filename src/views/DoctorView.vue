@@ -21,7 +21,7 @@
               </th>
             </tr>
             <tr>
-              <th colspan="4" class="justify-content-evenly">
+              <th colspan="6" class="justify-content-evenly">
                 <input type="search" id="searchInput" v-model="searchValue" placeholder="Otsi patsienti"
                        class="light me-lg-1" name="q"/>
                 <button @click="findSearchedPatient" type="button" class="btn btn-primary me-2">
@@ -34,8 +34,9 @@
             <tr>
               <th scope="col">Perekonnanimi</th>
               <th scope="col">Eesnimi</th>
-              <th class="col-2 width:20% justify-content-center">Raviinfo</th>
-              <th class="col-2 width:20% justify-content-center">Kustuta</th>
+              <th class="col-2 text-center">Raviinfo</th>
+              <th class="col-2 text-center">Kirjuta</th>
+              <th class="col-2 text-center">Kustuta</th>
 
             </tr>
             </thead>
@@ -52,6 +53,9 @@
               </td>
               <td v-else class="col-2 text-center">
                 kinnitamata
+              </td>
+              <td class="col-2 text-center">
+              <font-awesome-icon class="link-custom cursor-pointer justify-content-center" :icon="['fas', 'envelope']" />
               </td>
               <td class="col-2 text-center">
                 <font-awesome-icon @click="deletePatientFromDoctorsList(patient)"

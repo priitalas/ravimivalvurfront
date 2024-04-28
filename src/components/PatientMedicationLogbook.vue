@@ -16,7 +16,7 @@
           <tbody>
           <tr v-for="patientLogbook in patientLogbooks">
             <td>{{ patientLogbook.medicationName }}</td>
-            <td>{{ patientLogbook.date }}</td>
+            <td>{{ formatDate(patientLogbook.date) }}</td>
             <td>{{ patientLogbook.time }}</td>
           </tr>
           </tbody>
@@ -77,6 +77,12 @@ export default {
       } else {
         router.push({name: 'errorRoute'})
       }
+    },
+
+    formatDate(dateString) {
+      const dateObj = new Date(dateString);
+      const options = {day: '2-digit', month: '2-digit', year: '2-digit'};
+      return dateObj.toLocaleDateString('et-EE', options);
     },
 
     resetMessage() {
