@@ -50,6 +50,7 @@ export default {
     }
   },
   methods: {
+
     navigateToPatientMedicationPlan() {
       this.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
       this.$refs.patientMedicationPlanRef.patientId = this.userId

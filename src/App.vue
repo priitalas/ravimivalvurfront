@@ -3,7 +3,7 @@
     <LoginModal ref="loginModalRef"
                 @event-open-registration-modal="openRegistrationModal"
                 @event-update-nav-menu="updateNavMenu"
-                @event-open-doctor-patient-connecting-modal="openDoctorPatientConnectingModal"
+                @event-open-doctor-patient-connecting-modal="openDoctorPatientConnectingModal(userId)"
     />
     <DoctorPatientConnectingModal ref="doctorPatientConnectingModalRef"/>
     <RegistrationModal ref="registrationModalRef" @event-successful-registration="openLoginModalWithAlert"/>
@@ -92,7 +92,7 @@ export default {
     },
 
     openChangeContactsModal() {
-      this.$refs.changeContactsModalRef.handleOpenChangeContactsModal(sessionStorage.getItem('userId'))
+      this.$refs.changeContactsModalRef.handleOpenChangeContactsModal()
     },
 
     openLogOutModal() {

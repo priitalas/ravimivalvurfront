@@ -72,8 +72,8 @@ export default {
 
   methods: {
 
-    handleOpenChangeContactsModal(userId) {
-      this.userId = userId
+    handleOpenChangeContactsModal() {
+      this.userId = sessionStorage.getItem('userId')
       this.sendGetUserContactInfo()
       this.$refs.modalRef.openModal()
     },

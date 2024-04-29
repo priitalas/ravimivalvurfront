@@ -91,7 +91,7 @@ export default {
         this.loginResponse = response.data
         sessionStorage.setItem('userId', this.loginResponse.userId)
         sessionStorage.setItem('roleName', this.loginResponse.roleName)
-        sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
+        // sessionStorage.setItem('userStatus', this.loginResponse.userStatus)
         this.$emit('event-update-nav-menu')
         this.resetAllInputFields()
         if (sessionStorage.getItem('roleName') === 'patient') {
