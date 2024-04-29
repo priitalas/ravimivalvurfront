@@ -1,29 +1,29 @@
 <template>
-  <div v-if="showPatientLogbook" class="container text-center">
-    <div class="row justify-content-center">
-      <div>
-        <AlertDanger :message="errorMessage"/>
-      </div>
-      <div v-if="patientLogbooks.length > 0" class="col">
-        <table class="table rounded-table table-hover table-responsive">
-          <thead>
-          <tr>
-            <th class="col">Ravimi nimi</th>
-            <th class="col">Võtmise kuupäev</th>
-            <th class="col">Võtmise kellaaeg</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="patientLogbook in patientLogbooks">
-            <td>{{ patientLogbook.medicationName }}</td>
-            <td>{{ formatDate(patientLogbook.date) }}</td>
-            <td>{{ patientLogbook.time }}</td>
-          </tr>
-          </tbody>
-        </table>
+    <div v-if="showPatientLogbook" class="container text-center">
+      <div class="row justify-content-center">
+        <div>
+          <AlertDanger :message="errorMessage"/>
+        </div>
+        <div v-if="patientLogbooks.length > 0" class="col">
+          <table class="table rounded-table table-hover table-responsive">
+            <thead>
+            <tr>
+              <th class="col">Ravimi nimi</th>
+              <th class="col">Võtmise kuupäev</th>
+              <th class="col">Võtmise kellaaeg</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="patientLogbook in patientLogbooks">
+              <td>{{ patientLogbook.medicationName }}</td>
+              <td>{{ formatDate(patientLogbook.date) }}</td>
+              <td>{{ patientLogbook.time }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -54,8 +54,8 @@ export default {
   },
 
   methods: {
-    getPatientMedicationLogbook () {
-      this.patientLogbooks=[]
+    getPatientMedicationLogbook() {
+      this.patientLogbooks = []
       this.$http.get("/logbook/patient", {
             params: {
               patientId: this.patientId

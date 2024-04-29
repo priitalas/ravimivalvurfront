@@ -20,12 +20,8 @@
         <PatientMedicationsTable/>
       </div>
       <div class="row justify-content-center">
-      <div v-if showPatientMedicationPlan class="col-6 justify-content-start">
         <PatientMedicationPlan ref="patientMedicationPlanRef"/>
-      </div>
-      <div v-if showPatientLogbook class="col-6 justify-content-start">
         <PatientMedicationLogbook ref="patientMedicationLogbookRef"/>
-      </div>
       </div>
     </div>
   </div>
@@ -43,9 +39,7 @@ export default {
 
   data() {
     return {
-      userId: sessionStorage.getItem('userId'),
-      showPatientMedicationPlan: false,
-      showPatientLogbook: false,
+      userId: Number(sessionStorage.getItem('userId')),
       message: '',
       statusInfo: {
         doctorPatientId: 0,
@@ -57,16 +51,14 @@ export default {
   },
   methods: {
     navigateToPatientMedicationPlan() {
-      this.$refs.patientMedicationPlanRef.patientId = this.userId
       this.$refs.patientMedicationPlanRef.showPatientCompleteMedicationInfo = true
-      this.showPatientMedicationPlan = true
+      this.$refs.patientMedicationPlanRef.patientId = this.userId
       this.$refs.patientMedicationPlanRef.sendGetPatientMedicationPlan()
     },
 
     navigateToPatientLogbook() {
-      this.$refs.patientMedicationLogbookRef.patientId = this.userId
-      this.showPatientLogbook = true
       this.$refs.patientMedicationLogbookRef.showPatientLogbook = true
+      this.$refs.patientMedicationLogbookRef.patientId = this.userId
       this.$refs.patientMedicationLogbookRef.getPatientMedicationLogbook()
     },
   }

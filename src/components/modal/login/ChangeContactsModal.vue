@@ -72,6 +72,12 @@ export default {
 
   methods: {
 
+    handleOpenChangeContactsModal(userId) {
+      this.userId = userId
+      this.sendGetUserContactInfo()
+      this.$refs.modalRef.openModal()
+    },
+
     sendGetUserContactInfo() {
       this.$http.get("/user", {
             params: {
@@ -136,8 +142,5 @@ export default {
     },
   },
 
-    beforeMount() {
-      this.sendGetUserContactInfo()
-    }
   }
 </script>

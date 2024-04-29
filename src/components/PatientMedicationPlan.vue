@@ -1,70 +1,73 @@
 <template>
-  <div v-if="showPatientCompleteMedicationInfo" class="container text-center">
-    <DeleteMedicationPlanModal ref="deleteMedicationPlanModalRef"
-                               @event-medication-plan-deleted="handleMedicationPlanDeleted"/>
-    <EditMedicationPlanModal ref="editMedicationPlanModalRef"
-                             @event-medication-plan-edited="sendGetPatientMedicationPlan"/>
-    <div class="row">
-      <AlertDanger :message="errorMessage"/>
-      <div class="table-container">
-        <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
-          <thead>
-          <tr>
-            <th class="col-2" style="text-align: start">Ravim</th>
-            <th class="col-2">Kuuri algus</th>
-            <th class="col-2">Kuuri lõpp</th>
-            <th class="col-2">Päevane annus</th>
-            <th class="col-2">Päevas kordi</th>
-            <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
-            <th v-if="isDoctor" style="width:10%">Muuda</th>
-            <th v-if="isDoctor" style="width:10%">Kustuta</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="medicationPlan in sortedMedicationPlans" :key="medicationPlan.medicationPlanId"
-              :class="{ 'table-secondary': medicationPlan.medicationPlanStatus === 'D' }">
-            <td style="text-align: start">
-              {{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName }}
-            </td>
-            <td>{{ medicationPlan.periodStart }}</td>
-            <td>{{ medicationPlan.periodEnd }}</td>
-            <td>{{ medicationPlan.quantity }}</td>
-            <td> {{ medicationPlan.frequency }}</td>
-            <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-              <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
-                <font-awesome-icon
-                    @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
-                    class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
-              </div>
-              <div v-else></div>
-            </td>
-            <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-              <font-awesome-icon @click="navigateToEditMedicationPlan(medicationPlan.medicationPlanId,
+
+    <div v-if="showPatientCompleteMedicationInfo" class="container text-center">
+      <DeleteMedicationPlanModal ref="deleteMedicationPlanModalRef"
+                                 @event-medication-plan-deleted="handleMedicationPlanDeleted"/>
+      <EditMedicationPlanModal ref="editMedicationPlanModalRef"
+                               @event-medication-plan-edited="sendGetPatientMedicationPlan"/>
+      <div class="row">
+        <AlertDanger :message="errorMessage"/>
+        <div class="table-container">
+          <table v-if="medicationPlans.length>0" class="table rounded-table table-hover table-responsive ">
+            <thead>
+            <tr>
+              <th class="col-2" style="text-align: start">Ravim</th>
+              <th class="col-2">Kuuri algus</th>
+              <th class="col-2">Kuuri lõpp</th>
+              <th class="col-2">Päevane annus</th>
+              <th class="col-2">Päevas kordi</th>
+              <th v-if="isDoctor" style="width:10%">Lisa võtmiskordi</th>
+              <th v-if="isDoctor" style="width:10%">Muuda</th>
+              <th v-if="isDoctor" style="width:10%">Kustuta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="medicationPlan in sortedMedicationPlans" :key="medicationPlan.medicationPlanId"
+                :class="{ 'table-secondary': medicationPlan.medicationPlanStatus === 'D' }">
+              <td style="text-align: start">
+                {{ medicationPlan.medicationName }}, {{ medicationPlan.medicationUnitName }}
+              </td>
+              <td>{{ medicationPlan.periodStart }}</td>
+              <td>{{ medicationPlan.periodEnd }}</td>
+              <td>{{ medicationPlan.quantity }}</td>
+              <td> {{ medicationPlan.frequency }}</td>
+              <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
+                <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
+                  <font-awesome-icon
+                      @click="navigateToPatientTimeslots(medicationPlan.medicationPlanId, medicationPlan.medicationName)"
+                      class="link-custom cursor-pointer" :icon="['fas', 'clock']"/>
+                </div>
+                <div v-else></div>
+              </td>
+              <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
+                <font-awesome-icon @click="navigateToEditMedicationPlan(medicationPlan.medicationPlanId,
             medicationPlan.medicationName, medicationPlan.periodStart, medicationPlan.periodEnd)"
-                                 class="link-custom cursor-pointer me-lg-2"
-                                 :icon="['fas', 'pen-to-square']"/>
-            </td>
-            <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
-              <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
-                <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
-                                   class="link-custom cursor-pointer"
-                                   :icon="['fas', 'trash']"/>
-              </div>
-              <div v-else></div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+                                   class="link-custom cursor-pointer me-lg-2"
+                                   :icon="['fas', 'pen-to-square']"/>
+              </td>
+              <td v-if="isDoctor" style="width:5%; text-align: center; justify-content: center;">
+                <div v-if="medicationPlan.medicationPlanStatus === 'A' ">
+                  <font-awesome-icon @click="navigateToDeleteMedicationPlan(medicationPlan.medicationPlanId)"
+                                     class="link-custom cursor-pointer"
+                                     :icon="['fas', 'trash']"/>
+                </div>
+                <div v-else></div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-if="isDoctor" class="col col-lg-3">
+          <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
+            Lisa ravikuur
+          </button>
+        </div>
       </div>
-      <div v-if="isDoctor" class="col col-lg-3">
-        <button @click="navigateToAddPatientMedicationPlan" type="button" class="btn btn-warning">
-          Lisa ravikuur
-        </button>
-      </div>
+
     </div>
 
-  </div>
-</template>
+
+ </template>
 
 <script>
 
@@ -81,6 +84,7 @@ export default {
 
   data() {
     return {
+      showPatientMedicationPlan: false,
       showPatientCompleteMedicationInfo: false,
       isDoctor: false,
       isWithoutTimeslots: false,

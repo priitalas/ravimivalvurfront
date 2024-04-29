@@ -92,7 +92,7 @@ export default {
     },
 
     openChangeContactsModal() {
-      this.$refs.changeContactsModalRef.$refs.modalRef.openModal()
+      this.$refs.changeContactsModalRef.handleOpenChangeContactsModal(sessionStorage.getItem('userId'))
     },
 
     openLogOutModal() {
